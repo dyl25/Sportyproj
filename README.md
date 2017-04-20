@@ -9,10 +9,14 @@ Cette application vise principalement à :
 * mettre à disposition un espace pour des affiliés et pour des administarteurs.
 
 ## Spécifications techniques
+
 * PHP 5.6
   * CodeIgniter 3.1.4
+  
 * JavaScript
   * jQuery 2.2.4
+  
 * HTML 5 
+
 * CSS 3
   * Materialize 0.98.2
