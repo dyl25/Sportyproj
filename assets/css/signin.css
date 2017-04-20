@@ -1,0 +1,21 @@
+@font-face {
+    font-family: "Klavika Regular Plain";
+    src: url(../fonts/KlavikaRegularPlain.otf);
+}
+body {
+    font-family: "Klavika Regular Plain";
+    background-image: url("../images/libre/couloir2.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.container {
+    padding: 80px 120px;
+}
+
+form {
+    background-color: white;
+    border-radius: 4px;
+    padding: 10px 40px;
+}

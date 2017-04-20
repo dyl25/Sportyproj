@@ -1,0 +1,282 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+/* Base css */
+.row {
+    margin-bottom: 0;
+}
+
+nav ul a,
+nav .brand-logo {
+    color: white;
+}
+
+p {
+    line-height: 2rem;
+}
+
+/*.button-collapse {
+    color: #26a69a;
+}*/
+
+/*.parallax-container {
+    min-height: 380px;
+    line-height: 0;
+    height: auto;
+    color: rgba(255,255,255,.9);
+}
+.parallax-container .section {
+    width: 100%;
+}
+
+@media only screen and (max-width : 992px) {
+    .parallax-container .section {
+        position: absolute;
+        top: 40%;
+    }
+    #index-banner .section {
+        top: 10%;
+    }
+}
+
+@media only screen and (max-width : 600px) {
+    #index-banner .section {
+        top: 0;
+    }
+}*/
+
+.icon-block {
+    padding: 0 15px;
+}
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
+footer.page-footer {
+    margin: 0;
+}
+
+/* End base */
+.well-pad, .row .well-pad {
+    padding: 50px 50px;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.pagination li.active {
+    background-color: #01579b;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+fieldset {
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+fieldset legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 20px;
+    font-size: 21px;
+    line-height: inherit;
+    color: #333;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+/* Accueil */
+div#who p{
+    color: white;
+}
+
+#who p:nth-child(1) {
+    font-size: 30px;
+}
+#who p:nth-child(2) {
+    font-size: 20px;
+}
+
+#mainContent {
+    height: 459px;
+    /*overflow: scroll;*/
+}
+
+#mainContent .card {
+    position: relative;
+    border: none;
+}
+
+#mainContent .card .caption {
+    display: block;
+    opacity: 0;
+    color: white;
+    position: absolute;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    transition: opacity 0.4s;
+}
+
+#mainContent .card:hover div.caption {
+    opacity: 1;
+}
+
+footer.page-footer ul li a{
+    color: white;
+}
+
+footer.page-footer .reseautage {
+    font-size: 35px;
+}
+/*.article-mosaic article, .article-mosaic div, .article-mosaic .col{
+    margin: 0;
+    padding: 0;
+}*/
+/* End accueil */
+
+/* Articles */
+div#articlesSearch {
+    padding-top: 100px;
+    height: 400px;
+}
+
+.parallax-container input {
+    background-color: white;
+}
+
+#articlesSearch p{
+    font-size: 21px;
+    color: white;
+}
+#articlesSearch .input-field input[type=text]:focus + label {
+    color: black;
+}
+/* label underline focus color */
+#articlesSearch .input-field input[type=text]:focus {
+    border-bottom: 1px solid #ff9800;
+    box-shadow: 0 1px 0 0 #ff9800;
+}
+
+#articlesSearch .input-field .prefix.active {
+    color: white;
+}
+.card-small {
+    width: 400px;
+}
+/* End articles */
+
+/* Backoffice */
+.sideBack {
+    position: fixed;
+    padding: 0;
+    background-color: rgb(42, 63, 84);
+    height: 100%;
+}
+
+.sideBack a {
+    color: white;
+}
+
+.sideBack,.sideBack .collapsible-header ,.sideBack .collapsible-body, .sideBack .collapsible-body {
+    background-color: rgb(42, 63, 84);
+}
+
+.sideBack .collapsible, .sideBack .collapsible-header, .sideBack .collapsible-body {
+    border: inherit;
+}
+
+.sideBack a:hover,
+.side-nav a:hover {
+    background-color: rgb(51, 69, 86);
+    border-bottom: 1px solid rgb(26, 187, 156);
+}
+
+.sideBack a:not(.collapsible-header) {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+}
+
+.sideBack .collapsible .collapsible-body a,
+.side-nav .collapsible .collapsible-body a {
+    text-align: center;
+}
+
+.card-stat {
+    box-sizing: inherit;
+    height: 150px;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+}
+
+.card-stat p {
+    margin: 0px 0px 10px;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color: #e0e0e0;
+}
+/* End backoffice */
+
+/* Signin */
+body#signinPage {
+    background-image: url("../images/libre/couloir2.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+body#signinPage .container {
+    padding-top: 200px;
+}
+
+body#signinPage form#signinForm {
+    background-color: white;
+    border-radius: 2px;
+    padding: 50px 30px;
+}
+
+/* label focus color */
+body#signinPage form#signinForm .input-field input:focus + label {
+    color: #01579b;
+}
+/* label underline focus color */
+body#signinPage form#signinForm .input-field input:focus {
+    border-bottom: 1px solid #01579b;
+    box-shadow: 0 1px 0 0 #01579b;
+}
+/* icon prefix focus color */
+body#signinPage form#signinForm .input-field .prefix.active {
+    color: #01579b;
+}
+/* End Signin */
+
+/* Information */
+.info-container {
+    color: white;
+    font-size: 17px;
+}
+.info-container:nth-child(even) {
+    background-color:  #ff9800;
+}
+.info-container:nth-child(odd) {
+    background-color:  #01579B;
+}
+/* End information */
