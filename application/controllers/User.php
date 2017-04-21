@@ -57,7 +57,7 @@ class User extends CI_Controller {
         $data['title'] = 'Se connecter';
 
         $data['attributes'] = [
-            'class' => 'form-horizontal'
+            'id' => 'signinForm'
         ];
 
         $this->form_validation->set_error_delimiters('<p class="alert alert-danger">', '</p>');

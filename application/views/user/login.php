@@ -21,31 +21,31 @@
         }
         ?>
     </head>
-    <body>
     <body id="signinPage">
         <div class="container">
             <div class="row">
                 <div class="col m4 s12 offset-m4">
-                    <form id="signinForm">
-                        <fieldset>
-                            <legend class="center">Se connecter</legend>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input type="text" class="validate">
-                                    <label for="disabled">E-mail</label>
-                                </div>
+                    <?= validation_errors(); ?>
+                    <?= form_open('login', $attributes); ?>
+                    <fieldset>
+                        <legend class="center">Se connecter</legend>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="email" name="email" id="email" class="validate" required="required">
+                                <label for="email">E-mail</label>
                             </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input type="password" class="validate">
-                                    <label for="disabled">Mot de passe</label>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="password" name="password" id="password" class="validate" required="required">
+                                <label for="password">Mot de passe</label>
                             </div>
-                            <button type="submit" class="btn light-blue darken-4 waves-effect">Connexion</button>
-                        </fieldset>
+                        </div>
+                        <button type="submit" class="btn light-blue darken-4 waves-effect">Connexion</button>
+                    </fieldset>
                     </form>
                 </div>
             </div>
         </div>
     </body>
-</body>
+</html>
