@@ -25,7 +25,7 @@
         <!-- Textarea -->
         <div class="input-field">                  
             <textarea class="materialize-textarea" id="content" name="content" required="required"></textarea>
-            <label for="content">Contenu de l'article</label>
+            <!--<label for="content">Contenu de l'article</label>-->
         </div>
 
         <div class="file-field input-field">
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <button name="btSendArticle" class="btn">Ajouter l'article</button>
+        <button name="btSendArticle" class="btn" type="submit">Ajouter l'article</button>
 
     </fieldset>
 </form>

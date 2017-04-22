@@ -15,7 +15,7 @@
         if (isset($scripts)) {
             foreach ($scripts as $src) {
                 ?>
-                <script src="<?= base_url() . $src; ?>"></script>   
+                <script src="<?= $src; ?>"></script>   
                 <?php
             }
         }

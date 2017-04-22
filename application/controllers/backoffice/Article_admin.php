@@ -42,6 +42,10 @@ class Article_admin extends CI_Controller {
         $data['attributes'] = [
             'class' => 'col s12'
         ];
+        $data['scripts'] = [
+            base_url().'assets/javascript/ckeditor/ckeditor.js',
+            base_url().'assets/javascript/ckeditorConf.js'
+            ]; 
 
         $this->form_validation->set_rules('title', 'Titre', 'required');
         $this->form_validation->set_rules('content', 'Contenu', 'required');
