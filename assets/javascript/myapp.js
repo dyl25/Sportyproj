@@ -10,6 +10,7 @@
         $('.parallax').parallax();
         $('.collapsible').collapsible();
         $('.tooltipped').tooltip({delay: 50});
+        $('select').material_select();
         //supprime l'image sélectionnée d'un formulaire
         $('.file-reset').click(function () {
             var input = $("input[name=image], input.file-path");

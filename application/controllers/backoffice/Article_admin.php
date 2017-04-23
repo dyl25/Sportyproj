@@ -36,65 +36,102 @@ class Article_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
+    /**
+     * Prépare à l'ajout d'un article sans image
+     * @param array $postData Les données envoyées par formulaire.
+     * @return array Un tableau servant pour connaitre le status de l'ajout
+     */
+    private function whithoutImage(array $postData) {
+        $title = trim($postData['title']);
+        $content = trim($postData['content']);
+        $category_id = $postData['category'];
+        $user_id = $this->session->userdata('id');
+
+        if (!$this->article_model->add_article($user_id, $category_id, $title, $content)) {
+            $msg = "Problème lors de l'ajout dans la base de donnée";
+            $status = 'error';
+        } else {
+            $msg = "L'article a bien été ajouté !";
+            $status = 'success';
+        }
+
+        return [
+            'msg' => $msg,
+            'status' => $status,
+        ];
+    }
+
+    /**
+     * Prépare à l'ajout d'un article avec image et avec les configuration pour
+     * l'upload.
+     * @param array $postData Les données envoyées par formulaire.
+     * @return array Un tableau servant pour connaitre le status de l'ajout
+     */
+    private function whitImage(array $postData) {
+        $config['upload_path'] = './assets/images/upload/';
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
+        $config['max_size'] = 1024;
+        $config['max_width'] = 1024;
+        $config['max_height'] = 768;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('image')) {
+            $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
+            $status = 'error';
+        } else {
+            $imageName = $this->upload->data('file_name');
+
+            $title = trim($postData['title']);
+            $content = trim($postData['content']);
+            $category_id = $postData['category'];
+            $user_id = $this->session->userdata('id');
+
+            if (!$this->article_model->add_article($user_id, $category_id, $title, $content, $imageName)) {
+                $msg = "Problème lors de l'ajout dans la base de donnée";
+                $status = 'error';
+            } else {
+                $msg = "L'article a bien été ajouté !";
+                $status = 'success';
+            }
+        }
+
+        return [
+            'msg' => $msg,
+            'status' => $status,
+        ];
+    }
+
+    /**
+     * Ajout d'un article pour backoffice.
+     */
     public function add() {
+
         $this->load->helper('form');
+        $this->load->model('category_model');
+
         $data['title'] = 'Ajout d\'un article';
         $data['attributes'] = [
             'class' => 'col s12'
         ];
         $data['scripts'] = [
-            base_url().'assets/javascript/ckeditor/ckeditor.js',
-            base_url().'assets/javascript/ckeditorConf.js'
-            ]; 
+            base_url() . 'assets/javascript/ckeditor/ckeditor.js',
+            base_url() . 'assets/javascript/ckeditorConf.js'
+        ];
+        $data['categories'] = $this->category_model->getCategories();
 
         $this->form_validation->set_rules('title', 'Titre', 'required');
         $this->form_validation->set_rules('content', 'Contenu', 'required');
+        $this->form_validation->set_rules('category', 'catégorie', 'required');
 
         if ($this->form_validation->run() == true) {
             if ($_FILES['image']['size'] > 0) {
-                $config['upload_path'] = './assets/images/upload/';
-                $config['allowed_types'] = 'gif|jpg|jpeg|png';
-                $config['max_size'] = 1024;
-                $config['max_width'] = 1024;
-                $config['max_height'] = 768;
 
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('image')) {
-                    $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
-                    $status = 'error';
-                } else {
-                    $imageName = $this->upload->data('file_name');
-
-                    $title = trim($this->input->post('title'));
-                    $content = trim($this->input->post('content'));
-                    $user_id = $this->session->userdata('id');
-
-                    if (!$this->article_model->add_article($user_id, $title, $content, $imageName)) {
-                        $msg = "Problème lors de l'ajout dans la base de donnée";
-                        $status = 'error';
-                    } else {
-                        $msg = "L'article a bien été ajouté !";
-                        $status = 'success';
-                    }
-                }
+                $data['notification'] = $this->whitImage($this->input->post());
             } else {
-                $title = trim($this->input->post('title'));
-                $content = trim($this->input->post('content'));
-                $user_id = $this->session->userdata('id');
 
-                if (!$this->article_model->add_article($user_id, $title, $content)) {
-                    $msg = "Problème lors de l'ajout dans la base de donnée";
-                    $status = 'error';
-                } else {
-                    $msg = "L'article a bien été ajouté !";
-                    $status = 'success';
-                }
+                $data['notification'] = $this->whithoutImage($this->input->post());
             }
-
-            $data['notification'] = [
-                'msg' => $msg,
-                'status' => $status,
-            ];
         }
 
         $data['content'] = [$this->load->view('backoffice/article/add', $data, true)];

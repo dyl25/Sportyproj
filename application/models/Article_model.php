@@ -24,12 +24,13 @@ class Article_model extends CI_Model {
      * @return boolean True si l'article a bien été inséré sinon false.
      * @author Dylan Vansteeancker
      */
-    public function add_article($user_id, $title, $content, $image = null) {
+    public function add_article($user_id, $category_id, $title, $content, $image = null) {
 
-        $slug = url_title($title, '-', true);
+        $slug = url_title(iconv('utf-8', 'us-ascii//TRANSLIT', $title), '-', true);
 
         //Préparation pour l'insertion dans la DB
         $this->db->set('author', $user_id);
+        $this->db->set('category_id', $category_id);
         $this->db->set('title', $title);
         $this->db->set('content', $content);
         $this->db->set('slug', $slug);
@@ -61,7 +62,6 @@ class Article_model extends CI_Model {
 
         return $this->db->select('articles.*, users.login')
                         ->join('users', 'users.id = articles.author')
-                        //->join('comments', 'comments.article_id = articles.id')
                         ->get_where(self::TABLE, [self::TABLE . '.' . $option => $value])
                         ->result_object()[0];
     }
@@ -101,16 +101,16 @@ class Article_model extends CI_Model {
      * @author Dylan Vansteenacker
      */
     public function deleteArticle($id) {
-        
-        if(is_null($id)) {
+
+        if (is_null($id)) {
             throw new InvalidArgumentException("L'id ne peut pas être vide");
         }
-        
-        if(!is_numeric($id)) {
-            throw new InvalidArgumentException("L'id doit être un entier". gettype($id));
+
+        if (!is_numeric($id)) {
+            throw new InvalidArgumentException("L'id doit être un entier" . gettype($id));
         }
-        
-        return false;//$this->db->delete(self::TABLE, ['id' => $id]);
+
+        return false; //$this->db->delete(self::TABLE, ['id' => $id]);
     }
 
 }

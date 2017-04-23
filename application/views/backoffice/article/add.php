@@ -18,14 +18,23 @@
 
         <!-- Text input-->
         <div class="input-field">
-            <input id="title" name="title" type="text" class="validate" required="">
+            <input id="title" name="title" type="text" class="validate" required="required">
             <label for="title">Titre</label> 
+        </div>
+
+        <div class="input-field">
+            <select name="category" required="required">
+                <option value="" disabled selected>Choisir la catégorie</option>
+                <?php foreach ($categories as $category) { ?>
+                    <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                <?php } ?>
+            </select>
+            <label>Catégorie de l'article</label>
         </div>
 
         <!-- Textarea -->
         <div class="input-field">                  
             <textarea class="materialize-textarea" id="content" name="content" required="required"></textarea>
-            <!--<label for="content">Contenu de l'article</label>-->
         </div>
 
         <div class="file-field input-field">
