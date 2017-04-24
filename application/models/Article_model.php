@@ -109,8 +109,8 @@ class Article_model extends CI_Model {
         if (!is_numeric($id)) {
             throw new InvalidArgumentException("L'id doit être un entier" . gettype($id));
         }
-
-        return false; //$this->db->delete(self::TABLE, ['id' => $id]);
+        
+        return $this->db->delete(self::TABLE, ['id' => $id]);
     }
 
 }

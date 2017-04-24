@@ -14,7 +14,7 @@ class Article_admin extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('article_model');
 
-        //before filter afin de voir si l'utilisateur peut accéder au backoffice
+//before filter afin de voir si l'utilisateur peut accéder au backoffice
         if (!$this->session->userdata['login']) {
             redirect('login');
         }
@@ -139,7 +139,7 @@ class Article_admin extends CI_Controller {
     }
 
     public function view($slug = null) {
-        //code 301 pour dire que la redirection est permannente et non temporaire
+//code 301 pour dire que la redirection est permannente et non temporaire
         redirect('article/view/' . $slug, 'location', 301);
     }
 
@@ -151,7 +151,7 @@ class Article_admin extends CI_Controller {
             /* echo $e->getMessage();
               exit; */
         }
-        //var_dump($data['article']);
+//var_dump($data['article']);
         $data['title'] = 'Edition d\'un article';
         $data['attributes'] = [
             'class' => 'form-horizontal'
@@ -213,16 +213,39 @@ class Article_admin extends CI_Controller {
     public function delete($id) {
 
         try {
-            if ($this->article_model->deleteArticle($id)) {
-                $msg = "Article supprimé !";
-                $status = "success";
-            } else {
-                $msg = "Problème lors de la suppression dans la base de donnée";
+            $articleImage = $this->article_model->getBy('id', $id)->image;
+        } catch (Exception $ex) {
+            $msg = "Problème lors de la suppression de l'image de l'article: " . $ex->getMessage();
+            $status = "error";
+        }
+
+        if (!is_null($articleImage) || !empty($articleImage)) {
+            //$this->load->helper('file');
+            /* var_dump(FCPATH ."/assets/images/upload/". $articleImage);
+              die; */
+            //Flag pour la suppression de l'image de l'article
+            $fileDelete = unlink(FCPATH . "/assets/images/upload/" . $articleImage);
+
+            if (!$fileDelete) {
+                $msg = "Problème lors de la suppression de l'image de l'article.";
                 $status = "error";
             }
-        } catch (Exception $ex) {
-            $msg = "Problème lors de la suppression de l'article: " . $ex->getMessage();
-            $status = "error";
+        }
+
+        if (!isset($fileDelete) || $fileDelete) {
+            try {
+                if ($this->article_model->deleteArticle($id)) {
+
+                    $msg = "Article supprimé !";
+                    $status = "success";
+                } else {
+                    $msg = "Problème lors de la suppression dans la base de donnée";
+                    $status = "error";
+                }
+            } catch (Exception $ex) {
+                $msg = "Problème lors de la suppression de l'article: " . $ex->getMessage();
+                $status = "error";
+            }
         }
 
         $this->session->set_flashdata('notification', [
