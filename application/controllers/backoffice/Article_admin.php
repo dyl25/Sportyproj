@@ -139,7 +139,7 @@ class Article_admin extends CI_Controller {
     }
 
     public function view($slug = null) {
-//code 301 pour dire que la redirection est permannente et non temporaire
+        //code 301 pour dire que la redirection est permannente et non temporaire
         redirect('article/view/' . $slug, 'location', 301);
     }
 
@@ -151,11 +151,17 @@ class Article_admin extends CI_Controller {
             /* echo $e->getMessage();
               exit; */
         }
-//var_dump($data['article']);
+
         $data['title'] = 'Edition d\'un article';
         $data['attributes'] = [
             'class' => 'form-horizontal'
         ];
+        $data['scripts'] = [
+            base_url() . 'assets/javascript/ckeditor/ckeditor.js',
+            base_url() . 'assets/javascript/ckeditorConf.js'
+        ];
+        $this->load->model('category_model');
+        $data['categories'] = $this->category_model->getCategories();
 
         $this->form_validation->set_rules('title', 'Titre', 'required');
         $this->form_validation->set_rules('content', 'Contenu', 'required');
@@ -210,6 +216,10 @@ class Article_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
+    /**
+     * Supprime un article et son image associée si il en a une
+     * @param int $id L'id de l'article.
+     */
     public function delete($id) {
 
         try {
@@ -220,10 +230,6 @@ class Article_admin extends CI_Controller {
         }
 
         if (!is_null($articleImage) || !empty($articleImage)) {
-            //$this->load->helper('file');
-            /* var_dump(FCPATH ."/assets/images/upload/". $articleImage);
-              die; */
-            //Flag pour la suppression de l'image de l'article
             $fileDelete = unlink(FCPATH . "/assets/images/upload/" . $articleImage);
 
             if (!$fileDelete) {

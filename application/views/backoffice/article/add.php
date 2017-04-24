@@ -26,7 +26,7 @@
             <select name="category" required="required">
                 <option value="" disabled selected>Choisir la catégorie</option>
                 <?php foreach ($categories as $category) { ?>
-                    <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
                 <?php } ?>
             </select>
             <label>Catégorie de l'article</label>
@@ -36,14 +36,18 @@
         <div class="input-field">                  
             <textarea class="materialize-textarea" id="content" name="content" required="required"></textarea>
         </div>
-
-        <div class="file-field input-field">
-            <div class="btn">
-                <span>Image associée</span>
-                <input name="image" type="file">
-            </div>
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" name="filepath">
+        <div class="row">
+            <div class="file-field input-field">
+                <div class="file-field input-field col m9">
+                    <div class="btn">
+                        <span>Image associée</span>
+                        <input name="image" type="file">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" name="filepath">
+                    </div>
+                </div>
+                <button type='button' class="btn col m3 file-reset">Supprimer l'image</button>
             </div>
         </div>
 

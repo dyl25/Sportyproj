@@ -23,11 +23,20 @@
         </div>
     </div>
 
+    <div class="input-field">
+        <select name="category" required="required">
+            <option value="" disabled>Choisir la catégorie</option>
+            <?php foreach ($categories as $category) { ?>
+                <option value="<?= $category->id; ?>" <?php if($category->id == $article->category_id){ echo "selected=selected";}  ?> ><?= $category->name; ?></option>
+            <?php } ?>
+        </select>
+        <label>Catégorie de l'article</label>
+    </div>
+
     <!-- Textarea -->
     <div class="row">
         <div class="input-field col m12">                   
             <textarea class="materialize-textarea" id="content" name="content" placeholder="Contenu de l'article" required="required" ><?= $article->content ?></textarea>
-            <label for="content">Contenu de l'article</label>
         </div>
     </div>
 
@@ -35,10 +44,10 @@
         <div class="file-field input-field col m9">
             <div class="btn">
                 <span>Image associée</span>
-                <input name="image" type="file">
+                <input name="image" type="file" value="<?= $article->image; ?>">
             </div>
             <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
+                <input class="file-path validate" type="text" value="<?= $article->image; ?>">
             </div>
         </div>
         <button type='button' class="btn col m3 file-reset">Supprimer l'image</button>
