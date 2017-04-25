@@ -18,9 +18,12 @@
                     <td><?= $user->id; ?></td>
                     <td><?= $user->login ?></td>
                     <td><?= $user->email; ?></td>
-                    <td><?= $user->role_name; ?></td>
+                    <td><?= $user->name; ?></td>
                     <td><?= $user->inscription_date; ?></td>
-                    <td><a href="<?= site_url('backoffice/user_admin/edit/') . $user->id; ?>">éditer</a></td>
+                    <td>
+                        <a href="<?= site_url('backoffice/user_admin/edit/') . $user->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
+                        <a href="<?= site_url('backoffice/user_admin/delete/') . $user->id; ?>"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -90,15 +90,15 @@ class User_model extends CI_Model {
      * @return boolean True si l'utilisateur est un admin sinon false.
      */
     public function isAdmin($id) {
-        $this->db->select('id_user_role')
+        $this->db->select('role_id')
                 ->where('id', $id);
 
-        $role_id = $this->db->get(self::TABLE)->result_object()[0]->id_user_role;
+        $role_id = $this->db->get(self::TABLE)->result_object()[0]->role_id;
 
-        $this->db->select('role_name')
+        $this->db->select('name')
                 ->where('roles.id', $role_id);
 
-        $role = $this->db->get('roles')->result_object()[0]->role_name;
+        $role = $this->db->get('roles')->result_object()[0]->name;
         return $role == 'admin';
     }
 
@@ -123,15 +123,15 @@ class User_model extends CI_Model {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        return $this->db->select('users.*, roles.role_name')
+        return $this->db->select('users.*, roles.name')
                         ->join('roles', 'roles.id = users.id_user_role')
                         ->get_where(self::TABLE, [self::TABLE . '.' . $option => $value])
                         ->result_object()[0];
     }
 
     public function getUsers($limit = null) {
-        return $this->db->select('users.*, roles.role_name')
-                        ->join('roles', 'roles.id = users.id_user_role')
+        return $this->db->select('users.*, roles.name')
+                        ->join('roles', 'roles.id = users.role_id')
                         ->get(self::TABLE, $limit)->result_object();
     }
 

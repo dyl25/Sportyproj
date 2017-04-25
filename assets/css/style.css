@@ -144,6 +144,10 @@ footer.page-footer ul li a{
 footer.page-footer .reseautage {
     font-size: 35px;
 }
+.article-mosaic article {
+    min-height: 210px;
+    max-height: 210px;
+}
 /*.article-mosaic article, .article-mosaic div, .article-mosaic .col{
     margin: 0;
     padding: 0;

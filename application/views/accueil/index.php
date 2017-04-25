@@ -16,9 +16,25 @@
 </div>
 
 <div class="row" id="mainContent">
-    <div class="col m6 s12 article-mosaic">
+    <div class="col m6 article-mosaic">
         <div class="row">
-            <div class="col m4">
+            <?php foreach ($articles as $article) { ?>
+                <div class="col m4">
+                    <article class="card hoverable">
+                        <div class="card-image">
+                            <?php if ($article->image) { ?>
+                                <img src="<?= base_url(); ?>assets/images/upload/<?= $article->image; ?>" alt="article" class="responsive-img">
+                            <?php }else{ ?>
+                                <img src="<?= base_url(); ?>assets/images/articleDefault.png" alt="article" class="responsive-img">
+                            <?php } ?>
+                        </div>
+                        <div class="caption">
+                            <h3 class="center-align"><?= $article->title; ?></h3>
+                        </div>
+                    </article>
+                </div>
+            <?php } ?>
+            <!--<div class="col m4">
                 <article class="card hoverable">
                     <div class="card-image">
                         <img src="<?= base_url(); ?>assets/images/athle2.jpeg" alt="article" class="responsive-img">
@@ -79,10 +95,10 @@
                         <h3 class="center-align">Titre de l'article</h3>
                     </div>
                 </article>
-            </div>
+            </div>-->
         </div>
     </div> 
-    <div class="col m6 s12">
+    <div class="col m6">
         <ul class="collapsible" data-collapsible="accordion">
             <li>
                 <a class="collapsible-header">Derniers résultats <i class="material-icons">arrow_drop_down</i></a>

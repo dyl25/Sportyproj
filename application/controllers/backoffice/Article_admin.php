@@ -14,7 +14,7 @@ class Article_admin extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('article_model');
 
-//before filter afin de voir si l'utilisateur peut accéder au backoffice
+        //before filter afin de voir si l'utilisateur peut accéder au backoffice
         if (!$this->session->userdata['login']) {
             redirect('login');
         }
@@ -154,7 +154,7 @@ class Article_admin extends CI_Controller {
 
         $data['title'] = 'Edition d\'un article';
         $data['attributes'] = [
-            'class' => 'form-horizontal'
+            'class' => 'col s12'
         ];
         $data['scripts'] = [
             base_url() . 'assets/javascript/ckeditor/ckeditor.js',
