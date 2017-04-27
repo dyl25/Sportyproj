@@ -44,20 +44,22 @@ class User_model extends CI_Model {
     }
 
     /**
-     * Créé un utilisateur avec un login, un mot de passse et un email
+     * Créé un utilisateur avec un login, un role, un mot de passse et un email
      * @param string $login Le login de l'utilisateur.
      * @param string $password Le mot de passe de l'utilisateur.
      * @param string $email L'email de l'utilisateur.
      * @return boolean True si l'utilisateur a bien été insséré sinon false.
      */
-    public function createUser($login, $password, $email) {
+    public function createUser($login, $role, $password, $email, $profilePicture = null) {
 
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         //Préparation des données pour l'insertion dans la DB
         $this->db->set('login', $login);
+        $this->db->set('role_id', $role);
         $this->db->set('password', $password);
         $this->db->set('email', $email);
+        $this->db->set('profile_image', $profilePicture);
 
         return $this->db->insert(self::TABLE);
     }
@@ -124,7 +126,7 @@ class User_model extends CI_Model {
         }
 
         return $this->db->select('users.*, roles.name')
-                        ->join('roles', 'roles.id = users.id_user_role')
+                        ->join('roles', 'roles.id = users.role_id')
                         ->get_where(self::TABLE, [self::TABLE . '.' . $option => $value])
                         ->result_object()[0];
     }
