@@ -193,7 +193,7 @@ div#articlesSearch {
     height: 100%;
 }
 
-.sideBack a {
+.sideBack ul a {
     color: white;
 }
 
@@ -205,13 +205,13 @@ div#articlesSearch {
     border: inherit;
 }
 
-.sideBack a:hover,
-.side-nav a:hover {
+.sideBack ul a:hover,
+.side-nav ul a:hover {
     background-color: rgb(51, 69, 86);
     border-bottom: 1px solid rgb(26, 187, 156);
 }
 
-.sideBack a:not(.collapsible-header) {
+.sideBack ul a:not(.collapsible-header) {
     display: block;
     width: 100%;
     padding: 10px 15px;

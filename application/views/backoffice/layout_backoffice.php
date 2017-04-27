@@ -47,6 +47,7 @@
                                     </ul>
                                 </div>
                             </li>
+                            <li><a href="<?= site_url('logout'); ?>" class="btn center waves">Déconnexion</a></li>
                         </ul>
                     </li>
                 </ul>

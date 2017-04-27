@@ -24,6 +24,7 @@ class User_admin extends CI_Controller {
     public function index() {
         $data['title'] = 'Gestion des utilisateurs';
         $data['users'] = $this->user_model->getUsers();
+        var_dump($data['users']);
         $data['content'] = [$this->load->view('backoffice/user/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
@@ -33,18 +34,28 @@ class User_admin extends CI_Controller {
      * @param array $postData Les données envoyées par formulaire.
      * @return array Un tableau servant pour connaitre le status de l'ajout
      */
-    private function whithoutImage(array $postData) {
+    private function whithoutImage(array $postData, $method) {
         $login = trim($postData['login']);
         $email = trim($postData['email']);
         $password = $postData['password'];
         $role_id = $postData['role'];
 
-        if (!$this->user_model->createUser($login, $role_id, $password, $email)) {
-            $msg = "Problème lors de l'ajout dans la base de donnée";
-            $status = 'error';
-        } else {
-            $msg = "L'utilisateur a bien été ajouté !";
-            $status = 'success';
+        if($method == 'add') {
+            if (!$this->user_model->createUser($login, $role_id, $password, $email)) {
+                $msg = "Problème lors de l'ajout dans la base de donnée";
+                $status = 'error';
+            } else {
+                $msg = "L'utilisateur a bien été ajouté !";
+                $status = 'success';
+            }
+        }elseif ($method == 'update') {
+            if (!$this->user_model->updateUser($login, $role_id, $password, $email)) {
+                $msg = "Problème lors de la modification dans la base de donnée";
+                $status = 'error';
+            } else {
+                $msg = "L'utilisateur a bien été modifié !";
+                $status = 'success';
+            }
         }
 
         return [
@@ -59,7 +70,7 @@ class User_admin extends CI_Controller {
      * @param array $postData Les données envoyées par formulaire.
      * @return array Un tableau servant pour connaitre le status de l'ajout
      */
-    private function whitImage(array $postData) {
+    private function whitImage(array $postData, $method) {
         $config['upload_path'] = './assets/images/upload/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
         $config['max_size'] = 1024;
@@ -79,12 +90,22 @@ class User_admin extends CI_Controller {
             $password = $postData['password'];
             $role_id = $postData['role'];
 
-            if (!$this->user_model->createUser($login, $role_id, $password, $email, $imageName)) {
-                $msg = "Problème lors de l'ajout dans la base de donnée";
-                $status = 'error';
-            } else {
-                $msg = "L'utilisateur a bien été ajouté !";
-                $status = 'success';
+            if ($method == 'add') {
+                if (!$this->user_model->createUser($login, $role_id, $password, $email, $imageName)) {
+                    $msg = "Problème lors de l'ajout dans la base de donnée";
+                    $status = 'error';
+                } else {
+                    $msg = "L'utilisateur a bien été ajouté !";
+                    $status = 'success';
+                }
+            } elseif ($method == 'update') {
+                if (!$this->user_model->updateUser($login, $role_id, $password, $email, $imageName)) {
+                    $msg = "Problème lors de la modification dans la base de donnée";
+                    $status = 'error';
+                } else {
+                    $msg = "L'utilisateur a bien été modifié !";
+                    $status = 'success';
+                }
             }
         }
 
@@ -117,10 +138,10 @@ class User_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             if ($_FILES['image']['size'] > 0) {
 
-                $data['notification'] = $this->whitImage($this->input->post());
+                $data['notification'] = $this->whitImage($this->input->post(), 'add');
             } else {
 
-                $data['notification'] = $this->whithoutImage($this->input->post());
+                $data['notification'] = $this->whithoutImage($this->input->post(), 'add');
             }
         }
 
@@ -146,6 +167,22 @@ class User_admin extends CI_Controller {
             'class' => 'col s12'
         ];
         $data['roles'] = $this->role_model->getRoles();
+
+        $this->form_validation->set_rules('login', 'login', 'required|min_length[3]');
+        $this->form_validation->set_rules('email', 'e-mail', 'required');
+        $this->form_validation->set_rules('password', 'mot de passe', 'required');
+        $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'required|matches[password]');
+        $this->form_validation->set_rules('role', 'role', 'required');
+
+        if ($this->form_validation->run() == true) {
+            if ($_FILES['image']['size'] > 0) {
+
+                $data['notification'] = $this->whitImage($this->input->post(), 'update');
+            } else {
+
+                $data['notification'] = $this->whithoutImage($this->input->post(), 'update');
+            }
+        }
 
         $data['content'] = [$this->load->view('backoffice/user/edit', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);

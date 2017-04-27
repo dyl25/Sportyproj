@@ -137,4 +137,13 @@ class User_model extends CI_Model {
                         ->get(self::TABLE, $limit)->result_object();
     }
 
+    public function updateUser($login, $role, $password, $email, $profilePicture = null) {
+        $this->db->set('login', $login)
+                ->set('role_id', $role)
+                ->set('password', $password)
+                ->set('email', $email)
+                ->set('profile_image', $profilePicture);
+        return $this->db->update(self::TABLE);
+    }
+
 }

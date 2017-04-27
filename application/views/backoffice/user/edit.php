@@ -22,14 +22,14 @@
             <label for="login">Login</label> 
         </div>
     </div>
-    
+
     <div class="row">
         <div class="input-field col s6">
             <input id="email" name="email" type="email" class="validate" required="" value="<?= $user->email ?>">
             <label for="email">E-mail</label> 
         </div>
     </div>
-    
+
     <div class="row">
         <div class="input-field col s6">
             <input id="password" name="password" type="password" class="validate" required="" value="<?= $user->password ?>">
@@ -37,16 +37,27 @@
         </div>
     </div>
 
-    <div class="input-field">
-        <select name="category" required="required">
-            <option value="" disabled>Rôle de l'utilisateur</option>
-            <?php foreach ($roles as $role) { ?>
-                <option value="<?= $role->id; ?>" <?php if ($role->id == $user->role_id) {
-                echo "selected=selected";
-            } ?> ><?= $role->name; ?></option>
-<?php } ?>
-        </select>
-        <label>Catégorie de l'article</label>
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="passwordVerif" name="passwordVerif" type="password" class="validate" required="" value="<?= $user->password ?>">
+            <label for="passwordVerif">Vérification du mot de passe</label> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <select name="category" required="required">
+                <option value="" disabled>Rôle de l'utilisateur</option>
+                <?php foreach ($roles as $role) { ?>
+                    <option value="<?= $role->id; ?>" <?php
+                    if ($role->id == $user->role_id) {
+                        echo "selected=selected";
+                    }
+                    ?> ><?= $role->name; ?></option>
+                        <?php } ?>
+            </select>
+            <label>Rôle de l'utilisateur</label>
+        </div>
     </div>
 
     <div class="row">
@@ -63,7 +74,7 @@
     </div>
 
     <!-- Button -->
-    <button id="btSendLogin" name="btSendArticle" class="btn">Modifier l'utilisateur</button>
+    <button id="btSendUserEdit" name="btSendUserEdit" class="btn">Modifier l'utilisateur</button>
 
 </form>
 </section>
