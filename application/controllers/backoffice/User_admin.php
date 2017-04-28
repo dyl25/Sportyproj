@@ -29,92 +29,14 @@ class User_admin extends CI_Controller {
     }
 
     /**
-     * Prépare à l'ajout d'un utilisateur sans image
-     * @param array $postData Les données envoyées par formulaire.
-     * @return array Un tableau servant pour connaitre le status de l'ajout
+     * Prépare un utilisateur pour son ajout ou edition
+     * @param array $postData Les champs de formulaire envoyé.
+     * @param string $method La metode d'ajout ou de modification
+     * @param bool $upload Il y a-t-il une image à upload
+     * @return string Le message et le status de l'ajout ou la modification
      */
-    private function whithoutImage(array $postData, $method) {
-        $login = trim($postData['login']);
-        $email = trim($postData['email']);
-        $password = $postData['password'];
-        $role_id = $postData['role'];
-
-        if ($method == 'add') {
-            if (!$this->user_model->createUser($login, $role_id, $password, $email)) {
-                $msg = "Problème lors de l'ajout dans la base de donnée";
-                $status = 'error';
-            } else {
-                $msg = "L'utilisateur a bien été ajouté !";
-                $status = 'success';
-            }
-        } elseif ($method == 'update') {
-            if (!$this->user_model->updateUser($login, $role_id, $password, $email)) {
-                $msg = "Problème lors de la modification dans la base de donnée";
-                $status = 'error';
-            } else {
-                $msg = "L'utilisateur a bien été modifié !";
-                $status = 'success';
-            }
-        }
-
-        return [
-            'msg' => $msg,
-            'status' => $status,
-        ];
-    }
-
-    /**
-     * Prépare à l'ajout d'un utilisateur avec image de profile et avec les configuration pour
-     * l'upload.
-     * @param array $postData Les données envoyées par formulaire.
-     * @return array Un tableau servant pour connaitre le status de l'ajout
-     */
-    private function whitImage(array $postData, $method) {
-        $config['upload_path'] = './assets/images/upload/';
-        $config['allowed_types'] = 'gif|jpg|jpeg|png';
-        $config['max_size'] = 1024;
-        $config['max_width'] = 1024;
-        $config['max_height'] = 768;
-
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('image')) {
-            $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
-            $status = 'error';
-        } else {
-            $imageName = $this->upload->data('file_name');
-
-            $login = trim($postData['login']);
-            $email = trim($postData['email']);
-            $password = $postData['password'];
-            $role_id = $postData['role'];
-
-            if ($method == 'add') {
-                if (!$this->user_model->createUser($login, $role_id, $password, $email, $imageName)) {
-                    $msg = "Problème lors de l'ajout dans la base de donnée";
-                    $status = 'error';
-                } else {
-                    $msg = "L'utilisateur a bien été ajouté !";
-                    $status = 'success';
-                }
-            } elseif ($method == 'update') {
-                if (!$this->user_model->updateUser($login, $role_id, $password, $email, $imageName)) {
-                    $msg = "Problème lors de la modification dans la base de donnée";
-                    $status = 'error';
-                } else {
-                    $msg = "L'utilisateur a bien été modifié !";
-                    $status = 'success';
-                }
-            }
-        }
-
-        return [
-            'msg' => $msg,
-            'status' => $status,
-        ];
-    }
-
     private function prepareUser(array $postData, $method, $upload = false) {
+        $imageName = null;
         if ($upload) {
             $config['upload_path'] = './assets/images/upload/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -187,10 +109,10 @@ class User_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             if ($_FILES['image']['size'] > 0) {
 
-                $data['notification'] = $this->whitImage($this->input->post(), 'add');
+                $data['notification'] = $this->prepareUser($this->input->post(), 'add', true);
             } else {
 
-                $data['notification'] = $this->whithoutImage($this->input->post(), 'add');
+                $data['notification'] = $this->prepareUser($this->input->post(), 'add');
             }
         }
 
@@ -226,10 +148,10 @@ class User_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             if ($_FILES['image']['size'] > 0) {
 
-                $data['notification'] = $this->whitImage($this->input->post(), 'update');
+                $data['notification'] = $this->prepareUser($this->input->post(), 'update', true);
             } else {
 
-                $data['notification'] = $this->whithoutImage($this->input->post(), 'update');
+                $data['notification'] = $this->prepareUser($this->input->post(), 'update');
             }
         }
 
