@@ -134,15 +134,17 @@ class User_model extends CI_Model {
     public function getUsers($limit = null) {
         return $this->db->select('users.*, roles.name')
                         ->join('roles', 'roles.id = users.role_id')
+                        ->order_by('users.id', 'ASC')
                         ->get(self::TABLE, $limit)->result_object();
     }
 
-    public function updateUser($login, $role, $password, $email, $profilePicture = null) {
+    public function updateUser($userId, $login, $role, $password, $email, $profilePicture = null) {
         $this->db->set('login', $login)
                 ->set('role_id', $role)
                 ->set('password', $password)
                 ->set('email', $email)
-                ->set('profile_image', $profilePicture);
+                ->set('profile_image', $profilePicture)
+                ->where('id', $userId);
         return $this->db->update(self::TABLE);
     }
 

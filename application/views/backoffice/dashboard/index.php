@@ -21,9 +21,9 @@
 
 <!-- Users table -->
 <div class="col m12">
-    <div class="card-panel grey lighten-4">
+    <div class="card-panel panel-analytic grey lighten-4">
         <h2><a href="<?= site_url('backoffice/user_admin') ?>">Liste des utilisateurs <i class="material-icons medium">supervisor_account</i></a></h2>
-        <table class="bordered highlight">
+        <table class="bordered highlight analytic-table">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -44,7 +44,7 @@
                         <td><?= $user->inscription_date; ?></td>
                         <td>
                             <a href="<?= site_url('backoffice/user_admin/edit/') . $user->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                            <a href="<?= site_url('backoffice/user_admin/delete/') . $user->id; ?>"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                            <a href="<?= site_url('backoffice/user_admin/delete/') . $user->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -76,7 +76,7 @@
                         <td><?= $article->creation_date; ?></td>
                         <td>
                             <a href="<?= site_url('backoffice/article_admin/edit/') . $article->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                            <a href="<?= site_url('backoffice/article_admin/delete/') . $article->id; ?>"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                            <a href="<?= site_url('backoffice/article_admin/delete/') . $article->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

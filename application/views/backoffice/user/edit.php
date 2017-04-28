@@ -46,16 +46,12 @@
 
     <div class="row">
         <div class="input-field col s6">
-            <select name="category" required="required">
-                <option value="" disabled>Rôle de l'utilisateur</option>
-                <?php foreach ($roles as $role) { ?>
-                    <option value="<?= $role->id; ?>" <?php
-                    if ($role->id == $user->role_id) {
-                        echo "selected=selected";
-                    }
-                    ?> ><?= $role->name; ?></option>
-                        <?php } ?>
-            </select>
+            <select name="role" required="required">
+            <option value="" disabled>Rôle de l'utilisateur</option>
+            <?php foreach ($roles as $role) { ?>
+                <option value="<?= $role->id; ?>" <?php if($role->id == $user->role_id){ echo "selected=selected";}  ?> ><?= $role->name; ?></option>
+            <?php } ?>
+        </select>
             <label>Rôle de l'utilisateur</label>
         </div>
     </div>
@@ -64,7 +60,7 @@
         <div class="file-field input-field col m9">
             <div class="btn">
                 <span>Image de profil</span>
-                <input name="image" type="file" value="<?= $user->profile_image; ?>">
+                <input name="image" type="file">
             </div>
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text" value="<?= $user->profile_image; ?>">

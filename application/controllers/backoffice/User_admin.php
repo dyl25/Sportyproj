@@ -24,7 +24,6 @@ class User_admin extends CI_Controller {
     public function index() {
         $data['title'] = 'Gestion des utilisateurs';
         $data['users'] = $this->user_model->getUsers();
-        var_dump($data['users']);
         $data['content'] = [$this->load->view('backoffice/user/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
@@ -40,7 +39,7 @@ class User_admin extends CI_Controller {
         $password = $postData['password'];
         $role_id = $postData['role'];
 
-        if($method == 'add') {
+        if ($method == 'add') {
             if (!$this->user_model->createUser($login, $role_id, $password, $email)) {
                 $msg = "Problème lors de l'ajout dans la base de donnée";
                 $status = 'error';
@@ -48,7 +47,7 @@ class User_admin extends CI_Controller {
                 $msg = "L'utilisateur a bien été ajouté !";
                 $status = 'success';
             }
-        }elseif ($method == 'update') {
+        } elseif ($method == 'update') {
             if (!$this->user_model->updateUser($login, $role_id, $password, $email)) {
                 $msg = "Problème lors de la modification dans la base de donnée";
                 $status = 'error';
@@ -109,6 +108,56 @@ class User_admin extends CI_Controller {
             }
         }
 
+        return [
+            'msg' => $msg,
+            'status' => $status,
+        ];
+    }
+
+    private function prepareUser(array $postData, $method, $upload = false) {
+        if ($upload) {
+            $config['upload_path'] = './assets/images/upload/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = 1024;
+            $config['max_width'] = 1024;
+            $config['max_height'] = 768;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('image')) {
+                $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
+                $status = 'error';
+                return [
+                    'msg' => $msg,
+                    'status' => $status,
+                ];
+            }
+
+            $imageName = $this->upload->data('file_name');
+        }
+
+        $login = trim($postData['login']);
+        $email = trim($postData['email']);
+        $password = $postData['password'];
+        $role_id = $postData['role'];
+
+        if ($method == 'add') {
+            if (!$this->user_model->createUser($login, $role_id, $password, $email, $imageName)) {
+                $msg = "Problème lors de l'ajout dans la base de donnée";
+                $status = 'error';
+            } else {
+                $msg = "L'utilisateur a bien été ajouté !";
+                $status = 'success';
+            }
+        } elseif ($method == 'update') {
+            if (!$this->user_model->updateUser($login, $role_id, $password, $email, $imageName)) {
+                $msg = "Problème lors de la modification dans la base de donnée";
+                $status = 'error';
+            } else {
+                $msg = "L'utilisateur a bien été modifié !";
+                $status = 'success';
+            }
+        }
         return [
             'msg' => $msg,
             'status' => $status,

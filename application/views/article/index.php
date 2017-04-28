@@ -33,18 +33,25 @@
                 <?php foreach ($articles as $article) { ?>
                     <div class="col m4">
                         <article class="card medium">
-                            <?php if ($article->image) { ?>
-                                <div class="card-image">
-                                    <a href="<?= site_url('article/view/' . $article->slug); ?>"><img src="<?= base_url(); ?>assets/images/upload/<?= $article->image; ?>" class="responsive-img"></a>
-                                </div>
-                            <?php } ?>
+                            <div class="card-image">
+                                <a href="<?= site_url('article/view/' . $article->slug); ?>">
+                                    <?php if ($article->image) { ?>
+                                        <img src="<?= base_url(); ?>assets/images/upload/<?= $article->image; ?>" alt="article" class="responsive-img">
+                                    <?php } else { ?>
+                                        <img src="<?= base_url(); ?>assets/images/articleDefault.png" alt="article" class="responsive-img">
+                                    <?php } ?>
+                                </a>
+                            </div>
                             <div class="card-content">
-                                <p class="row">
+                                <!--<p class="row">
                                     <span class="left">Par : <?= $article->login; ?></span>
                                     <span class="right">Créé le <?= $article->creation_date; ?></span>
-                                </p>
-                                <span class="card-title"><a href="<?= site_url('article/view/' . $article->slug); ?>"><?= $article->title; ?></a></span>
-                                <p><?= $article->content; ?></p>
+                                </p>-->
+                                <h2 class="card-title"><a href="<?= site_url('article/view/' . $article->slug); ?>"><?= $article->title; ?></a></h2>
+                            </div>
+                            <div class="card-action">
+                                <span class="left">Par : <?= $article->login; ?></span>
+                                <span class="right">Créé le <?= $article->creation_date; ?></span>
                             </div>
                         </article>
                         <!--<hr>-->

@@ -144,8 +144,8 @@ footer.page-footer ul li a{
 footer.page-footer .reseautage {
     font-size: 35px;
 }
-.article-mosaic article {
-    min-height: 210px;
+.article-mosaic article, .article-mosaic img {
+    /*min-height: 210px;*/
     max-height: 210px;
 }
 /*.article-mosaic article, .article-mosaic div, .article-mosaic .col{
@@ -182,6 +182,14 @@ div#articlesSearch {
 }
 .card-small {
     width: 400px;
+}
+
+article.card div.card-action {
+    padding: 8px 12px;;
+}
+
+article.card .card-action span {
+    font-size: 12px;
 }
 /* End articles */
 
@@ -236,6 +244,12 @@ div#articlesSearch {
 
 table.highlight > tbody > tr:hover {
     background-color: #e0e0e0;
+}
+.panel-analytic {
+    border-top: 4px solid #01579b;
+}
+.analytic-table {
+    border-top: 1px solid black;
 }
 /* End backoffice */
 

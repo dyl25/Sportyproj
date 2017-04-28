@@ -47,7 +47,7 @@
     <div class="row">
         <div class="input-field col s6">
             <select name="role" required="required">
-                <option value="" disabled selected="">Rôle de l'utilisateur</option>
+                <option value="" disabled>Rôle de l'utilisateur</option>
                 <?php foreach ($roles as $role) { ?>
                     <option value="<?= $role->id; ?>"><?= $role->name; ?></option>
                 <?php } ?>
