@@ -47,9 +47,45 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li><a href="<?= site_url('logout'); ?>" class="btn center waves">Déconnexion</a></li>
+                            <li>
+                                <a class="collapsible-header"><i class="material-icons left">store</i> Club <i class="material-icons right">arrow_drop_down</i></a>
+                                <div class="collapsible-body no-padding">
+                                    <ul>
+                                        <li><a href="<?= site_url('backoffice/article_admin'); ?>">Gérer</a></li>
+                                        <li><a href="<?= site_url('backoffice/article_admin/add'); ?>">Ajouter</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="collapsible-header"><i class="material-icons left">alarm_on</i> Résultats <i class="material-icons right">arrow_drop_down</i></a>
+                                <div class="collapsible-body no-padding">
+                                    <ul>
+                                        <li><a href="<?= site_url('backoffice/article_admin'); ?>">Gérer</a></li>
+                                        <li><a href="<?= site_url('backoffice/article_admin/add'); ?>">Ajouter</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="collapsible-header"><i class="material-icons left">add_alert</i> Evénements <i class="material-icons right">arrow_drop_down</i></a>
+                                <div class="collapsible-body no-padding">
+                                    <ul>
+                                        <li><a href="<?= site_url('backoffice/article_admin'); ?>">Gérer</a></li>
+                                        <li><a href="<?= site_url('backoffice/article_admin/add'); ?>">Ajouter</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="collapsible-header"><i class="material-icons left">contacts</i> Entrainements <i class="material-icons right">arrow_drop_down</i></a>
+                                <div class="collapsible-body no-padding">
+                                    <ul>
+                                        <li><a href="<?= site_url('backoffice/article_admin'); ?>">Gérer</a></li>
+                                        <li><a href="<?= site_url('backoffice/article_admin/add'); ?>">Ajouter</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </li>
+                    <li><a href="<?= site_url('logout'); ?>" class="btn center waves">Déconnexion</a></li>
                 </ul>
             </div>
             <div class="col s12 m10 offset-m2">
