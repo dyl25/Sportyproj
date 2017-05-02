@@ -223,12 +223,14 @@ class Article_admin extends CI_Controller {
     public function delete($id) {
 
         try {
+            //récupération de l'image de l'article
             $articleImage = $this->article_model->getBy('id', $id)->image;
         } catch (Exception $ex) {
             $msg = "Problème lors de la suppression de l'image de l'article: " . $ex->getMessage();
             $status = "error";
         }
 
+        //suppression si image existante
         if (!is_null($articleImage) || !empty($articleImage)) {
             $fileDelete = unlink(FCPATH . "/assets/images/upload/" . $articleImage);
 
@@ -238,6 +240,7 @@ class Article_admin extends CI_Controller {
             }
         }
 
+        //si il n'y a pas d'image existante ou l'image à été supprimée correctement
         if (!isset($fileDelete) || $fileDelete) {
             try {
                 if ($this->article_model->deleteArticle($id)) {

@@ -141,18 +141,15 @@ class User_admin extends CI_Controller {
 
         $this->form_validation->set_rules('login', 'login', 'required|min_length[3]');
         $this->form_validation->set_rules('email', 'e-mail', 'required');
-        $this->form_validation->set_rules('password', 'mot de passe', 'required');
-        $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'required|matches[password]');
+        $this->form_validation->set_rules('password', 'mot de passe', 'trim');
+        $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'trim|matches[password]');
         $this->form_validation->set_rules('role', 'role', 'required');
 
         if ($this->form_validation->run() == true) {
-            if ($_FILES['image']['size'] > 0) {
+            //determine si une image est uploadee
+            $upload = $_FILES['image']['size'] > 0;
 
-                $data['notification'] = $this->prepareUser($this->input->post(), 'update', true);
-            } else {
-
-                $data['notification'] = $this->prepareUser($this->input->post(), 'update');
-            }
+            $data['notification'] = $this->prepareUser($this->input->post(), 'update', $upload);
         }
 
         $data['content'] = [$this->load->view('backoffice/user/edit', $data, true)];
@@ -160,7 +157,47 @@ class User_admin extends CI_Controller {
     }
 
     public function delete($id) {
-        
+        try {
+            //récupération de l'image de l'utilisateur
+            $userImage = $this->user_model->getBy('id', $id)->profile_image;
+        } catch (Exception $ex) {
+            $msg = "Problème lors de la suppression de l'image de l'utilisateur: " . $ex->getMessage();
+            $status = "error";
+        }
+
+        //suppression si image existante
+        if (!is_null($userImage) || !empty($userImage)) {
+            $fileDelete = unlink(FCPATH . "/assets/images/upload/" . $userImage);
+
+            if (!$fileDelete) {
+                $msg = "Problème lors de la suppression de l'image de l'article.";
+                $status = "error";
+            }
+        }
+
+        //si il n'y a pas d'image existante ou l'image à été supprimée correctement
+        if (!isset($fileDelete) || $fileDelete) {
+            try {
+                if ($this->user_model->deleteUser($id)) {
+
+                    $msg = "Utilisateur supprimé !";
+                    $status = "success";
+                } else {
+                    $msg = "Problème lors de la suppression dans la base de donnée";
+                    $status = "error";
+                }
+            } catch (Exception $ex) {
+                $msg = "Problème lors de la suppression de l'utilisateur: " . $ex->getMessage();
+                $status = "error";
+            }
+        }
+
+        $this->session->set_flashdata('notification', [
+            'msg' => $msg,
+            'status' => $status,
+        ]);
+
+        redirect('backoffice/user_admin', 'location', 301);
     }
 
 }

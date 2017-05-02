@@ -148,4 +148,30 @@ class User_model extends CI_Model {
         return $this->db->update(self::TABLE);
     }
 
+    /**
+     * Supprime un utilisateur
+     * @param int $id L'id de l'utilisateur
+     * @return bool Le résultat de la suppresion
+     * @throws InvalidArgumentException si $id est null ou n'est pas un nombre entier.
+     */
+    public function deleteUser($id) {
+        if (is_null($id)) {
+            throw new InvalidArgumentException("L'id ne peut pas être vide");
+        }
+
+        if (!is_numeric($id)) {
+            throw new InvalidArgumentException("L'id doit être un nombre entier" . gettype($id) . " donné");
+        }
+
+        //si l'id n'est pas une chaine contenant un entier
+        if (!ctype_digit($id)) {
+            //si l'id n'est pas un entier
+            if (!is_int($id)) {
+                throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
+            }
+        }
+
+        return $this->db->delete(self::TABLE, ['id' => $id]);
+    }
+
 }

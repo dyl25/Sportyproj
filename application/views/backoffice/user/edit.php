@@ -32,14 +32,14 @@
 
     <div class="row">
         <div class="input-field col s6">
-            <input id="password" name="password" type="password" class="validate" required="" value="<?= $user->password ?>">
+            <input id="password" name="password" type="password"  class="validate" required="" value="<?= $user->password ?>">
             <label for="password">Mot de passe</label> 
         </div>
     </div>
 
     <div class="row">
         <div class="input-field col s6">
-            <input id="passwordVerif" name="passwordVerif" type="password" class="validate" required="" value="<?= $user->password ?>">
+            <input id="passwordVerif" name="passwordVerif" type="password"  class="validate" required="" value="<?= $user->password ?>">
             <label for="passwordVerif">Vérification du mot de passe</label> 
         </div>
     </div>

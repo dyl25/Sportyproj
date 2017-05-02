@@ -47,7 +47,7 @@
                                 <a href="<?= site_url('contact'); ?>">Résultats</a>
                             </li>
                             <li>
-                                <a href="<?= site_url('backend'); ?>">Mon espace</a>
+                                <a href="<?= site_url('login'); ?>">Mon espace</a>
                             </li>
                             <?php if (isset($this->session->userdata['id'])) { ?>
                                 <li><a class="dropdown-button" href="#" data-activates="dropdown1">Welcome, <?= $this->session->userdata['login'] ?><i class="material-icons right">arrow_drop_down</i></a>
