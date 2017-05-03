@@ -1,19 +1,18 @@
 <?php
 
 /**
- * Model articles, contient les méthodes d'accès et de manipulations de la table 
- * articles
+ * Model club, contient les méthodes d'accès et de manipulations
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
-class Article_model extends CI_Model {
+class Club_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
         $this->load->database();
     }
 
-    const TABLE = 'articles';
+    const TABLE = 'clubs';
 
     /**
      * Insère un article dans la DB et crée un slug(titre modifié avec '-') 
@@ -24,7 +23,7 @@ class Article_model extends CI_Model {
      * @return boolean True si l'article a bien été inséré sinon false.
      * @author Dylan Vansteeancker
      */
-    public function add_article($user_id, $category_id, $title, $content, $image = null) {
+    public function add_club($user_id, $category_id, $title, $content, $image = null) {
 
         $slug = url_title(iconv('utf-8', 'us-ascii//TRANSLIT', $title), '-', true);
 
@@ -71,10 +70,10 @@ class Article_model extends CI_Model {
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getArticles($limit = null) {
+    public function getClubs($limit = null) {
 
-        $this->db->select('articles.*, users.login')
-                ->join('users', 'users.id = articles.author');
+        $this->db->select('clubs.*');
+                //->join('localites', 'users.id = articles.author');
         return $this->db->get(self::TABLE, $limit)->result_object();
     }
 
@@ -82,7 +81,7 @@ class Article_model extends CI_Model {
      * Modifie un article
      * @author Dylan Vansteenacker
      */
-    public function update_article($articleId, $user_id, $title, $content, $image = null) {
+    public function update_club($articleId, $user_id, $title, $content, $image = null) {
         $slug = url_title($title, '-', true);
 
         //Préparation pour l'insertion dans la DB
@@ -102,7 +101,7 @@ class Article_model extends CI_Model {
      * @throws InvalidArgumentException si $id est null ou n'est pas un nombre entier.
      * @author Dylan Vansteenacker
      */
-    public function deleteArticle($id) {
+    public function deleteClub($id) {
 
         if (is_null($id)) {
             throw new InvalidArgumentException("L'id ne peut pas être vide");

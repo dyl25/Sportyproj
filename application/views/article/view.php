@@ -2,7 +2,7 @@
     <div class="row">
         <article class="col m12">
             <h2><?= $article->title ?></h2>
-            <p><img src="<?= base_url() ?>/assets/images/upload/<?= $article->image ?>"></p>
+            <p><img src="<?= base_url() ?>assets/images/upload/<?= $article->image ?>"></p>
             <p><?= $article->content ?></p>
         </article>
         <section class="col m12">

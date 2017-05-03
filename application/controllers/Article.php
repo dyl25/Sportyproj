@@ -30,7 +30,6 @@ class Article extends CI_Controller {
      * @param string $slug Le nom de l'article
      */
     public function view($slug = null) {
-
         try {
             $article = $this->article_model->getBy('slug', $slug);
         } catch (Exception $e) {

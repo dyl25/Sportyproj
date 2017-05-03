@@ -69,9 +69,11 @@
                 </nav>
             </div>
         </header>
-        <?php foreach ($content as $data): ?>
-            <?= $data; ?>
-        <?php endforeach; ?>
+        <main>
+            <?php foreach ($content as $data): ?>
+                <?= $data; ?>
+            <?php endforeach; ?>
+        </main>
         <footer class="page-footer teal">
             <div class="container">
                 <div class="row">

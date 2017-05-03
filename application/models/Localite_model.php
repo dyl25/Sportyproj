@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Model articles, contient les méthodes d'accès et de manipulations de la table 
- * articles
+ * Model loaclite, contient les méthodes d'accès et de manipulations
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
 class Article_model extends CI_Model {
 
@@ -13,7 +12,7 @@ class Article_model extends CI_Model {
         $this->load->database();
     }
 
-    const TABLE = 'articles';
+    const TABLE = 'localites';
 
     /**
      * Insère un article dans la DB et crée un slug(titre modifié avec '-') 
@@ -24,7 +23,7 @@ class Article_model extends CI_Model {
      * @return boolean True si l'article a bien été inséré sinon false.
      * @author Dylan Vansteeancker
      */
-    public function add_article($user_id, $category_id, $title, $content, $image = null) {
+    public function add_localite($user_id, $category_id, $title, $content, $image = null) {
 
         $slug = url_title(iconv('utf-8', 'us-ascii//TRANSLIT', $title), '-', true);
 
@@ -71,56 +70,11 @@ class Article_model extends CI_Model {
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getArticles($limit = null) {
+    public function getLocalites($limit = null) {
 
-        $this->db->select('articles.*, users.login')
-                ->join('users', 'users.id = articles.author');
+        $this->db->select('articles.*');
+        
         return $this->db->get(self::TABLE, $limit)->result_object();
-    }
-
-    /**
-     * Modifie un article
-     * @author Dylan Vansteenacker
-     */
-    public function update_article($articleId, $user_id, $title, $content, $image = null) {
-        $slug = url_title($title, '-', true);
-
-        //Préparation pour l'insertion dans la DB
-        $this->db->set('author', $user_id)
-                ->set('title', $title)
-                ->set('content', $content)
-                ->set('slug', $slug)
-                ->set('image', $image)
-                ->where('id', $articleId);
-        return $this->db->update(self::TABLE);
-    }
-
-    /**
-     * Supprime un article
-     * @param int $id L'id de l'article.
-     * @return bool Le résultat de la suppresion
-     * @throws InvalidArgumentException si $id est null ou n'est pas un nombre entier.
-     * @author Dylan Vansteenacker
-     */
-    public function deleteArticle($id) {
-
-        if (is_null($id)) {
-            throw new InvalidArgumentException("L'id ne peut pas être vide");
-        }
-
-        if (!is_numeric($id)) {
-            throw new InvalidArgumentException("L'id doit être un entier" . gettype($id) . " donné");
-        }
-
-        //si l'id n'est pas une chaine contenant un entier
-        if (!ctype_digit($id)) {
-            //si l'id n'est pas un entier
-            if (!is_int($id)) {
-                throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
-            }
-        }
-
-        return $this->db->delete(self::TABLE, ['id' => $id]);
     }
 
 }
