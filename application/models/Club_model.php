@@ -15,12 +15,13 @@ class Club_model extends CI_Model {
     const TABLE = 'clubs';
 
     /**
-     * Insère un article dans la DB et crée un slug(titre modifié avec '-') 
-     * pour l'article.
-     * @param int $user_id L'id de l'utilisateur. 
-     * @param string $title Le titre de l'article.
-     * @param string $content Le contenu de l'article.
-     * @return boolean True si l'article a bien été inséré sinon false.
+     * Insère un club dans la DB 
+     * @param int $localiteId L'id de la localité associée. 
+     * @param string $shortname Les initiales du club.
+     * @param string $name Le nom du club.
+     * @param string $address L'adresse du club.
+     * @param mixed $coord Les coordonnee google maps si il y en a.
+     * @return boolean True si le club a bien été inséré sinon false.
      * @author Dylan Vansteeancker
      */
     public function addClub($localieId, $shortname, $name, $address, $coord=null) {

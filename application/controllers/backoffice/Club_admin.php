@@ -37,7 +37,7 @@ class Club_admin extends CI_Controller {
     }
 
     /**
-     * Ajout d'un article pour backoffice.
+     * Ajout d'un club pour backoffice.
      */
     public function add() {
 

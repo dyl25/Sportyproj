@@ -15,13 +15,10 @@ class Localite_model extends CI_Model {
     }
 
     /**
-     * Insère un article dans la DB et crée un slug(titre modifié avec '-') 
-     * pour l'article.
-     * @param int $user_id L'id de l'utilisateur. 
-     * @param string $title Le titre de l'article.
-     * @param string $content Le contenu de l'article.
-     * @return boolean True si l'article a bien été inséré sinon false.
-     * @author Dylan Vansteeancker
+     * Ajoute une localite
+     * @param int $postcode Le code postale de la localité.
+     * @param string $city La ville de la localité.
+     * @return mixed L'id de la localité insérée sinon false.
      */
     public function addLocalite($postcode, $city) {
 
