@@ -23,17 +23,15 @@ class Club_model extends CI_Model {
      * @return boolean True si l'article a bien été inséré sinon false.
      * @author Dylan Vansteeancker
      */
-    public function add_club($user_id, $category_id, $title, $content, $image = null) {
-
-        $slug = url_title(iconv('utf-8', 'us-ascii//TRANSLIT', $title), '-', true);
+    public function addClub($localieId, $shortname, $name, $address, $coord=null) {
 
         //Préparation pour l'insertion dans la DB
-        $this->db->set('author', $user_id);
-        $this->db->set('category_id', $category_id);
-        $this->db->set('title', $title);
-        $this->db->set('content', $content);
-        $this->db->set('slug', $slug);
-        $this->db->set('image', $image);
+        $this->db->set('localite_id', $localieId);
+        $this->db->set('shortname', $shortname);
+        $this->db->set('name', $name);
+        $this->db->set('address', $address);
+        $this->db->set('coord', $coord);
+
         return $this->db->insert(self::TABLE);
     }
 

@@ -5,14 +5,14 @@
  *
  * @author Dylan Vansteenacker
  */
-class Article_model extends CI_Model {
+class Localite_model extends CI_Model {
 
+    const TABLE = 'localites';
+    
     public function __construct() {
         parent::__construct();
         $this->load->database();
     }
-
-    const TABLE = 'localites';
 
     /**
      * Insère un article dans la DB et crée un slug(titre modifié avec '-') 
@@ -23,18 +23,16 @@ class Article_model extends CI_Model {
      * @return boolean True si l'article a bien été inséré sinon false.
      * @author Dylan Vansteeancker
      */
-    public function add_localite($user_id, $category_id, $title, $content, $image = null) {
-
-        $slug = url_title(iconv('utf-8', 'us-ascii//TRANSLIT', $title), '-', true);
+    public function addLocalite($postcode, $city) {
 
         //Préparation pour l'insertion dans la DB
-        $this->db->set('author', $user_id);
-        $this->db->set('category_id', $category_id);
-        $this->db->set('title', $title);
-        $this->db->set('content', $content);
-        $this->db->set('slug', $slug);
-        $this->db->set('image', $image);
-        return $this->db->insert(self::TABLE);
+        $this->db->set('postcode', $postcode);
+        $this->db->set('city', $city);
+
+        $this->db->insert(self::TABLE);
+        
+        return $this->db->insert_id();
+        
     }
 
     /**
@@ -72,7 +70,7 @@ class Article_model extends CI_Model {
      */
     public function getLocalites($limit = null) {
 
-        $this->db->select('articles.*');
+        $this->db->select('localites.*');
         
         return $this->db->get(self::TABLE, $limit)->result_object();
     }

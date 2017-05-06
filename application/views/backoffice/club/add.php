@@ -27,37 +27,38 @@
             <input id="short" name="short" type="text" class="validate" required="required">
             <label for="short">Initiales</label> 
         </div>
-        
+
+        <!-- Text input-->
         <div class="input-field">
-            <select name="localites" required="required">
-                <option value="" disabled selected>Choisir la localite</option>
-                <?php foreach ($localites as $localite) { ?>
-                <option value="<?= $localite->id; ?>"><?= $category->name; ?></option>
-                <?php } ?>
-            </select>
-            <label>Catégorie de l'article</label>
+            <input id="address" name="address" type="text" class="validate" required="required">
+            <label for="short">Adresse</label> 
         </div>
 
-        <!-- Textarea -->
-        <div class="input-field">                  
-            <textarea class="materialize-textarea" id="content" name="content" required="required"></textarea>
+        <div class="input-field">
+            <select name="localites" required="required" id="localites" class="browser-default">
+                <option value="">Choisir la localite</option>
+                <?php foreach ($localites as $localite) { ?>
+                    <option value="<?= $localite->id; ?>"><?= $localite->postcode . ' ' . $localite->city; ?></option>
+                <?php } ?>
+            </select>
         </div>
         <div class="row">
-            <div class="file-field input-field">
-                <div class="file-field input-field col m9">
-                    <div class="btn">
-                        <span>Image associée</span>
-                        <input name="image" type="file">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="filepath">
-                    </div>
-                </div>
-                <button type='button' class="btn col m3 file-reset">Supprimer l'image</button>
+            <div class="input-field col s6">
+                <input id="addPostcode" name="addPostcode" type="number" min="0" class="validate" required="required">
+                <label for="addPostcode" data-error="Le code postale doit être un entier supérieur ou égale à 0 et ne pas avoir déjà été ajouté">Code postale</label> 
+            </div>
+            <div class="input-field col s6">
+                <input id="addLocalite" name="addLocalite" type="text" class="validate" required="required">
+                <label for="addLocalite" data-error="La localité ne doit pas avoir déjà été ajoutée">Localite</label> 
             </div>
         </div>
 
-        <button name="btSendArticle" class="btn" type="submit">Ajouter l'article</button>
+        <div class="input-field">
+            <input id="coord" name="coord" type="text">
+            <label for="coord">Coordonnée Google Maps</label> 
+        </div>
+
+        <button name="btSendArticle" class="btn waves-effect" type="submit">Ajouter le club</button>
 
     </fieldset>
 </form>

@@ -1,7 +1,7 @@
 <section class="row">
     <div class="col m12">
         <h2>Liste des Clubs</h2>
-        <a href="<?= site_url('backoffice/article_admin/add'); ?>" class="btn btn-primary">Ajouter un club</a>
+        <a href="<?= site_url('backoffice/club_admin/add'); ?>" class="btn btn-primary waves-effect">Ajouter un club</a>
         <?php if ($this->session->flashdata('notification')) { ?>
             <?php if ($this->session->flashdata('notification')['status'] == 'error') { ?>
                 <div class="card-panel red">
@@ -19,7 +19,8 @@
                     <th>Id</th>
                     <th>Nom du club</th>
                     <th>Initiales</th>
-                    <th>adresse</th>
+                    <th>Adresse</th>
+                    <th>Coordonnée Google Maps</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -30,6 +31,7 @@
                         <td><?= $club->name; ?></a></td>
                         <td><?= $club->shortname; ?></td>
                         <td><?= $club->address; ?></td>
+                        <td><?= $club->coord; ?></td>
                         <td>
                             <a href="<?= site_url('backoffice/club_admin/edit/') . $club->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
                             <a href="<?= site_url('backoffice/club_admin/delete/') . $club->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
