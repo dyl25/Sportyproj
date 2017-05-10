@@ -24,20 +24,20 @@ class Club_model extends CI_Model {
      * @return boolean True si le club a bien été inséré sinon false.
      * @author Dylan Vansteeancker
      */
-    public function addClub($localieId, $shortname, $name, $address, $coord=null) {
+    public function addClub($localiteId, $shortname, $name, $address, $coord = null) {
 
         //Préparation pour l'insertion dans la DB
-        $this->db->set('localite_id', $localieId);
-        $this->db->set('shortname', $shortname);
-        $this->db->set('name', $name);
-        $this->db->set('address', $address);
-        $this->db->set('coord', $coord);
+        $this->db->set('localite_id', $localiteId)
+                ->set('shortname', $shortname)
+                ->set('name', $name)
+                ->set('address', $address)
+                ->set('coord', $coord);
 
         return $this->db->insert(self::TABLE);
     }
 
     /**
-     * Recherche un article par son id ou son slug
+     * Recherche un club par son id
      * @param string $option Le nom de colonne sur laquelle faire la recherche.
      * @param mixed $value La valeur à recherchée.
      * @throws DomainException si $option ne fait pas partie de $allowedOption
@@ -45,51 +45,51 @@ class Club_model extends CI_Model {
      */
     public function getBy($option, $value) {
 
-        $allowedOptions = ['id', 'slug'];
+        $allowedOptions = ['id'];
 
         if (!in_array($option, $allowedOptions)) {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        if ($option == 'slug') {
-            if (is_null($value)) {
-                throw new InvalidArgumentException('Type incorrect: '
-                . gettype($value) . ' donné, string attendu');
-            }
-        }
-
-        return $this->db->select('articles.*, users.login')
-                        ->join('users', 'users.id = articles.author')
+        return $this->db->select('clubs.*, localites.postcode, localites.city')
+                        ->join('localites', 'localites.id = clubs.localite_id')
                         ->get_where(self::TABLE, [self::TABLE . '.' . $option => $value])
                         ->row();
     }
 
     /**
-     * Récupère tous les articles.
+     * Récupère tous les clubs.
+     * @param mixed $limit Une limite de resultats
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
     public function getClubs($limit = null) {
 
-        $this->db->select('clubs.*');
-                //->join('localites', 'users.id = articles.author');
+        $this->db->select('clubs.*, localites.postcode, localites.city')
+                ->join('localites', 'localites.id = clubs.localite_id');
+
         return $this->db->get(self::TABLE, $limit)->result_object();
     }
 
     /**
-     * Modifie un article
-     * @author Dylan Vansteenacker
+     * 
+     * @param type $clubId
+     * @param type $localiteId
+     * @param type $shortname
+     * @param type $name
+     * @param type $address
+     * @param type $coord
+     * @return type
      */
-    public function update_club($articleId, $user_id, $title, $content, $image = null) {
-        $slug = url_title($title, '-', true);
+    public function updateClub($clubId, $localiteId, $shortname, $name, $address, $coord = null) {
 
-        //Préparation pour l'insertion dans la DB
-        $this->db->set('author', $user_id)
-                ->set('title', $title)
-                ->set('content', $content)
-                ->set('slug', $slug)
-                ->set('image', $image)
-                ->where('id', $articleId);
+        //Préparation pour la modif dans la DB
+        $this->db->set('localite_id', $localiteId)
+                ->set('shortname', $shortname)
+                ->set('name', $name)
+                ->set('address', $address)
+                ->set('coord', $coord)
+                ->where('id', $clubId);
         return $this->db->update(self::TABLE);
     }
 
@@ -100,25 +100,24 @@ class Club_model extends CI_Model {
      * @throws InvalidArgumentException si $id est null ou n'est pas un nombre entier.
      * @author Dylan Vansteenacker
      */
-    public function deleteClub($id) {
+    /* public function deleteClub($id) {
 
-        if (is_null($id)) {
-            throw new InvalidArgumentException("L'id ne peut pas être vide");
-        }
+      if (is_null($id)) {
+      throw new InvalidArgumentException("L'id ne peut pas être vide");
+      }
 
-        if (!is_numeric($id)) {
-            throw new InvalidArgumentException("L'id doit être un entier" . gettype($id) . " donné");
-        }
+      if (!is_numeric($id)) {
+      throw new InvalidArgumentException("L'id doit être un entier" . gettype($id) . " donné");
+      }
 
-        //si l'id n'est pas une chaine contenant un entier
-        if (!ctype_digit($id)) {
-            //si l'id n'est pas un entier
-            if (!is_int($id)) {
-                throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
-            }
-        }
+      //si l'id n'est pas une chaine contenant un entier
+      if (!ctype_digit($id)) {
+      //si l'id n'est pas un entier
+      if (!is_int($id)) {
+      throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
+      }
+      }
 
-        return $this->db->delete(self::TABLE, ['id' => $id]);
-    }
-
+      return $this->db->delete(self::TABLE, ['id' => $id]);
+      } */
 }

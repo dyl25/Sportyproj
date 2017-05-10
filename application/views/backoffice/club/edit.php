@@ -1,5 +1,5 @@
 <section class="row">
-    <h2>Editer un article</h2>
+    <h2>Modifier un club</h2>
     <?php if (isset($notification)) { ?>
         <?php if ($notification['status'] == 'error') { ?>
             <div class="card-panel red">
@@ -13,50 +13,53 @@
     <?php } ?>
     <?= validation_errors(); ?>
 
-    <?= form_open_multipart('backoffice/article_admin/edit/' . $article->id, $attributes) ?>
+    <?= form_open('backoffice/club_admin/edit/'.$club->id, $attributes) ?>
+    <fieldset>
 
-    <!-- Text input-->
-    <div class="row">
-        <div class="input-field col s6">
-            <input id="title" name="title" type="text" placeholder="Titre de l'article" class="validate" required="" value="<?= $article->title ?>">
-            <label for="title">Titre</label> 
+        <!-- Text input-->
+        <div class="input-field">
+            <input id="clubName" name="clubName" type="text" value="<?= $club->name; ?>" class="validate" required="required">
+            <label for="clubName">Nom du club</label> 
         </div>
-    </div>
 
-    <div class="input-field">
-        <select name="category" required="required">
-            <option value="" disabled>Choisir la catégorie</option>
-            <?php foreach ($categories as $category) { ?>
-                <option value="<?= $category->id; ?>" <?php if($category->id == $article->category_id){ echo "selected=selected";}  ?> ><?= $category->name; ?></option>
-            <?php } ?>
-        </select>
-        <label>Catégorie de l'article</label>
-    </div>
-
-    <!-- Textarea -->
-    <div class="row">
-        <div class="input-field col m12">                   
-            <textarea class="materialize-textarea" id="content" name="content" placeholder="Contenu de l'article" required="required" ><?= $article->content ?></textarea>
+        <!-- Text input-->
+        <div class="input-field">
+            <input id="short" name="short" type="text" value="<?= $club->shortname; ?>" class="validate" required="required">
+            <label for="short">Initiales</label> 
         </div>
-    </div>
 
-    <div class="row">
-        <div class="file-field input-field col m9">
-            <div class="btn">
-                <span>Image associée</span>
-                <input name="image" type="file" value="<?= $article->image; ?>">
+        <!-- Text input-->
+        <div class="input-field">
+            <input id="address" name="address" type="text" value="<?= $club->address; ?>" class="validate" required="required">
+            <label for="short">Adresse</label> 
+        </div>
+
+        <div class="input-field">
+            <select name="localites" required="required" id="localites" class="browser-default">
+                <option value="">Choisir la localite</option>
+                <?php foreach ($localites as $localite) { ?>
+                    <option value="<?= $localite->id; ?>" <?php if($localite->id == $club->localite_id){ echo "selected=selected";}  ?> ><?= $localite->postcode . ' ' . $localite->city; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="addPostcode" name="addPostcode" type="number" min="0" class="validate" required="required">
+                <label for="addPostcode" data-error="Le code postale doit être un entier supérieur ou égale à 0 et ne pas avoir déjà été ajouté">Code postale</label> 
             </div>
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" value="<?= $article->image; ?>">
+            <div class="input-field col s6">
+                <input id="addLocalite" name="addLocalite" type="text" class="validate" required="required">
+                <label for="addLocalite" data-error="La localité ne doit pas avoir déjà été ajoutée">Localite</label> 
             </div>
         </div>
-        <button type='button' class="btn col m3 file-reset">Supprimer l'image</button>
-    </div>
 
-    <!-- Button -->
-    <button id="btSendLogin" name="btSendArticle" class="btn">Modifier l'article</button>
+        <div class="input-field">
+            <input id="coord" name="coord" type="text" value="<?= $club->coord; ?>">
+            <label for="coord">Coordonnée Google Maps</label> 
+        </div>
 
+        <button name="btSendEditClub" class="btn waves-effect" type="submit">Modifier le club</button>
+
+    </fieldset>
 </form>
 </section>
-
-

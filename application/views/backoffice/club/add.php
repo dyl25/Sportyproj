@@ -13,7 +13,7 @@
     <?php } ?>
     <?= validation_errors(); ?>
 
-    <?= form_open_multipart('backoffice/club_admin/add', $attributes) ?>
+    <?= form_open('backoffice/club_admin/add', $attributes) ?>
     <fieldset>
 
         <!-- Text input-->
@@ -58,7 +58,7 @@
             <label for="coord">Coordonnée Google Maps</label> 
         </div>
 
-        <button name="btSendArticle" class="btn waves-effect" type="submit">Ajouter le club</button>
+        <button name="btSendClub" class="btn waves-effect" type="submit">Ajouter le club</button>
 
     </fieldset>
 </form>

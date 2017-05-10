@@ -76,12 +76,12 @@ class Club_admin extends CI_Controller {
             }
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
-                if($inserted) {
+                if ($inserted) {
                     $localiteId = $inserted;
-                }else{
-                   $localiteId = $this->input->post('localites'); 
+                } else {
+                    $localiteId = $this->input->post('localites');
                 }
-                
+
                 $shortname = $this->input->post('short');
                 $name = $this->input->post('clubName');
                 $address = $this->input->post('address');
@@ -113,66 +113,86 @@ class Club_admin extends CI_Controller {
         true;
     }
 
+    /**
+     * Regarde si la valeur donnée est bien unique ou correspond à l'ancienne valeur
+     */
+    private function valid_club_name($value, $params) {
+
+        list($table, $field, $current_id) = explode(".", $params);
+
+        $query = $CI->db->select()->from($table)->where($field, $value)->limit(1)->get();
+
+        if ($query->row() && $query->row()->id != $current_id) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    /**
+     * Modification d'un club
+     * @param type $id
+     */
     public function edit($id = null) {
         try {
-            $data['article'] = $this->article_model->getBy('id', $id);
+            $data['club'] = $this->club_model->getBy('id', $id);
         } catch (DomainException $e) {
             show_404();
-            /* echo $e->getMessage();
-              exit; */
         }
 
-        $data['title'] = 'Edition d\'un article';
+        $data['title'] = 'Edition d\'un club';
         $data['attributes'] = [
             'class' => 'col s12'
         ];
-        $data['scripts'] = [
-            base_url() . 'assets/javascript/ckeditor/ckeditor.js',
-            base_url() . 'assets/javascript/ckeditorConf.js'
-        ];
-        $this->load->model('category_model');
-        $data['categories'] = $this->category_model->getCategories();
 
-        $this->form_validation->set_rules('title', 'Titre', 'required');
-        $this->form_validation->set_rules('content', 'Contenu', 'required');
+        $data['scripts'] = [
+            base_url() . 'assets/javascript/addClub.js'
+        ];
+        $this->load->model('localite_model');
+        $data['localites'] = $this->localite_model->getLocalites();
+
+        $this->form_validation->set_rules('clubName', 'nom du club', 'required|is_unique_update[clubs.name.id.' . $data['club']->id . ']');
+        $this->form_validation->set_rules('short', 'initiales', 'required');
+        $this->form_validation->set_rules('address', 'adresse', 'required');
+        //verification si l'utilisateur choisi une localite existante ou si il la rajoute
+        if ($this->input->post('localites')) {
+            $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
+            $insertLocalite = false;
+        } else {
+            $this->form_validation->set_rules('addPostcode', 'code postale', 'required|is_natural|is_unique[localites.postcode]');
+            $this->form_validation->set_rules('addLocalite', 'localité', 'required|is_unique[localites.city]');
+            $insertLocalite = true;
+        }
+        $this->form_validation->set_rules('coord', 'coordonée Google Maps', '');
 
         if ($this->form_validation->run() == true) {
-            if ($_FILES['image']['size'] > 0 || !empty($_FILES['image']['name'])) {
-                $config['upload_path'] = './assets/images/upload/';
-                $config['allowed_types'] = 'gif|jpg|jpeg|png';
-                $config['max_size'] = 1024;
-                $config['max_width'] = 1024;
-                $config['max_height'] = 768;
+            $localiteId = $this->input->post('localites');
+            if ($insertLocalite) {
+                $postcode = $this->input->post('addPostcode');
+                $city = $this->input->post('addLocalite');
+                //verif si insertion s'est bien passee
+                $inserted = $this->localite_model->addLocalite($postcode, $city);
+                //on écrase l'ancienne valeur comme on ajoute une localite
+                $localiteId = $inserted;
+            }
 
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('image')) {
-                    $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
-                    $status = 'error';
+            if (!$insertLocalite || ($insertLocalite && $inserted)) {
+
+                $shortname = $this->input->post('short');
+                $name = $this->input->post('clubName');
+                $address = $this->input->post('address');
+                $coord = $this->input->post('coord');
+
+                if ($this->club_model->updateClub($id, $localiteId, $shortname, $name, $address, $coord)) {
+                    $msg = "Le club a bien été modifié !";
+                    $status = 'success';
                 } else {
-                    $imageName = $this->upload->data('file_name');
-                    $title = trim($this->input->post('title'));
-                    $content = trim($this->input->post('content'));
-                    $user_id = $this->session->userdata('id');
-
-                    if (!$this->article_model->update_article($id, $user_id, $title, $content, $imageName)) {
-                        $msg = "Problème lors de l'ajout dans la base de donnée";
-                        $status = 'error';
-                    } else {
-                        $msg = "L'article a bien été ajouté !";
-                        $status = 'success';
-                    }
+                    $msg = "Un problème s'est passé lors de la mofication dans la base du données du club.";
+                    $status = 'error';
                 }
             } else {
-                $title = trim($this->input->post('title'));
-                $content = trim($this->input->post('content'));
-                $user_id = $this->session->userdata('id');
-                if (!$this->article_model->update_article($id, $user_id, $title, $content)) {
-                    $msg = "Problème lors de l'ajout dans la base de donnée";
-                    $status = 'error';
-                } else {
-                    $msg = "L'article a bien été ajouté !";
-                    $status = 'success';
-                }
+                $msg = "Un problème s'est passé lors de la modification du club.";
+                $status = 'error';
             }
 
             $data['notification'] = [
@@ -181,8 +201,7 @@ class Club_admin extends CI_Controller {
             ];
         }
 
-        $data['content'] = [$this->load->view('backoffice/article/edit', $data
-                    , true)];
+        $data['content'] = [$this->load->view('backoffice/club/edit', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 

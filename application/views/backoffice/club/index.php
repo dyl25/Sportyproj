@@ -20,6 +20,8 @@
                     <th>Nom du club</th>
                     <th>Initiales</th>
                     <th>Adresse</th>
+                    <th>Code postal</th>
+                    <th>Localité</th>
                     <th>Coordonnée Google Maps</th>
                     <th>Action</th>
                 </tr>
@@ -31,6 +33,8 @@
                         <td><?= $club->name; ?></a></td>
                         <td><?= $club->shortname; ?></td>
                         <td><?= $club->address; ?></td>
+                        <td><?= $club->postcode; ?></td>
+                        <td><?= $club->city; ?></td>
                         <td><?= $club->coord; ?></td>
                         <td>
                             <a href="<?= site_url('backoffice/club_admin/edit/') . $club->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
