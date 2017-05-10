@@ -109,24 +109,21 @@ class Club_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
-    public function view() {
-        true;
-    }
-
     /**
-     * Regarde si la valeur donnée est bien unique ou correspond à l'ancienne valeur
+     * Présente les infos du club
+     * @param int $id L'id du club
      */
-    private function valid_club_name($value, $params) {
-
-        list($table, $field, $current_id) = explode(".", $params);
-
-        $query = $CI->db->select()->from($table)->where($field, $value)->limit(1)->get();
-
-        if ($query->row() && $query->row()->id != $current_id) {
-            return FALSE;
-        } else {
-            return TRUE;
+    public function view($id = null) {
+        try {
+            $data['club'] = $this->club_model->getBy('id', $id);
+        } catch (DomainException $e) {
+            show_404();
         }
+
+        $data['title'] = 'Vue du club '.$data['club']->name;
+        
+        $data['content'] = [$this->load->view('backoffice/club/view', $data, true)];
+        $this->load->view('backoffice/layout_backoffice', $data);
     }
 
     /**
@@ -206,44 +203,23 @@ class Club_admin extends CI_Controller {
     }
 
     /**
-     * Supprime un article et son image associée si il en a une
-     * @param int $id L'id de l'article.
+     * Supprime un club
+     * @param int $id L'id du club.
      */
     public function delete($id) {
 
         try {
-            //récupération de l'image de l'article
-            $articleImage = $this->article_model->getBy('id', $id)->image;
+            if ($this->club_model->deleteClub($id)) {
+
+                $msg = "Club supprimé !";
+                $status = "success";
+            } else {
+                $msg = "Problème lors de la suppression dans la base de donnée";
+                $status = "error";
+            }
         } catch (Exception $ex) {
-            $msg = "Problème lors de la suppression de l'image de l'article: " . $ex->getMessage();
+            $msg = "Problème lors de la suppression du club: " . $ex->getMessage();
             $status = "error";
-        }
-
-        //suppression si image existante
-        if (!is_null($articleImage) || !empty($articleImage)) {
-            $fileDelete = unlink(FCPATH . "/assets/images/upload/" . $articleImage);
-
-            if (!$fileDelete) {
-                $msg = "Problème lors de la suppression de l'image de l'article.";
-                $status = "error";
-            }
-        }
-
-        //si il n'y a pas d'image existante ou l'image à été supprimée correctement
-        if (!isset($fileDelete) || $fileDelete) {
-            try {
-                if ($this->article_model->deleteArticle($id)) {
-
-                    $msg = "Article supprimé !";
-                    $status = "success";
-                } else {
-                    $msg = "Problème lors de la suppression dans la base de donnée";
-                    $status = "error";
-                }
-            } catch (Exception $ex) {
-                $msg = "Problème lors de la suppression de l'article: " . $ex->getMessage();
-                $status = "error";
-            }
         }
 
         $this->session->set_flashdata('notification', [
@@ -251,7 +227,7 @@ class Club_admin extends CI_Controller {
             'status' => $status,
         ]);
 
-        redirect('backoffice/article_admin', 'location', 301);
+        redirect('backoffice/club_admin', 'location', 301);
     }
 
 }

@@ -30,7 +30,7 @@
                 <?php foreach ($clubs as $club): ?>
                     <tr>
                         <td><?= $club->id; ?></td>
-                        <td><?= $club->name; ?></a></td>
+                        <td><a href="<?= site_url('backoffice/club_admin/view/') . $club->id; ?>"><?= $club->name; ?></a></td>
                         <td><?= $club->shortname; ?></td>
                         <td><?= $club->address; ?></td>
                         <td><?= $club->postcode; ?></td>

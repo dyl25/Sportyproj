@@ -72,14 +72,14 @@ class Club_model extends CI_Model {
     }
 
     /**
-     * 
-     * @param type $clubId
-     * @param type $localiteId
-     * @param type $shortname
-     * @param type $name
-     * @param type $address
-     * @param type $coord
-     * @return type
+     * Modifie un club
+     * @param int $clubId L'id du club.
+     * @param int $localiteId L'id de la localité associée.
+     * @param string $shortname Les initiales du club
+     * @param string $name Le nom du club
+     * @param string $address Le nom et le numéro de la rue
+     * @param string $coord Les coordonnées google maps
+     * @return bool True si la modification s'est bien passée sinon false.
      */
     public function updateClub($clubId, $localiteId, $shortname, $name, $address, $coord = null) {
 
@@ -94,30 +94,31 @@ class Club_model extends CI_Model {
     }
 
     /**
-     * Supprime un article
-     * @param int $id L'id de l'article.
-     * @return bool Le résultat de la suppresion
+     * Supprime un club
+     * @param int $id L'id du club.
+     * @return bool True si la suppresion s'est bien passée sinon false.
      * @throws InvalidArgumentException si $id est null ou n'est pas un nombre entier.
      * @author Dylan Vansteenacker
      */
-    /* public function deleteClub($id) {
+    public function deleteClub($id) {
 
-      if (is_null($id)) {
-      throw new InvalidArgumentException("L'id ne peut pas être vide");
-      }
+        if (is_null($id)) {
+            throw new InvalidArgumentException("L'id ne peut pas être vide");
+        }
 
-      if (!is_numeric($id)) {
-      throw new InvalidArgumentException("L'id doit être un entier" . gettype($id) . " donné");
-      }
+        if (!is_numeric($id)) {
+            throw new InvalidArgumentException("L'id doit être un entier" . gettype($id) . " donné");
+        }
 
-      //si l'id n'est pas une chaine contenant un entier
-      if (!ctype_digit($id)) {
-      //si l'id n'est pas un entier
-      if (!is_int($id)) {
-      throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
-      }
-      }
+        //si l'id n'est pas une chaine contenant un entier
+        if (!ctype_digit($id)) {
+            //2eme verif car ctype a des resultats non attendu si pas de chaine de caractère
+            if (!is_int($id)) {
+                throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
+            }
+        }
 
-      return $this->db->delete(self::TABLE, ['id' => $id]);
-      } */
+        return $this->db->delete(self::TABLE, ['id' => $id]);
+    }
+
 }

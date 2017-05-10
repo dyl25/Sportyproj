@@ -251,6 +251,24 @@ table.highlight > tbody > tr:hover {
 .analytic-table {
     border-top: 1px solid black;
 }
+.data-striped p:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.data-striped p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 15px;
+}
+
+.data-highlight p{
+    transition: background-color .25s ease;
+}
+
+.data-highlight p:hover {
+  background-color: #f2f2f2;
+}
+
 /* End backoffice */
 
 /* Signin */
