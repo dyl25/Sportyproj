@@ -31,71 +31,60 @@ class Article_admin extends CI_Controller {
     public function index() {
         $data['title'] = 'Gestion des articles';
         $data['articles'] = $this->article_model->getArticles();
-        $data['content'] = [$this->load->view('backoffice/article/index', $data, true)];
+        $data['content'] = [$this->load->view('backoffice/article/index'
+                    , $data, true)];
 
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
-    /**
-     * Prépare à l'ajout d'un article sans image
-     * @param array $postData Les données envoyées par formulaire.
-     * @return array Un tableau servant pour connaitre le status de l'ajout
-     */
-    private function whithoutImage(array $postData) {
-        $title = trim($postData['title']);
-        $content = trim($postData['content']);
-        $category_id = $postData['category'];
-        $user_id = $this->session->userdata('id');
+    private function prepareArticle(array $postData, $method, $upload = false, $id = null) {
+        $dataDb['image'] = null;
+        if ($upload) {
+            $config['upload_path'] = './assets/images/upload/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = 1024;
+            $config['max_width'] = 1024;
+            $config['max_height'] = 768;
 
-        if (!$this->article_model->add_article($user_id, $category_id, $title, $content)) {
-            $msg = "Problème lors de l'ajout dans la base de donnée";
-            $status = 'error';
-        } else {
-            $msg = "L'article a bien été ajouté !";
-            $status = 'success';
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('image')) {
+                $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
+                $status = 'error';
+                return [
+                    'msg' => $msg,
+                    'status' => $status,
+                ];
+            }
+
+            $dataDb['image'] = $this->upload->data('file_name');
         }
 
-        return [
-            'msg' => $msg,
-            'status' => $status,
-        ];
-    }
+        $dataDb['title'] = $postData['title'];
+        $dataDb['content'] = $postData['content'];
+        $dataDb['category_id'] = $postData['category'];
+        $dataDb['author'] = $this->session->userdata('id');
+        $dataDb['slug'] = url_title(iconv('utf-8', 'us-ascii//TRANSLIT'
+                        , $dataDb['title']), '-', true);
 
-    /**
-     * Prépare à l'ajout d'un article avec image et avec les configuration pour
-     * l'upload.
-     * @param array $postData Les données envoyées par formulaire.
-     * @return array Un tableau servant pour connaitre le status de l'ajout
-     */
-    private function whitImage(array $postData) {
-        $config['upload_path'] = './assets/images/upload/';
-        $config['allowed_types'] = 'gif|jpg|jpeg|png';
-        $config['max_size'] = 1024;
-        $config['max_width'] = 1024;
-        $config['max_height'] = 768;
-
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('image')) {
-            $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
-            $status = 'error';
-        } else {
-            $imageName = $this->upload->data('file_name');
-
-            $title = trim($postData['title']);
-            $content = trim($postData['content']);
-            $category_id = $postData['category'];
-            $user_id = $this->session->userdata('id');
-
-            if (!$this->article_model->add_article($user_id, $category_id, $title, $content, $imageName)) {
+        if ($method == 'create') {
+            if (!$this->article_model->create($dataDb)) {
                 $msg = "Problème lors de l'ajout dans la base de donnée";
                 $status = 'error';
             } else {
                 $msg = "L'article a bien été ajouté !";
                 $status = 'success';
             }
+        } elseif ($method == 'update') {
+            $where = ['id' => $id];
+            if (!$this->article_model->update($where, $dataDb)) {
+                $msg = "Problème lors de la modification dans la base de donnée";
+                $status = 'error';
+            } else {
+                $msg = "L'article a bien été modifié !";
+                $status = 'success';
+            }
         }
-
         return [
             'msg' => $msg,
             'status' => $status,
@@ -120,17 +109,17 @@ class Article_admin extends CI_Controller {
         ];
         $data['categories'] = $this->category_model->getCategories();
 
-        $this->form_validation->set_rules('title', 'Titre', 'required');
-        $this->form_validation->set_rules('content', 'Contenu', 'required');
+        $this->form_validation->set_rules('title', 'Titre', 'required|trim');
+        $this->form_validation->set_rules('content', 'Contenu', 'required|trim');
         $this->form_validation->set_rules('category', 'catégorie', 'required');
 
         if ($this->form_validation->run() == true) {
             if ($_FILES['image']['size'] > 0) {
 
-                $data['notification'] = $this->whitImage($this->input->post());
+                $data['notification'] = $this->prepareArticle($this->input->post(), 'create', true);
             } else {
 
-                $data['notification'] = $this->whithoutImage($this->input->post());
+                $data['notification'] = $this->prepareArticle($this->input->post(), 'create');
             }
         }
 
@@ -167,48 +156,10 @@ class Article_admin extends CI_Controller {
         $this->form_validation->set_rules('content', 'Contenu', 'required');
 
         if ($this->form_validation->run() == true) {
-            if ($_FILES['image']['size'] > 0 || !empty($_FILES['image']['name'])) {
-                $config['upload_path'] = './assets/images/upload/';
-                $config['allowed_types'] = 'gif|jpg|jpeg|png';
-                $config['max_size'] = 1024;
-                $config['max_width'] = 1024;
-                $config['max_height'] = 768;
+            //determine si une image est uploadee
+            $upload = $_FILES['image']['size'] > 0;
 
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('image')) {
-                    $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
-                    $status = 'error';
-                } else {
-                    $imageName = $this->upload->data('file_name');
-                    $title = trim($this->input->post('title'));
-                    $content = trim($this->input->post('content'));
-                    $user_id = $this->session->userdata('id');
-
-                    if (!$this->article_model->update_article($id, $user_id, $title, $content, $imageName)) {
-                        $msg = "Problème lors de l'ajout dans la base de donnée";
-                        $status = 'error';
-                    } else {
-                        $msg = "L'article a bien été ajouté !";
-                        $status = 'success';
-                    }
-                }
-            } else {
-                $title = trim($this->input->post('title'));
-                $content = trim($this->input->post('content'));
-                $user_id = $this->session->userdata('id');
-                if (!$this->article_model->update_article($id, $user_id, $title, $content)) {
-                    $msg = "Problème lors de l'ajout dans la base de donnée";
-                    $status = 'error';
-                } else {
-                    $msg = "L'article a bien été ajouté !";
-                    $status = 'success';
-                }
-            }
-
-            $data['notification'] = [
-                'msg' => $msg,
-                'status' => $status,
-            ];
+            $data['notification'] = $this->prepareArticle($this->input->post(), 'update', $upload, $id);
         }
 
         $data['content'] = [$this->load->view('backoffice/article/edit', $data
@@ -243,7 +194,7 @@ class Article_admin extends CI_Controller {
         //si il n'y a pas d'image existante ou l'image à été supprimée correctement
         if (!isset($fileDelete) || $fileDelete) {
             try {
-                if ($this->article_model->deleteArticle($id)) {
+                if ($this->article_model->delete(['id' => $id])) {
 
                     $msg = "Article supprimé !";
                     $status = "success";

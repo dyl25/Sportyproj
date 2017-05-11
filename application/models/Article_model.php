@@ -6,37 +6,17 @@
  *
  * @author admin
  */
-class Article_model extends CI_Model {
+class Article_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
         $this->load->database();
     }
 
+    //sera accessible pour le parent
+    protected $table = 'articles';
+
     const TABLE = 'articles';
-
-    /**
-     * Insère un article dans la DB et crée un slug(titre modifié avec '-') 
-     * pour l'article.
-     * @param int $user_id L'id de l'utilisateur. 
-     * @param string $title Le titre de l'article.
-     * @param string $content Le contenu de l'article.
-     * @return boolean True si l'article a bien été inséré sinon false.
-     * @author Dylan Vansteeancker
-     */
-    public function add_article($user_id, $category_id, $title, $content, $image = null) {
-
-        $slug = url_title(iconv('utf-8', 'us-ascii//TRANSLIT', $title), '-', true);
-
-        //Préparation pour l'insertion dans la DB
-        $this->db->set('author', $user_id);
-        $this->db->set('category_id', $category_id);
-        $this->db->set('title', $title);
-        $this->db->set('content', $content);
-        $this->db->set('slug', $slug);
-        $this->db->set('image', $image);
-        return $this->db->insert(self::TABLE);
-    }
 
     /**
      * Recherche un article par son id ou son slug
@@ -62,7 +42,7 @@ class Article_model extends CI_Model {
 
         return $this->db->select('articles.*, users.login')
                         ->join('users', 'users.id = articles.author')
-                        ->get_where(self::TABLE, [self::TABLE . '.' . $option => $value])
+                        ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
     }
 
@@ -75,52 +55,7 @@ class Article_model extends CI_Model {
 
         $this->db->select('articles.*, users.login')
                 ->join('users', 'users.id = articles.author');
-        return $this->db->get(self::TABLE, $limit)->result_object();
-    }
-
-    /**
-     * Modifie un article
-     * @author Dylan Vansteenacker
-     */
-    public function update_article($articleId, $user_id, $title, $content, $image = null) {
-        $slug = url_title($title, '-', true);
-
-        //Préparation pour l'insertion dans la DB
-        $this->db->set('author', $user_id)
-                ->set('title', $title)
-                ->set('content', $content)
-                ->set('slug', $slug)
-                ->set('image', $image)
-                ->where('id', $articleId);
-        return $this->db->update(self::TABLE);
-    }
-
-    /**
-     * Supprime un article
-     * @param int $id L'id de l'article.
-     * @return bool Le résultat de la suppresion
-     * @throws InvalidArgumentException si $id est null ou n'est pas un nombre entier.
-     * @author Dylan Vansteenacker
-     */
-    public function deleteArticle($id) {
-
-        if (is_null($id)) {
-            throw new InvalidArgumentException("L'id ne peut pas être vide");
-        }
-
-        if (!is_numeric($id)) {
-            throw new InvalidArgumentException("L'id doit être un entier" . gettype($id) . " donné");
-        }
-
-        //si l'id n'est pas une chaine contenant un entier
-        if (!ctype_digit($id)) {
-            //si l'id n'est pas un entier
-            if (!is_int($id)) {
-                throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
-            }
-        }
-
-        return $this->db->delete(self::TABLE, ['id' => $id]);
+        return $this->db->get($this->table, $limit)->result_object();
     }
 
 }
