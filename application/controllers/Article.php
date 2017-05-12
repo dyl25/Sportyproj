@@ -33,7 +33,6 @@ class Article extends CI_Controller {
         try {
             $article = $this->article_model->getBy('slug', $slug);
         } catch (Exception $e) {
-            //echo "Une erreur s'est produite lors de la recherche: ".$e->getMessage();
             show_404();
         }
 
@@ -52,32 +51,27 @@ class Article extends CI_Controller {
         $data['title'] = $article->title;
         $data['article'] = $article;
         $data['comments'] = $this->comment_model->getForArticle($article->id);
-        /*var_dump($article);
-        var_dump($data['comments']);*/
 
-        $this->form_validation->set_rules('commentContent', 'commentaire', 'required');
+        $this->form_validation->set_rules('commentContent', 'commentaire', 'trim|required');
         $this->form_validation->set_rules('userId', 'id utilisateur', 'required|numeric|is_natural_no_zero');
         $this->form_validation->set_rules('articleId', 'id article', 'required|numeric|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
-            $content = trim($this->input->post('commentContent'));
-            $userId = $this->input->post('userId');
-            $articleId = $this->input->post('articleId');
+            $dataDb['content'] = $this->input->post('commentContent');
+            $dataDb['author_id'] = $this->input->post('userId');
+            $dataDb['article_id'] = $this->input->post('articleId');
 
-            if ($this->comment_model->addComment($articleId, $userId, $content)) {
+            if ($this->comment_model->create($dataDb)) {
                 $msg = "Votre commentaire à bien été ajouté !";
-                $color = "green";
-                $icone = "done";
+                $status = 'success';
             } else {
                 $msg = "Un problème est survenu. Votre commentaire n'a pas été ajouté. Veuillez réessayer.";
-                $color = "red";
-                $icone = "report_problem";
+                $status = 'error';
             }
 
-            $data['error'] = [
-                'cardColor' => $color,
-                'icone' => $icone,
-                'msg' => $msg
+            $data['notification'] = [
+                'msg' => $msg,
+                'status' => $status
             ];
         }
 

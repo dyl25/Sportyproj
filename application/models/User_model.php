@@ -6,14 +6,14 @@
  *
  * @author admin
  */
-class User_model extends CI_Model {
+class User_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
         $this->load->database();
     }
 
-    const TABLE = 'users';
+    protected $table = 'users';
 
     /**
      * Vérifie si un login existe déjà.
@@ -24,7 +24,7 @@ class User_model extends CI_Model {
 
         $this->db->where('login', $login);
 
-        $query = $this->db->get(self::TABLE);
+        $query = $this->db->get($this->table);
 
         return $query->num_rows() == 1;
     }
@@ -38,30 +38,9 @@ class User_model extends CI_Model {
 
         $this->db->where('email', $email);
 
-        $query = $this->db->get(self::TABLE);
+        $query = $this->db->get($this->table);
 
         return $query->num_rows() == 1;
-    }
-
-    /**
-     * Créé un utilisateur avec un login, un role, un mot de passse et un email
-     * @param string $login Le login de l'utilisateur.
-     * @param string $password Le mot de passe de l'utilisateur.
-     * @param string $email L'email de l'utilisateur.
-     * @return boolean True si l'utilisateur a bien été insséré sinon false.
-     */
-    public function createUser($login, $role, $password, $email, $profilePicture = null) {
-
-        $password = password_hash($password, PASSWORD_DEFAULT);
-
-        //Préparation des données pour l'insertion dans la DB
-        $this->db->set('login', $login);
-        $this->db->set('role_id', $role);
-        $this->db->set('password', $password);
-        $this->db->set('email', $email);
-        $this->db->set('profile_image', $profilePicture);
-
-        return $this->db->insert(self::TABLE);
     }
 
     /**
@@ -74,7 +53,7 @@ class User_model extends CI_Model {
 
         $this->db->select('password')
                 ->where('email', $email);
-        $query = $this->db->get(self::TABLE);
+        $query = $this->db->get($this->table);
 
         if (!($query->num_rows() == 1)) {
             return false;
@@ -95,7 +74,7 @@ class User_model extends CI_Model {
         $this->db->select('role_id')
                 ->where('id', $id);
 
-        $role_id = $this->db->get(self::TABLE)->result_object()[0]->role_id;
+        $role_id = $this->db->get($this->table)->result_object()[0]->role_id;
 
         $this->db->select('name')
                 ->where('roles.id', $role_id);
@@ -113,7 +92,7 @@ class User_model extends CI_Model {
         $this->db->select('id, login')
                 ->where('email', $email);
 
-        $query = $this->db->get(self::TABLE)->result_array();
+        $query = $this->db->get($this->table)->result_array();
         return $query[0];
     }
 
@@ -127,7 +106,7 @@ class User_model extends CI_Model {
 
         return $this->db->select('users.*, roles.name')
                         ->join('roles', 'roles.id = users.role_id')
-                        ->get_where(self::TABLE, [self::TABLE . '.' . $option => $value])
+                        ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->result_object()[0];
     }
 
@@ -135,43 +114,7 @@ class User_model extends CI_Model {
         return $this->db->select('users.*, roles.name')
                         ->join('roles', 'roles.id = users.role_id')
                         ->order_by('users.id', 'ASC')
-                        ->get(self::TABLE, $limit)->result_object();
-    }
-
-    public function updateUser($userId, $login, $role, $password, $email, $profilePicture = null) {
-        $this->db->set('login', $login)
-                ->set('role_id', $role)
-                ->set('password', $password)
-                ->set('email', $email)
-                ->set('profile_image', $profilePicture)
-                ->where('id', $userId);
-        return $this->db->update(self::TABLE);
-    }
-
-    /**
-     * Supprime un utilisateur
-     * @param int $id L'id de l'utilisateur
-     * @return bool Le résultat de la suppresion
-     * @throws InvalidArgumentException si $id est null ou n'est pas un nombre entier.
-     */
-    public function deleteUser($id) {
-        if (is_null($id)) {
-            throw new InvalidArgumentException("L'id ne peut pas être vide");
-        }
-
-        if (!is_numeric($id)) {
-            throw new InvalidArgumentException("L'id doit être un nombre entier" . gettype($id) . " donné");
-        }
-
-        //si l'id n'est pas une chaine contenant un entier
-        if (!ctype_digit($id)) {
-            //si l'id n'est pas un entier
-            if (!is_int($id)) {
-                throw new InvalidArgumentException("L'id doit être un entier, " . gettype($id) . " donné");
-            }
-        }
-
-        return $this->db->delete(self::TABLE, ['id' => $id]);
+                        ->get($this->table, $limit)->result_object();
     }
 
 }

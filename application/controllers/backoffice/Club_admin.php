@@ -52,42 +52,39 @@ class Club_admin extends CI_Controller {
         ];
         $data['localites'] = $this->localite_model->getLocalites();
 
-        $this->form_validation->set_rules('clubName', 'nom du club', 'required|is_unique[clubs.name]');
-        $this->form_validation->set_rules('short', 'initiales', 'required');
-        $this->form_validation->set_rules('address', 'adresse', 'required');
+        $this->form_validation->set_rules('clubName', 'nom du club', 'trim|required|is_unique[clubs.name]');
+        $this->form_validation->set_rules('short', 'initiales', 'trim|required');
+        $this->form_validation->set_rules('address', 'adresse', 'trim|required');
         //verification si l'utilisateur choisi une localite existante ou si il la rajoute
         if ($this->input->post('localites')) {
             $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
             $insertLocalite = false;
         } else {
-            $this->form_validation->set_rules('addPostcode', 'code postale', 'required|is_natural|is_unique[localites.postcode]');
-            $this->form_validation->set_rules('addLocalite', 'localité', 'required|is_unique[localites.city]');
+            $this->form_validation->set_rules('addPostcode', 'code postale', 'trim|required|is_natural|is_unique[localites.postcode]');
+            $this->form_validation->set_rules('addLocalite', 'localité', 'trim|required|is_unique[localites.city]');
             $insertLocalite = true;
         }
-        $this->form_validation->set_rules('coord', 'coordonée Google Maps', '');
+        $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
-
+            $dataDb['localite_id'] = $this->input->post('localites');
             if ($insertLocalite) {
-                $postcode = $this->input->post('addPostcode');
-                $city = $this->input->post('addLocalite');
+                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode');
+                $dataDbLoocalite['city'] = $this->input->post('addLocalite');
                 //verif si insertion s'est bien passee
-                $inserted = $this->localite_model->addLocalite($postcode, $city);
+                $inserted = $this->localite_model->create($dataDbLoocalite);
+                //on écrase l'ancienne valeur comme on ajoute une localite
+                $dataDb['localite_id'] = $inserted;
             }
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
-                if ($inserted) {
-                    $localiteId = $inserted;
-                } else {
-                    $localiteId = $this->input->post('localites');
-                }
 
-                $shortname = $this->input->post('short');
-                $name = $this->input->post('clubName');
-                $address = $this->input->post('address');
-                $coord = $this->input->post('coord');
+                $dataDb['shortname'] = $this->input->post('short');
+                $dataDb['name'] = $this->input->post('clubName');
+                $dataDb['address'] = $this->input->post('address');
+                $dataDb['coord'] = $this->input->post('coord');
 
-                if ($this->club_model->addClub($localiteId, $shortname, $name, $address, $coord)) {
+                if ($this->club_model->create($dataDb)) {
                     $msg = "Le club a bien été ajouté !";
                     $status = 'success';
                 } else {
@@ -120,8 +117,8 @@ class Club_admin extends CI_Controller {
             show_404();
         }
 
-        $data['title'] = 'Vue du club '.$data['club']->name;
-        
+        $data['title'] = 'Vue du club ' . $data['club']->name;
+
         $data['content'] = [$this->load->view('backoffice/club/view', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
@@ -148,39 +145,39 @@ class Club_admin extends CI_Controller {
         $this->load->model('localite_model');
         $data['localites'] = $this->localite_model->getLocalites();
 
-        $this->form_validation->set_rules('clubName', 'nom du club', 'required|is_unique_update[clubs.name.id.' . $data['club']->id . ']');
-        $this->form_validation->set_rules('short', 'initiales', 'required');
-        $this->form_validation->set_rules('address', 'adresse', 'required');
+        $this->form_validation->set_rules('clubName', 'nom du club', 'trim|required|is_unique_update[clubs.name.id.' . $data['club']->id . ']');
+        $this->form_validation->set_rules('short', 'initiales', 'trim|required');
+        $this->form_validation->set_rules('address', 'adresse', 'trim|required');
         //verification si l'utilisateur choisi une localite existante ou si il la rajoute
         if ($this->input->post('localites')) {
             $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
             $insertLocalite = false;
         } else {
-            $this->form_validation->set_rules('addPostcode', 'code postale', 'required|is_natural|is_unique[localites.postcode]');
-            $this->form_validation->set_rules('addLocalite', 'localité', 'required|is_unique[localites.city]');
+            $this->form_validation->set_rules('addPostcode', 'code postale', 'trim|required|is_natural|is_unique[localites.postcode]');
+            $this->form_validation->set_rules('addLocalite', 'localité', 'trim|required|is_unique[localites.city]');
             $insertLocalite = true;
         }
-        $this->form_validation->set_rules('coord', 'coordonée Google Maps', '');
+        $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
-            $localiteId = $this->input->post('localites');
+            $dataDb['localite_id'] = $this->input->post('localites');
             if ($insertLocalite) {
-                $postcode = $this->input->post('addPostcode');
-                $city = $this->input->post('addLocalite');
+                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode');
+                $dataDbLoocalite['city'] = $this->input->post('addLocalite');
                 //verif si insertion s'est bien passee
-                $inserted = $this->localite_model->addLocalite($postcode, $city);
+                $inserted = $this->localite_model->create($dataDbLoocalite);
                 //on écrase l'ancienne valeur comme on ajoute une localite
-                $localiteId = $inserted;
+                $dataDb['localite_id'] = $inserted;
             }
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
 
-                $shortname = $this->input->post('short');
-                $name = $this->input->post('clubName');
-                $address = $this->input->post('address');
-                $coord = $this->input->post('coord');
+                $dataDb['shortname'] = $this->input->post('short');
+                $dataDb['name'] = $this->input->post('clubName');
+                $dataDb['address'] = $this->input->post('address');
+                $dataDb['coord'] = $this->input->post('coord');
 
-                if ($this->club_model->updateClub($id, $localiteId, $shortname, $name, $address, $coord)) {
+                if ($this->club_model->update(['id', $id], $dataDb)) {
                     $msg = "Le club a bien été modifié !";
                     $status = 'success';
                 } else {
@@ -209,7 +206,7 @@ class Club_admin extends CI_Controller {
     public function delete($id) {
 
         try {
-            if ($this->club_model->deleteClub($id)) {
+            if ($this->club_model->delete(['id' => $id])) {
 
                 $msg = "Club supprimé !";
                 $status = "success";

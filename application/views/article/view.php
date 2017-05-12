@@ -18,10 +18,16 @@
                 </div>
             <?php } ?>
             <?php if (isset($this->session->userdata['id'])) { ?>
-                <?php if (isset($error)) { ?>
-                    <div class="card-panel <?= $error['cardColor']; ?>">
-                        <p class="white-text"><i class="material-icons"><?= $error['icone']; ?></i> <?= $error['msg']; ?></p>
-                    </div>
+                <?php if (isset($notification)) { ?>
+                    <?php if ($notification['status'] == 'error') { ?>
+                        <div class="card-panel red">
+                            <p class="white-text"><i class="material-icons">report_problem</i> <?= $notification['msg']; ?></p>
+                        </div>
+                    <?php } elseif ($notification['status'] == 'success') { ?>
+                        <div class="card-panel green">
+                            <p class="white-text"><i class="material-icons">done</i> <?= $notification['msg']; ?></p>
+                        </div>
+                    <?php } ?>
                 <?php } ?>
                 <?= validation_errors(); ?>
                 <?= form_open('article/view/' . $article->slug, $attributes); ?>

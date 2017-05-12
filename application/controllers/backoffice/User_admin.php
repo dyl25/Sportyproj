@@ -33,10 +33,11 @@ class User_admin extends CI_Controller {
      * @param array $postData Les champs de formulaire envoyé.
      * @param string $method La metode d'ajout ou de modification
      * @param bool $upload Il y a-t-il une image à upload
+     * @param int $id L'id de l'utilisateur pour update
      * @return string Le message et le status de l'ajout ou la modification
      */
-    private function prepareUser(array $postData, $method, $upload = false) {
-        $imageName = null;
+    private function prepareUser(array $postData, $method, $upload = false, $id = null) {
+        $dataDb['profile_image'] = null;
         if ($upload) {
             $config['upload_path'] = './assets/images/upload/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -55,16 +56,16 @@ class User_admin extends CI_Controller {
                 ];
             }
 
-            $imageName = $this->upload->data('file_name');
+            $dataDb['profile_image'] = $this->upload->data('file_name');
         }
+        
+        $dataDb['login'] = $postData['login'];
+        $dataDb['email'] = $postData['email'];
+        $dataDb['password'] = password_hash($postData['password'], PASSWORD_DEFAULT);
+        $dataDb['role_id'] = $postData['role'];
 
-        $login = trim($postData['login']);
-        $email = trim($postData['email']);
-        $password = $postData['password'];
-        $role_id = $postData['role'];
-
-        if ($method == 'add') {
-            if (!$this->user_model->createUser($login, $role_id, $password, $email, $imageName)) {
+        if ($method == 'create') {
+            if (!$this->user_model->create($dataDb)) {
                 $msg = "Problème lors de l'ajout dans la base de donnée";
                 $status = 'error';
             } else {
@@ -72,7 +73,8 @@ class User_admin extends CI_Controller {
                 $status = 'success';
             }
         } elseif ($method == 'update') {
-            if (!$this->user_model->updateUser($login, $role_id, $password, $email, $imageName)) {
+            $where = ['id' => $id];
+            if (!$this->user_model->update($where, $dataDb)) {
                 $msg = "Problème lors de la modification dans la base de donnée";
                 $status = 'error';
             } else {
@@ -100,8 +102,8 @@ class User_admin extends CI_Controller {
         ];
         $data['roles'] = $this->role_model->getRoles();
 
-        $this->form_validation->set_rules('login', 'login', 'required|min_length[3]|is_unique[users.login]');
-        $this->form_validation->set_rules('email', 'e-mail', 'required|is_unique[users.email]');
+        $this->form_validation->set_rules('login', 'login', 'required|min_length[3]|is_unique[users.login]|trim');
+        $this->form_validation->set_rules('email', 'e-mail', 'required|is_unique[users.email]|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'required');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'required|matches[password]');
         $this->form_validation->set_rules('role', 'role', 'required');
@@ -109,10 +111,10 @@ class User_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             if ($_FILES['image']['size'] > 0) {
 
-                $data['notification'] = $this->prepareUser($this->input->post(), 'add', true);
+                $data['notification'] = $this->prepareUser($this->input->post(), 'create', true);
             } else {
 
-                $data['notification'] = $this->prepareUser($this->input->post(), 'add');
+                $data['notification'] = $this->prepareUser($this->input->post(), 'create');
             }
         }
 
@@ -139,17 +141,17 @@ class User_admin extends CI_Controller {
         ];
         $data['roles'] = $this->role_model->getRoles();
 
-        $this->form_validation->set_rules('login', 'login', 'required|min_length[3]');
-        $this->form_validation->set_rules('email', 'e-mail', 'required');
-        $this->form_validation->set_rules('password', 'mot de passe', 'trim');
-        $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'trim|matches[password]');
+        $this->form_validation->set_rules('login', 'login', 'required|min_length[3]|trim');
+        $this->form_validation->set_rules('email', 'e-mail', 'required|trim');
+        $this->form_validation->set_rules('password', 'mot de passe', 'trim|min_length[3]');
+        $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'matches[password]|trim');
         $this->form_validation->set_rules('role', 'role', 'required');
 
         if ($this->form_validation->run() == true) {
             //determine si une image est uploadee
             $upload = $_FILES['image']['size'] > 0;
 
-            $data['notification'] = $this->prepareUser($this->input->post(), 'update', $upload);
+            $data['notification'] = $this->prepareUser($this->input->post(), 'update', $upload, $id);
         }
 
         $data['content'] = [$this->load->view('backoffice/user/edit', $data, true)];
@@ -178,7 +180,7 @@ class User_admin extends CI_Controller {
         //si il n'y a pas d'image existante ou l'image à été supprimée correctement
         if (!isset($fileDelete) || $fileDelete) {
             try {
-                if ($this->user_model->deleteUser($id)) {
+                if ($this->user_model->delete(['id' => $id])) {
 
                     $msg = "Utilisateur supprimé !";
                     $status = "success";

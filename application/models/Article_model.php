@@ -16,8 +16,6 @@ class Article_model extends MY_Model {
     //sera accessible pour le parent
     protected $table = 'articles';
 
-    const TABLE = 'articles';
-
     /**
      * Recherche un article par son id ou son slug
      * @param string $option Le nom de colonne sur laquelle faire la recherche.

@@ -5,31 +5,14 @@
  *
  * @author Dylan Vansteenacker
  */
-class Localite_model extends CI_Model {
+class Localite_model extends MY_Model {
 
-    const TABLE = 'localites';
-    
+    protected $table = 'localites';
+
+
     public function __construct() {
         parent::__construct();
         $this->load->database();
-    }
-
-    /**
-     * Ajoute une localite
-     * @param int $postcode Le code postale de la localité.
-     * @param string $city La ville de la localité.
-     * @return mixed L'id de la localité insérée sinon false.
-     */
-    public function addLocalite($postcode, $city) {
-
-        //Préparation pour l'insertion dans la DB
-        $this->db->set('postcode', $postcode);
-        $this->db->set('city', $city);
-
-        $this->db->insert(self::TABLE);
-        
-        return $this->db->insert_id();
-        
     }
 
     /**
@@ -56,7 +39,7 @@ class Localite_model extends CI_Model {
 
         return $this->db->select('articles.*, users.login')
                         ->join('users', 'users.id = articles.author')
-                        ->get_where(self::TABLE, [self::TABLE . '.' . $option => $value])
+                        ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
     }
 
@@ -69,7 +52,7 @@ class Localite_model extends CI_Model {
 
         $this->db->select('localites.*');
         
-        return $this->db->get(self::TABLE, $limit)->result_object();
+        return $this->db->get($this->table, $limit)->result_object();
     }
 
 }
