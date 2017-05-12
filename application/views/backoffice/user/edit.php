@@ -33,14 +33,14 @@
     <div class="row">
         <div class="input-field col s6">
             <input id="password" name="password" type="password" >
-            <label for="password">Mot de passe</label> 
+            <label for="password">Nouveau mot de passe</label> 
         </div>
     </div>
 
     <div class="row">
         <div class="input-field col s6">
             <input id="passwordVerif" name="passwordVerif" type="password" >
-            <label for="passwordVerif">Vérification du mot de passe</label> 
+            <label for="passwordVerif">Vérification du nouveau mot de passe</label> 
         </div>
     </div>
 

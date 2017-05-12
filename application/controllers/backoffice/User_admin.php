@@ -58,10 +58,12 @@ class User_admin extends CI_Controller {
 
             $dataDb['profile_image'] = $this->upload->data('file_name');
         }
-        
+
         $dataDb['login'] = $postData['login'];
         $dataDb['email'] = $postData['email'];
-        $dataDb['password'] = password_hash($postData['password'], PASSWORD_DEFAULT);
+        if($postData['password']) {
+            $dataDb['password'] = password_hash($postData['password'], PASSWORD_DEFAULT);
+        }
         $dataDb['role_id'] = $postData['role'];
 
         if ($method == 'create') {
@@ -109,13 +111,10 @@ class User_admin extends CI_Controller {
         $this->form_validation->set_rules('role', 'role', 'required');
 
         if ($this->form_validation->run() == true) {
-            if ($_FILES['image']['size'] > 0) {
+            //determine si une image est uploadee
+            $upload = $_FILES['image']['size'] > 0;
 
-                $data['notification'] = $this->prepareUser($this->input->post(), 'create', true);
-            } else {
-
-                $data['notification'] = $this->prepareUser($this->input->post(), 'create');
-            }
+            $data['notification'] = $this->prepareUser($this->input->post(), 'create', $upload, $id);
         }
 
         $data['content'] = [$this->load->view('backoffice/user/add', $data, true)];

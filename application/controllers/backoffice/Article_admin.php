@@ -114,13 +114,10 @@ class Article_admin extends CI_Controller {
         $this->form_validation->set_rules('category', 'catégorie', 'required');
 
         if ($this->form_validation->run() == true) {
-            if ($_FILES['image']['size'] > 0) {
+            //determine si une image est uploadee
+            $upload = $_FILES['image']['size'] > 0;
 
-                $data['notification'] = $this->prepareArticle($this->input->post(), 'create', true);
-            } else {
-
-                $data['notification'] = $this->prepareArticle($this->input->post(), 'create');
-            }
+            $data['notification'] = $this->prepareArticle($this->input->post(), 'create', $upload, $id);
         }
 
         $data['content'] = [$this->load->view('backoffice/article/add', $data, true)];
