@@ -9,6 +9,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class MY_Model extends CI_Model {
 
+    public function count($field = array(), $value = null) {
+        return (int) $this->db->where($field, $value)
+                ->from($this->table)
+                ->count_all_results();
+    }
+    
     public function create($params = array()) {
         if (empty($params)) {
             return false;

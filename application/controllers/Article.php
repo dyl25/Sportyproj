@@ -17,10 +17,24 @@ class Article extends CI_Controller {
     /**
      * Affchage de tous les articles disponiblent
      */
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Articles';
-        $data['articles'] = $this->article_model->getArticles();
+        $limit = 3;
+        $data['articles'] = $this->article_model->getArticles($limit, $offset);
+
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('article/index');
+        $config['total_rows'] = $this->article_model->count();
+        $config['per_page'] = $limit;
+        
+        $this->pagination->initialize($config);
+        
+        $data['paginationLinks'] = $this->pagination->create_links();
+
         $data['content'] = [$this->load->view('article/index', $data, true)];
+
         $this->load->view('templates/layout', $data);
     }
 
@@ -57,9 +71,9 @@ class Article extends CI_Controller {
         $this->form_validation->set_rules('articleId', 'id article', 'required|numeric|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['content'] = $this->input->post('commentContent');
-            $dataDb['author_id'] = $this->input->post('userId');
-            $dataDb['article_id'] = $this->input->post('articleId');
+            $dataDb['content'] = $this->input->post('commentContent', true);
+            $dataDb['author_id'] = $this->input->post('userId', true);
+            $dataDb['article_id'] = $this->input->post('articleId', true);
 
             if ($this->comment_model->create($dataDb)) {
                 $msg = "Votre commentaire à bien été ajouté !";

@@ -49,11 +49,11 @@ class Article_model extends MY_Model {
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getArticles($limit = null) {
+    public function getArticles($limit = null, $offset = null) {
 
         $this->db->select('articles.*, users.login')
                 ->join('users', 'users.id = articles.author');
-        return $this->db->get($this->table, $limit)->result_object();
+        return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 
 }

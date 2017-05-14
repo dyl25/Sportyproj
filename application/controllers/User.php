@@ -36,9 +36,9 @@ class User extends CI_Controller {
             $data['content'] = [$this->load->view('user/signup', $data, true)];
         } else {
 
-            $login = $this->input->post('username');
-            $password = $this->input->post('password');
-            $email = $this->input->post('email');
+            $login = $this->input->post('username', true);
+            $password = $this->input->post('password', true);
+            $email = $this->input->post('email', true);
 
             $this->user_model->createUser($login, $password, $email);
 
@@ -69,8 +69,8 @@ class User extends CI_Controller {
             $this->load->view('user/login', $data);
         } else {
 
-            $email = $this->input->post('email');
-            $password = $this->input->post('password');
+            $email = $this->input->post('email', true);
+            $password = $this->input->post('password', true);
 
             if ($this->user_model->checkUser($email, $password)) {
                 $userData = $this->user_model->getUserData($email);
@@ -114,9 +114,9 @@ class User extends CI_Controller {
             $data['content'] = [$this->load->view('contact/index', $data, true)];
         } else {
 
-            $name = $this->input->post('user_name');
-            $email = $this->input->post('email');
-            $content = $this->input->post('email_content');
+            $name = $this->input->post('user_name', true);
+            $email = $this->input->post('email', true);
+            $content = $this->input->post('email_content', true);
 
             $this->load->library('email');
 
