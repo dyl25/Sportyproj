@@ -256,9 +256,9 @@ table.highlight > tbody > tr:hover {
 }
 
 .data-striped p {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 15px;
 }
 
 .data-highlight p{
@@ -266,7 +266,7 @@ table.highlight > tbody > tr:hover {
 }
 
 .data-highlight p:hover {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
 
 /* End backoffice */
@@ -316,3 +316,24 @@ body#signinPage form#signinForm .input-field .prefix.active {
     background-color:  #01579B;
 }
 /* End information */
+
+/* Maps */
+#floating-panel {
+    position: absolute;
+    top: 110px;
+    left: 30%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+div#googleMapRoute {
+    height:600px;
+    width:100%;
+}
+/*End maps */

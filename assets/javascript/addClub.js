@@ -5,10 +5,9 @@
         var $add = $('input#addPostcode, input#addLocalite');
         var $addPostcode = $('input#addPostcode');
         var $addLocalite = $('input#addLocalite');
-console.log($(this).val().length);
 
         //pour edition on verifie si une valeur existe déjà
-        if($baseLocalite.find('option:selected') && $baseLocalite.val().length !== 0) {
+        if ($baseLocalite.find('option:selected') && $baseLocalite.val().length !== 0) {
             $add.prop("disabled", true);
         }
 
@@ -21,11 +20,10 @@ console.log($(this).val().length);
         });
 
         $add.keyup(function () {
-            console.log($(this).val().length);
             if ($(this).val().length !== 0) {
                 $baseLocalite.prop("disabled", true);
                 //on vérifie que les 2 champs sont bien vides
-            }else if ($addPostcode.val().length == 0 && $addLocalite.val().length == 0) {
+            } else if ($addPostcode.val().length == 0 && $addLocalite.val().length == 0) {
                 $baseLocalite.prop("disabled", false);
             }
         });

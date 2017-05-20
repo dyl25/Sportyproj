@@ -10,13 +10,20 @@
         <script src="<?= base_url(); ?>assets/javascript/jquery.js"></script>
         <script src="<?= base_url(); ?>assets/javascript/materialize.min.js"></script>
         <script src="<?= base_url(); ?>assets/javascript/myapp.js"></script>
-        <script src="https://use.fontawesome.com/8c7af56c09.js"></script>
+        <script src="https://use.fontawesome.com/8c7af56c09.js"></script>       
         <?php
         if (isset($scripts)) {
             foreach ($scripts as $src) {
                 ?>
-                <script src="<?= $src; ?>"></script>   
+                <script src="<?= $src; ?>" ></script>   
                 <?php
+            }
+        }
+        ?>
+        <?php
+        if (isset($customSrc)) {
+            foreach ($customSrc as $src) {
+                echo $src;
             }
         }
         ?>
@@ -82,6 +89,9 @@
                                         <li><a href="<?= site_url('backoffice/training_admin/add'); ?>">Ajouter</a></li>
                                     </ul>
                                 </div>
+                            </li>
+                            <li>
+                                <a href="<?= site_url('backoffice/map_admin/add'); ?>"><i class="material-icons left">location_on</i>Itinéraires</a>
                             </li>
                         </ul>
                     </li>
