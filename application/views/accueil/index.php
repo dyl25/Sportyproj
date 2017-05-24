@@ -6,7 +6,7 @@
     <div class="container">
         <div class="section">
             <div class="row center">
-                <p class="center-align">Qui sommes nous?</p>
+                <p class="center-align title">Qui sommes nous?</p>
                 <p class="center-align">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit</p>
                 <a href="#" class="btn">En savoir plus <i class="material-icons right">info</i></a>
             </div>
@@ -227,7 +227,7 @@
     </div>
 </div>
 <section class="col m12 grey lighten-3 well-pad" id="mainContact">
-    <h2 class="center">CONTACT</h2>
+    <h2 class="center title">CONTACT</h2>
     <div class="row">
         <div class="col m5">
             <p>Contactez nous. Nous vous répondrons au plus vite.</p>

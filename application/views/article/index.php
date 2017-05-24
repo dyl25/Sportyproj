@@ -47,7 +47,7 @@
                                     <span class="left">Par : <?= $article->login; ?></span>
                                     <span class="right">Créé le <?= $article->creation_date; ?></span>
                                 </p>-->
-                                <h2 class="card-title"><a href="<?= site_url('article/view/' . $article->slug); ?>"><?= $article->title; ?></a></h2>
+                                <h2 class="card-title title"><a href="<?= site_url('article/view/' . $article->slug); ?>"><?= $article->title; ?></a></h2>
                             </div>
                             <div class="card-action">
                                 <span class="left">Par : <?= $article->login; ?></span>

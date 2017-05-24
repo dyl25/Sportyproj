@@ -48,7 +48,7 @@ class Map_admin extends CI_Controller {
 
         if ($this->form_validation->run() == true) {
             $dataDb['user_id'] = $this->session->userdata['id'];
-            $dataDb['coord'] = $this->input->post('geoJsonInput');
+            $dataDb['coord'] = $this->input->post('geoJsonInput', true);
 
             if ($this->route_model->create($dataDb)) {
                 $msg = "L'itinéraire a bien été ajouté !";

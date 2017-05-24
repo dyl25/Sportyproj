@@ -67,10 +67,10 @@ class Club_admin extends CI_Controller {
         $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['localite_id'] = $this->input->post('localites');
+            $dataDb['localite_id'] = $this->input->post('localites', true);
             if ($insertLocalite) {
-                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode');
-                $dataDbLoocalite['city'] = $this->input->post('addLocalite');
+                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
+                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
                 //verif si insertion s'est bien passee
                 $inserted = $this->localite_model->create($dataDbLoocalite);
                 //on écrase l'ancienne valeur comme on ajoute une localite
@@ -79,10 +79,10 @@ class Club_admin extends CI_Controller {
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
 
-                $dataDb['shortname'] = $this->input->post('short');
-                $dataDb['name'] = $this->input->post('clubName');
-                $dataDb['address'] = $this->input->post('address');
-                $dataDb['coord'] = $this->input->post('coord');
+                $dataDb['shortname'] = $this->input->post('short', true);
+                $dataDb['name'] = $this->input->post('clubName', true);
+                $dataDb['address'] = $this->input->post('address', true);
+                $dataDb['coord'] = $this->input->post('coord', true);
 
                 if ($this->club_model->create($dataDb)) {
                     $msg = "Le club a bien été ajouté !";
@@ -160,10 +160,10 @@ class Club_admin extends CI_Controller {
         $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['localite_id'] = $this->input->post('localites');
+            $dataDb['localite_id'] = $this->input->post('localites', true);
             if ($insertLocalite) {
-                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode');
-                $dataDbLoocalite['city'] = $this->input->post('addLocalite');
+                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
+                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
                 //verif si insertion s'est bien passee
                 $inserted = $this->localite_model->create($dataDbLoocalite);
                 //on écrase l'ancienne valeur comme on ajoute une localite
@@ -172,10 +172,10 @@ class Club_admin extends CI_Controller {
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
 
-                $dataDb['shortname'] = $this->input->post('short');
-                $dataDb['name'] = $this->input->post('clubName');
-                $dataDb['address'] = $this->input->post('address');
-                $dataDb['coord'] = $this->input->post('coord');
+                $dataDb['shortname'] = $this->input->post('short', true);
+                $dataDb['name'] = $this->input->post('clubName', true);
+                $dataDb['address'] = $this->input->post('address', true);
+                $dataDb['coord'] = $this->input->post('coord', true);
 
                 if ($this->club_model->update(['id', $id], $dataDb)) {
                     $msg = "Le club a bien été modifié !";

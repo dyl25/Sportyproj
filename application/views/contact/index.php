@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col m6"><img src="<?= base_url(); ?>assets/images/defaultProfilePic.png" alt="coach" class="circle"></div>
             <div class="col m6 white-text">
-                <h2>Le coach</h2>
+                <h2 class="title">Le coach</h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
@@ -32,7 +32,7 @@
 <div class="container-fluid info-container">
     <div class="container well-pad">
         <div class="row">
-            <h2>Horaire des entraînements</h2>
+            <h2 class="title">Horaire des entraînements</h2>
             <table class="bordered">
                 <thead>
                     <tr>
@@ -63,13 +63,14 @@
     </div>
 </div>
 <section class="col m12 grey lighten-3 well-pad" id="mainContact">
-    <h2 class="center">CONTACT</h2>
+    <h2 class="center title">CONTACT</h2>
     <div class="row">
         <div class="col m5">
             <p>Contactez nous. Nous vous répondrons au plus vite.</p>
-            <p><span class="glyphicon glyphicon-map-marker"></span> Anderlecht, Bruxelles</p>
-            <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
-            <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>
+            <p><i class="material-icons">location_on</i> 1070 Anderlecht, Bruxelles <br>
+                Drève Olympique 1</p>
+            <p><i class="material-icons">call</i> +00 1515151515</p> 
+            <p><i class="material-icons">email</i> myemail@something.com</p>
         </div>
         <div class="col m7">
             <?= validation_errors(); ?>

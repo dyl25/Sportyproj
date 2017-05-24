@@ -36,7 +36,7 @@ class User_admin extends CI_Controller {
      * @param int $id L'id de l'utilisateur pour update
      * @return string Le message et le status de l'ajout ou la modification
      */
-    private function prepareUser(array $postData, $method, $upload = false, $id = null) {
+    private function prepareUser($method, $upload = false, $id = null) {
         $dataDb['profile_image'] = null;
         if ($upload) {
             $config['upload_path'] = './assets/images/upload/';
@@ -59,12 +59,12 @@ class User_admin extends CI_Controller {
             $dataDb['profile_image'] = $this->upload->data('file_name');
         }
 
-        $dataDb['login'] = $postData['login'];
-        $dataDb['email'] = $postData['email'];
-        if($postData['password']) {
-            $dataDb['password'] = password_hash($postData['password'], PASSWORD_DEFAULT);
+        $dataDb['login'] = $this->input->post('login', true);
+        $dataDb['email'] = $this->input->post('email', true);
+        if($this->input->post('password')) {
+            $dataDb['password'] = password_hash($this->input->post('password', true), PASSWORD_DEFAULT);
         }
-        $dataDb['role_id'] = $postData['role'];
+        $dataDb['role_id'] = $this->input->post('role', true);
 
         if ($method == 'create') {
             if (!$this->user_model->create($dataDb)) {
@@ -114,7 +114,7 @@ class User_admin extends CI_Controller {
             //determine si une image est uploadee
             $upload = $_FILES['image']['size'] > 0;
 
-            $data['notification'] = $this->prepareUser($this->input->post(), 'create', $upload, $id);
+            $data['notification'] = $this->prepareUser('create', $upload);
         }
 
         $data['content'] = [$this->load->view('backoffice/user/add', $data, true)];
@@ -150,7 +150,7 @@ class User_admin extends CI_Controller {
             //determine si une image est uploadee
             $upload = $_FILES['image']['size'] > 0;
 
-            $data['notification'] = $this->prepareUser($this->input->post(), 'update', $upload, $id);
+            $data['notification'] = $this->prepareUser('update', $upload, $id);
         }
 
         $data['content'] = [$this->load->view('backoffice/user/edit', $data, true)];

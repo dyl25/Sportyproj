@@ -37,8 +37,9 @@ class Article_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
-    private function prepareArticle(array $postData, $method, $upload = false, $id = null) {
+    private function prepareArticle($method, $upload = false, $id = null) {
         $dataDb['image'] = null;
+        var_dump($upload);
         if ($upload) {
             $config['upload_path'] = './assets/images/upload/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -60,12 +61,12 @@ class Article_admin extends CI_Controller {
             $dataDb['image'] = $this->upload->data('file_name');
         }
 
-        $dataDb['title'] = $postData['title'];
-        $dataDb['content'] = $postData['content'];
-        $dataDb['category_id'] = $postData['category'];
+        $dataDb['title'] = $this->input->post('title', true);
+        $dataDb['content'] = $this->input->post('content', true);
+        $dataDb['category_id'] = $this->input->post('category', true);
         $dataDb['author'] = $this->session->userdata('id');
         $dataDb['slug'] = url_title(iconv('utf-8', 'us-ascii//TRANSLIT'
-                        , $dataDb['title']), '-', true);
+                        , $this->input->post('title', true)), '-', true);
 
         if ($method == 'create') {
             if (!$this->article_model->create($dataDb)) {
@@ -117,7 +118,7 @@ class Article_admin extends CI_Controller {
             //determine si une image est uploadee
             $upload = $_FILES['image']['size'] > 0;
 
-            $data['notification'] = $this->prepareArticle($this->input->post(), 'create', $upload, $id);
+            $data['notification'] = $this->prepareArticle('create', $upload);
         }
 
         $data['content'] = [$this->load->view('backoffice/article/add', $data, true)];
@@ -155,8 +156,10 @@ class Article_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             //determine si une image est uploadee
             $upload = $_FILES['image']['size'] > 0;
+            /*var_dump($_FILES['image']['size'] > 0);
+            die;*/
 
-            $data['notification'] = $this->prepareArticle($this->input->post(), 'update', $upload, $id);
+            $data['notification'] = $this->prepareArticle('update', $upload, $id);
         }
 
         $data['content'] = [$this->load->view('backoffice/article/edit', $data

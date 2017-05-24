@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Klavika Regular Plain";
+    src: url(../fonts/KlavikaRegularPlain.otf);
+}
+
 /* Custom Stylesheet */
 /**
  * Use this file to override Materialize files so you can update
@@ -19,6 +24,9 @@ p {
     line-height: 2rem;
 }
 
+.title {
+    font-family: "Klavika Regular Plain";
+}
 /*.button-collapse {
     color: #26a69a;
 }*/
@@ -59,6 +67,12 @@ p {
 footer.page-footer {
     margin: 0;
 }
+
+footer.page-footer p {
+    font-size: 20px;
+}
+
+
 
 /* End base */
 .well-pad, .row .well-pad {
@@ -307,13 +321,16 @@ body#signinPage form#signinForm .input-field .prefix.active {
 /* Information */
 .info-container {
     color: white;
-    font-size: 17px;
+    font-size: 20px;
 }
 .info-container:nth-child(even) {
     background-color:  #ff9800;
 }
 .info-container:nth-child(odd) {
     background-color:  #01579B;
+}
+#mainContact p {
+    font-size: 20px;
 }
 /* End information */
 
