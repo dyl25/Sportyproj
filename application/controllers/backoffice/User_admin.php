@@ -28,6 +28,40 @@ class User_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
+    private function uploadPicture() {
+        $config['upload_path'] = './assets/images/upload/';
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
+        $config['max_size'] = 1024;
+        $config['max_width'] = 1024;
+        $config['max_height'] = 768;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('image')) {
+            return false;
+        }
+
+        return $this->upload->data('file_name');
+    }
+
+    private function insertAthlete($id) {
+        $this->load->model('athlete_model');
+        $dataDbAthlete['user_id'] = $id;
+        $dataDbAthlete['club_id'] = $this->input->post('club', true);
+        $dataDbAthlete['register_num'] = $this->input->post('registerNum', true);
+        $dataDbAthlete['category_id'] = $this->input->post('category', true);
+        if (!$this->athlete_model->create($dataDbAthlete)) {
+            return [
+                'msg' => "Il y a eu un problème lors de l'insertion de l'utilisateur dans les athlètes",
+                'status' => 'error'
+            ];
+        }
+        return [
+            'msg' => "L'athlète a bien été ajouté !",
+            'status' => 'success'
+        ];
+    }
+
     /**
      * Prépare un utilisateur pour son ajout ou edition
      * @param array $postData Les champs de formulaire envoyé.
@@ -39,38 +73,36 @@ class User_admin extends CI_Controller {
     private function prepareUser($method, $upload = false, $id = null) {
         $dataDb['profile_image'] = null;
         if ($upload) {
-            $config['upload_path'] = './assets/images/upload/';
-            $config['allowed_types'] = 'gif|jpg|jpeg|png';
-            $config['max_size'] = 1024;
-            $config['max_width'] = 1024;
-            $config['max_height'] = 768;
 
-            $this->load->library('upload', $config);
+            $dataDb['profile_image'] = $this->uploadPicture();
 
-            if (!$this->upload->do_upload('image')) {
-                $msg = "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors('');
-                $status = 'error';
+            if (!$dataDb['profile_image']) {
                 return [
-                    'msg' => $msg,
-                    'status' => $status,
+                    'msg' => "Il y a eu un problème lors du téléchargement de l'image : " . $this->upload->display_errors(''),
+                    'status' => 'error'
                 ];
             }
-
-            $dataDb['profile_image'] = $this->upload->data('file_name');
         }
 
         $dataDb['login'] = $this->input->post('login', true);
         $dataDb['email'] = $this->input->post('email', true);
-        if($this->input->post('password')) {
+        if ($this->input->post('password')) {
             $dataDb['password'] = password_hash($this->input->post('password', true), PASSWORD_DEFAULT);
         }
         $dataDb['role_id'] = $this->input->post('role', true);
 
         if ($method == 'create') {
-            if (!$this->user_model->create($dataDb)) {
+            $userId = $this->user_model->createUser($dataDb);
+            if (!$userId) {
                 $msg = "Problème lors de l'ajout dans la base de donnée";
                 $status = 'error';
             } else {
+                //si le user cree est un athlete
+                if ($dataDb['role_id'] == 2) {
+
+                    return $this->insertAthlete($userId);
+                }
+
                 $msg = "L'utilisateur a bien été ajouté !";
                 $status = 'success';
             }
@@ -95,25 +127,45 @@ class User_admin extends CI_Controller {
      */
     public function add() {
 
+        //pour generer un fomr multipart pour le telechargement d'image
         $this->load->helper('form');
+
+        //chargement des differents models
         $this->load->model('role_model');
+        $this->load->model('club_model');
+        $this->load->model('categoryAthlete_model');
 
         $data['title'] = 'Ajout d\'un utilisateur';
         $data['attributes'] = [
             'class' => 'col s12'
         ];
+        $data['scripts'] = [base_url() . 'assets/javascript/addAthlete.js'];
         $data['roles'] = $this->role_model->getRoles();
+        $data['clubs'] = $this->club_model->getClubs();
+        $data['categories'] = $this->categoryAthlete_model->getCategories();
 
+        //definition des différentes regle de validation du formulaire
         $this->form_validation->set_rules('login', 'login', 'required|min_length[3]|is_unique[users.login]|trim');
         $this->form_validation->set_rules('email', 'e-mail', 'required|is_unique[users.email]|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'required');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'required|matches[password]');
         $this->form_validation->set_rules('role', 'role', 'required');
 
+        //seulement si l'id du role est athlete
+        if ($this->input->post('role') == 2) {
+            $this->form_validation->set_rules('club', 'club', 'required|is_natural');
+            /*
+             * ne doit pas etre unique car le dossard change chaque annee et 
+             * un athlete peut recevoir un dossard existant de l'annee passee 
+             */
+            $this->form_validation->set_rules('registerNum', 'numéro de dossard', 'trim|required|is_natural');
+            $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural');
+        }
+
         if ($this->form_validation->run() == true) {
+
             //determine si une image est uploadee
             $upload = $_FILES['image']['size'] > 0;
-
             $data['notification'] = $this->prepareUser('create', $upload);
         }
 

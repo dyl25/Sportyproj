@@ -39,7 +39,6 @@ class Article_admin extends CI_Controller {
 
     private function prepareArticle($method, $upload = false, $id = null) {
         $dataDb['image'] = null;
-        var_dump($upload);
         if ($upload) {
             $config['upload_path'] = './assets/images/upload/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -156,8 +155,6 @@ class Article_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             //determine si une image est uploadee
             $upload = $_FILES['image']['size'] > 0;
-            /*var_dump($_FILES['image']['size'] > 0);
-            die;*/
 
             $data['notification'] = $this->prepareArticle('update', $upload, $id);
         }

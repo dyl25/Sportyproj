@@ -3,16 +3,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Controller pour les clubs du backoffice
+ * Controller pour les resultats du backoffice
  *
  * @author Dylan Vansteenacker
  */
-class Club_admin extends CI_Controller {
+class Result_admin extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
         $this->load->model('user_model');
-        $this->load->model('club_model');
+        $this->load->model('result_model');
 
         //before filter afin de voir si l'utilisateur peut accéder au backoffice
         if (!$this->session->userdata['login']) {
@@ -69,12 +69,10 @@ class Club_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $dataDb['localite_id'] = $this->input->post('localites', true);
             if ($insertLocalite) {
-                $postcode = $this->input->post('addPostcode', true);
-                $city = $this->input->post('addLocalite', true);
-                /* verif si insertion s'est bien passee et on utilise une methode
-                 * personnalisee pour recevoir l'id de la localite inseree
-                 */
-                $inserted = $this->localite_model->addLocalite($postcode, $city);
+                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
+                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
+                //verif si insertion s'est bien passee
+                $inserted = $this->localite_model->create($dataDbLoocalite);
                 //on écrase l'ancienne valeur comme on ajoute une localite
                 $dataDb['localite_id'] = $inserted;
             }
@@ -164,12 +162,10 @@ class Club_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $dataDb['localite_id'] = $this->input->post('localites', true);
             if ($insertLocalite) {
-                $postcode = $this->input->post('addPostcode', true);
-                $city = $this->input->post('addLocalite', true);
-                /* verif si insertion s'est bien passee et on utilise une methode
-                 * personnalisee pour recevoir l'id de la localite inseree
-                 */
-                $inserted = $this->localite_model->addLocalite($postcode, $city);
+                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
+                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
+                //verif si insertion s'est bien passee
+                $inserted = $this->localite_model->create($dataDbLoocalite);
                 //on écrase l'ancienne valeur comme on ajoute une localite
                 $dataDb['localite_id'] = $inserted;
             }

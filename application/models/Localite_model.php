@@ -9,10 +9,26 @@ class Localite_model extends MY_Model {
 
     protected $table = 'localites';
 
-
     public function __construct() {
         parent::__construct();
         $this->load->database();
+    }
+
+    /**
+     * Ajoute une localite
+     * @param int $postcode Le code postale de la localité.
+     * @param string $city La ville de la localité.
+     * @return mixed L'id de la localité insérée sinon false.
+     */
+    public function addLocalite($postcode, $city) {
+
+        //Préparation pour l'insertion dans la DB
+        $this->db->set('postcode', $postcode);
+        $this->db->set('city', $city);
+
+        $this->db->insert($this->table);
+
+        return $this->db->insert_id();
     }
 
     /**
@@ -51,7 +67,7 @@ class Localite_model extends MY_Model {
     public function getLocalites($limit = null) {
 
         $this->db->select('localites.*');
-        
+
         return $this->db->get($this->table, $limit)->result_object();
     }
 

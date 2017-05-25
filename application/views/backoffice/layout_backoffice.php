@@ -126,10 +126,26 @@
                     </li>
                 </ul>
                 <a href="#" data-activates="nav-mobile" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>
-
-                <?php foreach ($content as $data): ?>
-                    <?= $data; ?>
-                <?php endforeach; ?>
+                <main>
+                    <?php if (isset($notification)) { ?>
+                        <section>
+                            <?php if ($notification['status'] == 'error') { ?>
+                                <div class="card-panel red">
+                                    <p class="white-text"><i class="material-icons">report_problem</i> <?= $notification['msg']; ?></p>
+                                </div>
+                            <?php } elseif ($notification['status'] == 'success') { ?>
+                                <div class="card-panel green">
+                                    <p class="white-text"><i class="material-icons">done</i> <?= $notification['msg']; ?></p>
+                                </div>
+                            <?php } ?>
+                        </section>
+                    <?php } ?>
+                    <section class="row">
+                        <?php foreach ($content as $data): ?>
+                            <?= $data; ?>
+                        <?php endforeach; ?>
+                    </section>
+                </main>
             </div>
         </div>   
     </body>   

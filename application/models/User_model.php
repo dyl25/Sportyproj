@@ -66,6 +66,23 @@ class User_model extends MY_Model {
     }
 
     /**
+     * Cree un utilisateur et retourne son id
+     * @param array $params Le tableau de données
+     * @return mixed L'id de l'utilisateur cree
+     */
+    public function createUser($params = array()) {
+        if (empty($params)) {
+            return false;
+        }
+
+        $this->db
+                ->set($params)
+                ->insert($this->table);
+
+        return $this->db->insert_id();
+    }
+
+    /**
      * Vérifie si un utilisateur est un administrateur.
      * @param int $id L'id de l'utilisateur.
      * @return boolean True si l'utilisateur est un admin sinon false.

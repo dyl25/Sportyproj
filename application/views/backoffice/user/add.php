@@ -1,16 +1,6 @@
 <section class="row">
     <h2>Ajout d'un utilisateur</h2>
-    <?php if (isset($notification)) { ?>
-        <?php if ($notification['status'] == 'error') { ?>
-            <div class="card-panel red">
-                <p class="white-text"><i class="material-icons">report_problem</i> <?= $notification['msg']; ?></p>
-            </div>
-        <?php } elseif ($notification['status'] == 'success') { ?>
-            <div class="card-panel green">
-                <p class="white-text"><i class="material-icons">done</i> <?= $notification['msg']; ?></p>
-            </div>
-        <?php } ?>
-    <?php } ?>
+
     <?= validation_errors(); ?>
 
     <?= form_open_multipart('backoffice/user_admin/add', $attributes) ?>
@@ -39,7 +29,7 @@
 
     <div class="row">
         <div class="input-field col s6">
-            <input id="passwordVerif" name="passwordVerif" type="password" class="validate" required="">
+            <input id="passwordVerif" name="passwordVerif" type="password" required="">
             <label for="passwordVerif">Vérification du mot de passe</label> 
         </div>
     </div>
@@ -53,6 +43,35 @@
                 <?php } ?>
             </select>
             <label>Rôle de l'utilisateur</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <select name="club" class="browser-default">
+                <option value="" disabled>Club de l'athlète</option>
+                <?php foreach ($clubs as $club) { ?>
+                    <option value="<?= $club->id; ?>"><?= $club->name; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="registerNum" name="registerNum" type="number">
+            <label for="registerNum">Numéro de dossard</label> 
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="input-field col s6">
+            <select name="category" class="browser-default">
+                <option value="" disabled>Catégorie de l'athlète</option>
+                <?php foreach ($categories as $category) { ?>
+                    <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                <?php } ?>
+            </select>
         </div>
     </div>
 

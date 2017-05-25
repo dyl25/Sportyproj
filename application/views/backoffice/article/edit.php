@@ -1,16 +1,6 @@
 <section class="row">
     <h2>Editer un article</h2>
-    <?php if (isset($notification)) { ?>
-        <?php if ($notification['status'] == 'error') { ?>
-            <div class="card-panel red">
-                <p class="white-text"><i class="material-icons">report_problem</i> <?= $notification['msg']; ?></p>
-            </div>
-        <?php } elseif ($notification['status'] == 'success') { ?>
-            <div class="card-panel green">
-                <p class="white-text"><i class="material-icons">done</i> <?= $notification['msg']; ?></p>
-            </div>
-        <?php } ?>
-    <?php } ?>
+
     <?= validation_errors(); ?>
 
     <?= form_open_multipart('backoffice/article_admin/edit/' . $article->id, $attributes) ?>
