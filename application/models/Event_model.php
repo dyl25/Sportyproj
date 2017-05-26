@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Model result, contient les méthodes d'accès et de manipulations
+ * Model club, contient les méthodes d'accès et de manipulations
  *
  * @author Dylan Vansteenacker
  */
-class Result_model extends MY_Model {
+class Event_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
         $this->load->database();
     }
 
-    protected $table = 'results';
+    protected $table = 'events';
 
     /**
      * Recherche un club par son id
@@ -36,14 +36,15 @@ class Result_model extends MY_Model {
     }
 
     /**
-     * Récupère tous les resultats.
+     * Récupère tous les clubs.
      * @param mixed $limit Une limite de resultats
-     * @return array Un tableau contenant tous les resultats.
+     * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getResults($limit = null) {
+    public function getEvents($limit = null) {
 
-        $this->db->select('results.*');
+        $this->db->select('events.*, localites.postcode, localites.city')
+                ->join('localites', 'localites.id = events.localite_id');
 
         return $this->db->get($this->table, $limit)->result_object();
     }

@@ -101,7 +101,7 @@ class User_model extends MY_Model {
     }
 
     /**
-     * Récupère l'id d'un utilisateur grâce à son login.
+     * Récupère l'id et le login d'un utilisateur grâce à son login.
      * @param string $email L'email de l'utilisateur.
      * @return int L'id de l'utilisateur
      */

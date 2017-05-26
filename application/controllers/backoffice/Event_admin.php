@@ -3,16 +3,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Controller pour les resultats du backoffice
+ * Controller pour les clubs du backoffice
  *
  * @author Dylan Vansteenacker
  */
-class Result_admin extends CI_Controller {
+class Event_admin extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
         $this->load->model('user_model');
-        $this->load->model('result_model');
+        $this->load->model('event_model');
 
         //before filter afin de voir si l'utilisateur peut accéder au backoffice
         if (!$this->session->userdata['login']) {
@@ -26,24 +26,24 @@ class Result_admin extends CI_Controller {
 
     /**
      * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des resultats
+     * de gestions des articles
      */
     public function index() {
-        $data['title'] = 'Gestion des résultats';
-        $data['results'] = $this->result_model->getResults();
-        $data['content'] = [$this->load->view('backoffice/result/index', $data, true)];
+        $data['title'] = 'Gestion des événements';
+        $data['events'] = $this->event_model->getEvents();
+        $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
 
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
     /**
-     * Ajout d'un resultat pour backoffice.
+     * Ajout d'un club pour backoffice.
      */
     public function add() {
 
         $this->load->model('localite_model');
 
-        $data['title'] = 'Ajout d\'un club';
+        $data['title'] = 'Ajout d\'un événement';
         $data['attributes'] = [
             'class' => 'col s12'
         ];
@@ -52,8 +52,8 @@ class Result_admin extends CI_Controller {
         ];
         $data['localites'] = $this->localite_model->getLocalites();
 
-        $this->form_validation->set_rules('clubName', 'nom du club', 'trim|required|is_unique[clubs.name]');
-        $this->form_validation->set_rules('short', 'initiales', 'trim|required');
+        $this->form_validation->set_rules('eventName', 'nom de l\'événement', 'trim|required|is_unique[clubs.name]');
+        $this->form_validation->set_rules('eventDescription', 'description de l\'événement', 'trim|required');
         $this->form_validation->set_rules('address', 'adresse', 'trim|required');
         //verification si l'utilisateur choisi une localite existante ou si il la rajoute
         if ($this->input->post('localites')) {
@@ -69,17 +69,19 @@ class Result_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $dataDb['localite_id'] = $this->input->post('localites', true);
             if ($insertLocalite) {
-                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
-                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
-                //verif si insertion s'est bien passee
-                $inserted = $this->localite_model->create($dataDbLoocalite);
+                $postcode = $this->input->post('addPostcode', true);
+                $city = $this->input->post('addLocalite', true);
+                /* verif si insertion s'est bien passee et on utilise une methode
+                 * personnalisee pour recevoir l'id de la localite inseree
+                 */
+                $inserted = $this->localite_model->addLocalite($postcode, $city);
                 //on écrase l'ancienne valeur comme on ajoute une localite
                 $dataDb['localite_id'] = $inserted;
             }
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
 
-                $dataDb['shortname'] = $this->input->post('short', true);
+                $dataDb['name'] = $this->input->post('short', true);
                 $dataDb['name'] = $this->input->post('clubName', true);
                 $dataDb['address'] = $this->input->post('address', true);
                 $dataDb['coord'] = $this->input->post('coord', true);
@@ -162,10 +164,12 @@ class Result_admin extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $dataDb['localite_id'] = $this->input->post('localites', true);
             if ($insertLocalite) {
-                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
-                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
-                //verif si insertion s'est bien passee
-                $inserted = $this->localite_model->create($dataDbLoocalite);
+                $postcode = $this->input->post('addPostcode', true);
+                $city = $this->input->post('addLocalite', true);
+                /* verif si insertion s'est bien passee et on utilise une methode
+                 * personnalisee pour recevoir l'id de la localite inseree
+                 */
+                $inserted = $this->localite_model->addLocalite($postcode, $city);
                 //on écrase l'ancienne valeur comme on ajoute une localite
                 $dataDb['localite_id'] = $inserted;
             }
