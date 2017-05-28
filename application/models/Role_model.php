@@ -11,7 +11,7 @@ class Role_model extends CI_Model {
         $this->load->database();
     }
 
-    const TABLE = 'roles';
+    protected $table = 'roles';
 
     /**
      * Récupère tous les roles
@@ -19,7 +19,15 @@ class Role_model extends CI_Model {
      * @return type
      */
     public function getRoles($limit = null) {
-        return $this->db->get(self::TABLE, $limit)->result_object();
+        return $this->db->get($this->table, $limit)->result_object();
+    }
+
+    public function getId($name) {
+        return $this->db->limit(1)
+                        ->select('roles.id')
+                        ->get_where($this->table, [$this->table . '.name' => $name])
+                        ->row()
+                        ->id;
     }
 
 }

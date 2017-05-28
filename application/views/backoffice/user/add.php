@@ -39,7 +39,7 @@
             <select name="role" required="required">
                 <option value="" disabled>Rôle de l'utilisateur</option>
                 <?php foreach ($roles as $role) { ?>
-                    <option value="<?= $role->id; ?>"><?= $role->name; ?></option>
+                    <option value="<?= $role->name; ?>"><?= $role->name; ?></option>
                 <?php } ?>
             </select>
             <label>Rôle de l'utilisateur</label>

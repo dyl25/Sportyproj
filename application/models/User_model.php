@@ -99,6 +99,25 @@ class User_model extends MY_Model {
         $role = $this->db->get('roles')->result_object()[0]->name;
         return $role == 'admin';
     }
+    
+    /**
+     * Determine si un utilisateur a le role demandé.
+     * @param type $userId L'id de l'utilisateur.
+     * @param type $roleName Le nom du role.
+     * @return bool Un booleen selon que l'utilisateur possede le role ou non.
+     */
+    public function isRole($userId, $roleName) {
+        $this->db->select('role_id')
+                ->where('id', $userId);
+
+        $role_id = $this->db->get($this->table)->result_object()[0]->role_id;
+
+        $this->db->select('name')
+                ->where('roles.id', $role_id);
+
+        $role = $this->db->get('roles')->result_object()[0]->name;
+        return $role == $roleName;
+    }
 
     /**
      * Récupère l'id et le login d'un utilisateur grâce à son login.

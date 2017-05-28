@@ -26,14 +26,7 @@ class MY_Form_validation extends CI_Form_validation {
     public function is_unique_update($str, $field) {
 
         list($table, $field, $field_key, $current_key) = explode(".", $field);
-        /* var_dump($str);
-          var_dump($table);
-          var_dump($field);
-          var_dump($field_key);
-          var_dump($current_key);
-          var_dump($this->CI->db->limit(1)->where('id !=', $current_key)->get_where($table, array($field => $str)));
-          var_dump($this->CI->db->last_query());
-          die; */
+
         if (isset($this->CI->db)) {
             if ($this->CI->db->limit(1)->get_where($table, array($field => $str, $field_key => $current_key))->num_rows() === 0 
                     && $this->CI->db->limit(1)->where('id !=', $current_key)->get_where($table, array($field => $str))->num_rows() === 1) {

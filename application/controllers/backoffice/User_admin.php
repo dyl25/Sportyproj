@@ -89,7 +89,9 @@ class User_admin extends CI_Controller {
         if ($this->input->post('password')) {
             $dataDb['password'] = password_hash($this->input->post('password', true), PASSWORD_DEFAULT);
         }
-        $dataDb['role_id'] = $this->input->post('role', true);
+        //recuperation de l'id du role
+        $roleName = $this->input->post('role', true);
+        $dataDb['role_id'] = $this->role_model->getId($roleName);
 
         if ($method == 'create') {
             $userId = $this->user_model->createUser($dataDb);
@@ -98,7 +100,7 @@ class User_admin extends CI_Controller {
                 $status = 'error';
             } else {
                 //si le user cree est un athlete
-                if ($dataDb['role_id'] == 2) {
+                if ($roleName == 'athlete') {
 
                     return $this->insertAthlete($userId);
                 }
@@ -107,11 +109,31 @@ class User_admin extends CI_Controller {
                 $status = 'success';
             }
         } elseif ($method == 'update') {
+            //es ce que le user est bien un athlete
+            $athleteRemoved = false;
+            if ($this->user_model->isRole($id, 'athlete')) {
+                //si on baisse ses privilèges il faut l'enlever des athlètes
+                if ($roleName == 'user') {
+                    if ($this->athlete_model->delete(['user_id' => $id])) {
+                        //pas besoin d'update l'athlete comme il a été supprimé
+                        $athleteRemoved = true;
+                    } else {
+                        return [
+                            'msg' => 'Problème lors de la suppression de l\'athlète',
+                            'status' => 'error',
+                        ];
+                    }
+                }
+            }
             $where = ['id' => $id];
             if (!$this->user_model->update($where, $dataDb)) {
                 $msg = "Problème lors de la modification dans la base de donnée";
                 $status = 'error';
             } else {
+                //si l'athlète n'a pas été supprimé avant
+                if (!$athleteRemoved) {
+                    return prepareAthlete($id, 'update');
+                }
                 $msg = "L'utilisateur a bien été modifié !";
                 $status = 'success';
             }
@@ -152,7 +174,7 @@ class User_admin extends CI_Controller {
         $this->form_validation->set_rules('role', 'role', 'required');
 
         //seulement si l'id du role est athlete
-        if ($this->input->post('role') == 2) {
+        if ($this->input->post('role') == 'athlete') {
             $this->form_validation->set_rules('club', 'club', 'required|is_natural');
             /*
              * ne doit pas etre unique car le dossard change chaque annee et 
@@ -177,26 +199,52 @@ class User_admin extends CI_Controller {
         
     }
 
+    /**
+     * Edition d'un utilisateur.
+     * @param type $id
+     */
     public function edit($id) {
+        $this->load->model('athlete_model');
         try {
             $data['user'] = $this->user_model->getBy('id', $id);
+            $data['athlete'] = $this->athlete_model->getBy('user_id', $id);
         } catch (DomainException $e) {
             show_404();
         }
+        var_dump($data['user']);
+        var_dump($data['athlete']);
         $this->load->helper('form');
         $this->load->model('role_model');
+        $this->load->model('club_model');
+        $this->load->model('categoryAthlete_model');
 
         $data['title'] = 'Edition d\'un utilisateur';
+        $data['scripts'] = [base_url() . 'assets/javascript/addAthlete.js'];
         $data['attributes'] = [
             'class' => 'col s12'
         ];
         $data['roles'] = $this->role_model->getRoles();
+        $data['clubs'] = $this->club_model->getClubs();
+        $data['categories'] = $this->categoryAthlete_model->getCategories();
 
         $this->form_validation->set_rules('login', 'login', 'required|min_length[3]|trim');
         $this->form_validation->set_rules('email', 'e-mail', 'required|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'trim|min_length[3]');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'matches[password]|trim');
         $this->form_validation->set_rules('role', 'role', 'required');
+        //if (!$this->user_model->isRole($id, 'athlete')) {
+        if ($this->input->post('role') == 'athlete') {
+            $this->form_validation->set_rules('club', 'club', 'required|is_natural');
+            /*
+             * ne doit pas etre unique car le dossard change chaque annee et 
+             * un athlete peut recevoir un dossard existant de l'annee passee 
+             */
+            $this->form_validation->set_rules('registerNum', 'numéro de dossard', 'trim|required|is_natural');
+            $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural');
+        }
+        /* } else {
+          $this->form_validation->set_rules('deleteAthlete', 'suppression de l\'athlete', '');
+          } */
 
         if ($this->form_validation->run() == true) {
             //determine si une image est uploadee

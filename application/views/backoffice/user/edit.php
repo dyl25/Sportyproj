@@ -37,12 +37,46 @@
     <div class="row">
         <div class="input-field col s6">
             <select name="role" required="required">
-            <option value="" disabled>Rôle de l'utilisateur</option>
-            <?php foreach ($roles as $role) { ?>
-                <option value="<?= $role->id; ?>" <?php if($role->id == $user->role_id){ echo "selected=selected";}  ?> ><?= $role->name; ?></option>
-            <?php } ?>
-        </select>
+                <option value="" disabled>Rôle de l'utilisateur</option>
+                <?php foreach ($roles as $role) { ?>
+                    <option value="<?= $role->name; ?>" <?php
+                    if ($role->name == $user->name) {
+                        echo "selected=selected";
+                    }
+                    ?> ><?= $role->name; ?></option>
+
+                <?php } ?>
+            </select>
             <label>Rôle de l'utilisateur</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <select name="club" class="browser-default">
+                <option value="" disabled>Club de l'athlète</option>
+                <?php foreach ($clubs as $club) { ?>
+                    <option value="<?= $club->id; ?>"><?= $club->name; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="registerNum" name="registerNum" type="number">
+            <label for="registerNum">Numéro de dossard</label> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <select name="category" class="browser-default">
+                <option value="" disabled>Catégorie de l'athlète</option>
+                <?php foreach ($categories as $category) { ?>
+                    <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                <?php } ?>
+            </select>
         </div>
     </div>
 

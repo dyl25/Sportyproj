@@ -23,14 +23,15 @@ class Athlete_model extends MY_Model {
      */
     public function getBy($option, $value) {
 
-        $allowedOptions = ['id'];
+        $allowedOptions = ['id', 'user_id'];
 
         if (!in_array($option, $allowedOptions)) {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        return $this->db->select('clubs.*, localites.postcode, localites.city')
-                        ->join('localites', 'localites.id = clubs.localite_id')
+        return $this->db->select('athletes.*, clubs.name, category_athlete.name')
+                        ->join('clubs', 'clubs.id = athletes.club_id')
+                        ->join('category_athlete', 'category_athlete.id = athletes.category_id')
                         ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
     }
@@ -43,8 +44,7 @@ class Athlete_model extends MY_Model {
      */
     public function getAthletes($limit = null) {
 
-        $this->db->select('athletes.*, localites.postcode, localites.city')
-                ->join('localites', 'localites.id = clubs.localite_id');
+        $this->db->select('athletes.*');
 
         return $this->db->get($this->table, $limit)->result_object();
     }
