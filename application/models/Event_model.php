@@ -29,8 +29,8 @@ class Event_model extends MY_Model {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        return $this->db->select('clubs.*, localites.postcode, localites.city')
-                        ->join('localites', 'localites.id = clubs.localite_id')
+        return $this->db->select('events.*, localites.postcode, localites.city')
+                        ->join('localites', 'localites.id = events.localite_id')
                         ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
     }
@@ -43,8 +43,9 @@ class Event_model extends MY_Model {
      */
     public function getEvents($limit = null) {
 
-        $this->db->select('events.*, localites.postcode, localites.city')
-                ->join('localites', 'localites.id = events.localite_id');
+        $this->db->select('events.*, localites.postcode, localites.city, category.name')
+                ->join('localites', 'localites.id = events.localite_id')
+                ->join('category', 'category.id = events.category_id');;
 
         return $this->db->get($this->table, $limit)->result_object();
     }

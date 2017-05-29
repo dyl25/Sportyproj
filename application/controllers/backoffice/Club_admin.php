@@ -181,7 +181,7 @@ class Club_admin extends CI_Controller {
                 $dataDb['address'] = $this->input->post('address', true);
                 $dataDb['coord'] = $this->input->post('coord', true);
 
-                if ($this->club_model->update(['id', $id], $dataDb)) {
+                if ($this->club_model->update(['id' => $id], $dataDb)) {
                     $msg = "Le club a bien été modifié !";
                     $status = 'success';
                 } else {
