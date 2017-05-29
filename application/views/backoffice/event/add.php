@@ -15,6 +15,21 @@
         <!-- Text input-->
         <div class="input-field">
             <textarea class="materialize-textarea" id="eventDescription" name="eventDescription" required="required"></textarea>
+            <label for="eventDescription">Description de l'événement</label>
+        </div>
+
+        <div class="input-field">
+            <select name="category" required="required">
+                <option value="" disabled selected>Choisir la catégorie</option>
+                <?php foreach ($categories as $category) { ?>
+                    <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                <?php } ?>
+            </select>
+            <label>Catégorie de l'événement/label>
+        </div>
+
+        <div class="input-field">
+            <input id="eventDate" name="eventDate" type="date" class="datepicker" required="required" placeholder="Date de l'événement">          
         </div>
 
         <!-- Text input-->
@@ -31,7 +46,8 @@
                 <?php } ?>
             </select>
         </div>
-        <div class="row">
+        
+        <div class="row"> 
             <div class="input-field col s6">
                 <input id="addPostcode" name="addPostcode" type="number" min="0" class="validate" required="required">
                 <label for="addPostcode" data-error="Le code postale doit être un entier supérieur ou égale à 0 et ne pas avoir déjà été ajouté">Code postale</label> 

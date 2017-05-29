@@ -24,6 +24,29 @@ class Event_admin extends CI_Controller {
         }
     }
 
+    public function check_date($date) {
+        $dateTable = explode("/", $date);
+
+        if (sizeof($dateTable) != 3) {
+            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format j/m/aaaa');
+            return false;
+        }
+
+        list($day, $month, $year) = explode("/", $date);
+
+        if (!is_numeric($day) || !is_numeric($month) || !is_numeric($year)) {
+            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format j/m/aaaa');
+            return false;
+        }
+
+        if (checkdate($month, $day, $year)) {
+            return true;
+        } else {
+            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format j/m/aaaa');
+            return false;
+        }
+    }
+
     /**
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des articles
@@ -42,19 +65,24 @@ class Event_admin extends CI_Controller {
     public function add() {
 
         $this->load->model('localite_model');
+        $this->load->model('category_model');
 
         $data['title'] = 'Ajout d\'un événement';
         $data['attributes'] = [
             'class' => 'col s12'
         ];
         $data['scripts'] = [
-            base_url() . 'assets/javascript/addClub.js'
+            base_url() . 'assets/javascript/addClub.js',
+            base_url() . 'assets/javascript/event.js'
         ];
         $data['localites'] = $this->localite_model->getLocalites();
+        $data['categories'] = $this->category_model->getCategories();
 
         $this->form_validation->set_rules('eventName', 'nom de l\'événement', 'trim|required|is_unique[clubs.name]');
         $this->form_validation->set_rules('eventDescription', 'description de l\'événement', 'trim|required');
         $this->form_validation->set_rules('address', 'adresse', 'trim|required');
+        $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural');
+        $this->form_validation->set_rules('eventDate', 'date de l\'événement', 'required|callback_check_date');
         //verification si l'utilisateur choisi une localite existante ou si il la rajoute
         if ($this->input->post('localites')) {
             $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
@@ -67,6 +95,8 @@ class Event_admin extends CI_Controller {
         $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
+            var_dump($this->input->post('eventDate'));
+            die;
             $dataDb['localite_id'] = $this->input->post('localites', true);
             if ($insertLocalite) {
                 $postcode = $this->input->post('addPostcode', true);
@@ -104,7 +134,7 @@ class Event_admin extends CI_Controller {
             ];
         }
 
-        $data['content'] = [$this->load->view('backoffice/club/add', $data, true)];
+        $data['content'] = [$this->load->view('backoffice/event/add', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 

@@ -25,8 +25,8 @@
         <header>
             <div class="navbar-fixed">
                 <nav class="light-blue darken-4">
-                    <div class="nav-wrapper container">
-                        <a id="logo-container" href="#" class="brand-logo"><img src="<?= base_url(); ?>assets/images/logo_2_resize.png"></a>
+                    <div class="nav-wrapper">
+                        <a href="#" class="brand-logo center"><img src="<?= base_url(); ?>assets/images/logo_2_resize.png"></a>
                         <ul class="right hide-on-med-and-down">
                             <li>
                                 <a href="<?= site_url('accueil'); ?>">Accueil</a>

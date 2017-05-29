@@ -44,17 +44,26 @@ class User_admin extends CI_Controller {
         return $this->upload->data('file_name');
     }
 
-    private function insertAthlete($id) {
+    private function prepareAthlete($id, $method = 'create') {
         $this->load->model('athlete_model');
         $dataDbAthlete['user_id'] = $id;
         $dataDbAthlete['club_id'] = $this->input->post('club', true);
         $dataDbAthlete['register_num'] = $this->input->post('registerNum', true);
         $dataDbAthlete['category_id'] = $this->input->post('category', true);
-        if (!$this->athlete_model->create($dataDbAthlete)) {
-            return [
-                'msg' => "Il y a eu un problème lors de l'insertion de l'utilisateur dans les athlètes",
-                'status' => 'error'
-            ];
+        if ($method == 'create') {
+            if (!$this->athlete_model->create($dataDbAthlete)) {
+                return [
+                    'msg' => "Il y a eu un problème lors de l'insertion de l'utilisateur dans les athlètes",
+                    'status' => 'error'
+                ];
+            }
+        } elseif ($method == 'update') {
+            if (!$this->athlete_model->update($dataDbAthlete)) {
+                return [
+                    'msg' => "Il y a eu un problème lors de la modification de l'athlète",
+                    'status' => 'error'
+                ];
+            }
         }
         return [
             'msg' => "L'athlète a bien été ajouté !",
@@ -102,7 +111,7 @@ class User_admin extends CI_Controller {
                 //si le user cree est un athlete
                 if ($roleName == 'athlete') {
 
-                    return $this->insertAthlete($userId);
+                    return $this->prepareAthlete($userId);
                 }
 
                 $msg = "L'utilisateur a bien été ajouté !";
@@ -132,7 +141,7 @@ class User_admin extends CI_Controller {
             } else {
                 //si l'athlète n'a pas été supprimé avant
                 if (!$athleteRemoved) {
-                    return prepareAthlete($id, 'update');
+                    return $this->prepareAthlete($id, 'update');
                 }
                 $msg = "L'utilisateur a bien été modifié !";
                 $status = 'success';

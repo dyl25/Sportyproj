@@ -113,7 +113,7 @@ fieldset legend {
     border-bottom: 1px solid #e5e5e5;
 }
 /* Accueil */
-div#who p{
+section#who p{
     color: white;
 }
 
@@ -125,7 +125,7 @@ div#who p{
 }
 
 #mainContent {
-    height: 459px;
+    /*height: 459px;*/
     /*overflow: scroll;*/
 }
 

@@ -56,8 +56,12 @@
             <select name="club" class="browser-default">
                 <option value="" disabled>Club de l'athlète</option>
                 <?php foreach ($clubs as $club) { ?>
-                    <option value="<?= $club->id; ?>"><?= $club->name; ?></option>
-                <?php } ?>
+                    <option value="<?= $club->id; ?>" <?php
+                    if ($role->name == $user->name) {
+                        echo "selected=selected";
+                    }
+                    ?>><?= $club->name; ?></option>
+                        <?php } ?>
             </select>
         </div>
     </div>
