@@ -60,7 +60,7 @@
                             <h3 class="center-align"><?= $article->title; ?></h3>
                         </div>
                     </article>
-               </div>
+                </div>
             <?php } ?>
         </div>
     </div> 
@@ -260,3 +260,14 @@
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=myMap"></script>
+<!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Bienvenue visiteur !</h4>
+      <p>Ce site utilise des cookies dans le but d'assurer votre sécurité et d'améliorer l'expérience utilisateur. <br>
+      En poursuivant la navigation sur le site vous acceptez l'utilisation de ces cookies/</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>

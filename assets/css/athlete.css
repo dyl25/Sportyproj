@@ -1,0 +1,97 @@
+/* Dashboard */
+.sideBack {
+    position: fixed;
+    padding: 0;
+    height: 100%;
+}
+
+.sideBack ul a {
+    color: white;
+}
+
+.sideBack,.sideBack .collapsible-header ,.sideBack .collapsible-body, .sideBack .collapsible-body {
+    background-color: #01579b;
+}
+
+.sideBack .collapsible, .sideBack .collapsible-header, .sideBack .collapsible-body {
+    border: inherit;
+}
+
+.sideBack ul a:hover,
+.side-nav ul a:hover {
+    background-color: rgb(51, 69, 86);
+    border-bottom: 1px solid rgb(26, 187, 156);
+}
+
+.sideBack ul a:not(.collapsible-header) {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+}
+
+.sideBack .collapsible .collapsible-body a,
+.side-nav .collapsible .collapsible-body a {
+    text-align: center;
+}
+
+.card-stat {
+    box-sizing: inherit;
+    height: 150px;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+}
+
+.card-stat p {
+    margin: 0px 0px 10px;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color: #e0e0e0;
+}
+.panel-analytic {
+    border-top: 4px solid #01579b;
+}
+.analytic-table {
+    border-top: 1px solid black;
+}
+.data-striped p:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.data-striped p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 15px;
+}
+
+.data-highlight p{
+    transition: background-color .25s ease;
+}
+
+.data-highlight p:hover {
+    background-color: #f2f2f2;
+}
+
+/* End backoffice */
+
+/* Maps */
+#floating-panel {
+    position: absolute;
+    top: 110px;
+    left: 30%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+div#googleMapRoute {
+    height:600px;
+    width:100%;
+}
+/*End maps */

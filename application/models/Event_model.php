@@ -15,7 +15,7 @@ class Event_model extends MY_Model {
     protected $table = 'events';
 
     /**
-     * Recherche un club par son id
+     * Recherche un evenement par son id
      * @param string $option Le nom de colonne sur laquelle faire la recherche.
      * @param mixed $value La valeur à recherchée.
      * @throws DomainException si $option ne fait pas partie de $allowedOption
@@ -23,7 +23,7 @@ class Event_model extends MY_Model {
      */
     public function getBy($option, $value) {
 
-        $allowedOptions = ['id'];
+        $allowedOptions = ['id', 'category'];
 
         if (!in_array($option, $allowedOptions)) {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
@@ -43,7 +43,7 @@ class Event_model extends MY_Model {
      */
     public function getEvents($limit = null) {
 
-        $this->db->select('events.*, localites.postcode, localites.city, category.name')
+        $this->db->select('events.*, localites.postcode, localites.city, category.name AS categoryName')
                 ->join('localites', 'localites.id = events.localite_id')
                 ->join('category', 'category.id = events.category_id');;
 

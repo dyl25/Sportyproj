@@ -66,7 +66,6 @@ class Event_admin extends CI_Controller {
         $data['title'] = 'Gestion des événements';
         $data['events'] = $this->event_model->getEvents();
         $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
-        var_dump($data['events']);
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 

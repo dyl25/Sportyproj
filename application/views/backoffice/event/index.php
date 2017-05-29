@@ -8,6 +8,7 @@
                     <th>Id</th>
                     <th>Nom du l'événement</th>
                     <th>Catégorie</th>
+                    <th>Date</th>
                     <th>Adresse</th>
                     <th>Code postal</th>
                     <th>Localité</th>
@@ -20,7 +21,8 @@
                     <tr>
                         <td><?= $event->id; ?></td>
                         <td><a href="<?= site_url('backoffice/event_admin/view/') . $event->id; ?>"><?= $event->name; ?></a></td>
-                        <td><?= $event->name ?></td>
+                        <td><?= $event->categoryName; ?></td>
+                        <td><?= $event->date; ?></td>
                         <td><?= $event->address; ?></td>
                         <td><?= $event->postcode; ?></td>
                         <td><?= $event->city; ?></td>
