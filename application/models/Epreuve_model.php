@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Model club, contient les méthodes d'accès et de manipulations
+ * Model epreuve, contient les méthodes d'accès et de manipulations
  *
  * @author Dylan Vansteenacker
  */
-class Event_model extends MY_Model {
+class Epreuve_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
         $this->load->database();
     }
 
-    protected $table = 'events';
+    protected $table = 'epreuves';
 
     /**
      * Recherche un evenement par son id
@@ -41,11 +41,9 @@ class Event_model extends MY_Model {
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getEvents($limit = null) {
+    public function getEpreuves($limit = null) {
 
-        $this->db->select('events.*, localites.postcode, localites.city, category.name AS categoryName')
-                ->join('localites', 'localites.id = events.localite_id')
-                ->join('category', 'category.id = events.category_id');;
+        $this->db->select('epreuves.*');
 
         return $this->db->get($this->table, $limit)->result_object();
     }

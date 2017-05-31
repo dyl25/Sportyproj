@@ -7,7 +7,6 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("googleMapRoute"), mapProp);
     var marker = new google.maps.Marker({position: myCenter});
 
-    //map.data.setControls(['LineString']);
     map.data.setStyle({
         strokeColor: '#f44336',
         strokeOpacity: 1,

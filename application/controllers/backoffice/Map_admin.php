@@ -29,9 +29,9 @@ class Map_admin extends CI_Controller {
      * de gestions des articles
      */
     public function index() {
-        $data['title'] = 'Gestion des clubs';
-        $data['clubs'] = $this->club_model->getClubs();
-        $data['content'] = [$this->load->view('backoffice/club/index', $data, true)];
+        $data['title'] = 'Gestion des itinéraires';
+        $data['routes'] = $this->route_model->getRoutes();
+        $data['content'] = [$this->load->view('backoffice/map/index', $data, true)];
 
         $this->load->view('backoffice/layout_backoffice', $data);
     }
@@ -45,10 +45,12 @@ class Map_admin extends CI_Controller {
         $data['customSrc'] = ['<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>'];
 
         $this->form_validation->set_rules('geoJsonInput', 'champ geoJson', 'trim|required');
+        $this->form_validation->set_rules('routeName', 'nom de l\'itinéraire', 'trim|required');
 
         if ($this->form_validation->run() == true) {
             $dataDb['user_id'] = $this->session->userdata['id'];
             $dataDb['coord'] = $this->input->post('geoJsonInput', true);
+            $dataDb['name'] = $this->input->post('routeName', true);
 
             if ($this->route_model->create($dataDb)) {
                 $msg = "L'itinéraire a bien été ajouté !";
@@ -57,6 +59,11 @@ class Map_admin extends CI_Controller {
                 $msg = "Un problème s'est passé lors de l'ajout dans la base du données du club.";
                 $status = 'error';
             }
+            $this->session->set_flashdata('notification', [
+                'msg' => $msg,
+                'status' => $status,
+            ]);
+            redirect('backoffice/route', 'location', 301);
         }
 
         $data['content'] = [$this->load->view('backoffice/map/add', $data, true)];
@@ -81,6 +88,49 @@ class Map_admin extends CI_Controller {
         $data['customSrc'] = ["<script>var userGeoJsonData = " . $geoJson . ";</script>",
             '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>'];
         $data['content'] = [$this->load->view('backoffice/map/view', $data, true)];
+        $this->load->view('backoffice/layout_backoffice', $data);
+    }
+
+    /**
+     * Modification d'un itineraire pour backoffice.
+     */
+    public function edit($id = null) {
+
+        try {
+            $data['route'] = $this->route_model->getBy('id', $id);
+        } catch (DomainException $e) {
+            show_404();
+        }
+
+        $data['title'] = 'Modification d\'un itinéraire';
+        $data['scripts'] = [base_url() . 'assets/javascript/map/mapManagerEdit.js'];
+        $geoJson = $data['route']->coord;
+        $data['customSrc'] = ['<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>',"<script>var userGeoJsonData = " . $geoJson . ";</script>",
+            ];
+
+        $this->form_validation->set_rules('geoJsonInput', 'champ geoJson', 'trim|required');
+        $this->form_validation->set_rules('routeName', 'nom de l\'itinéraire', 'trim|required');
+
+        if ($this->form_validation->run() == true) {
+            $dataDb['user_id'] = $this->session->userdata['id'];
+            $dataDb['coord'] = $this->input->post('geoJsonInput', true);
+            $dataDb['name'] = $this->input->post('routeName', true);
+
+            if ($this->route_model->update(['id' => $id], $dataDb)) {
+                $msg = "L'itinéraire a bien été modifié !";
+                $status = 'success';
+            } else {
+                $msg = "Un problème s'est passé lors de la modification dans la base du données de l'itinéraire.";
+                $status = 'error';
+            }
+            $this->session->set_flashdata('notification', [
+                'msg' => $msg,
+                'status' => $status,
+            ]);
+            redirect('backoffice/map_admin', 'location', 301);
+        }
+
+        $data['content'] = [$this->load->view('backoffice/map/edit', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 

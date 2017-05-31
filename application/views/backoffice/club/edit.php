@@ -3,7 +3,7 @@
 
     <?= validation_errors(); ?>
 
-    <?= form_open('backoffice/club_admin/edit/'.$club->id, $attributes) ?>
+    <?= form_open('backoffice/club_admin/edit/' . $club->id, $attributes) ?>
     <fieldset>
 
         <!-- Text input-->
@@ -28,8 +28,10 @@
             <select name="localites" required="required" id="localites" class="browser-default">
                 <option value="">Choisir la localite</option>
                 <?php foreach ($localites as $localite) { ?>
-                    <option value="<?= $localite->id; ?>" <?php if($localite->id == $club->localite_id){ echo "selected=selected";}  ?> ><?= $localite->postcode . ' ' . $localite->city; ?></option>
-                <?php } ?>
+                    <option value="<?= $localite->id; ?>" <?php if ($localite->id == $club->localite_id) {
+                    echo "selected=selected";
+                } ?> ><?= $localite->postcode . ' ' . $localite->city; ?></option>
+<?php } ?>
             </select>
         </div>
         <div class="row">

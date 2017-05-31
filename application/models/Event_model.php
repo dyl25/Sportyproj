@@ -29,8 +29,9 @@ class Event_model extends MY_Model {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        return $this->db->select('events.*, localites.postcode, localites.city')
+        return $this->db->select('events.*, localites.postcode, localites.city, category.name AS categoryName')
                         ->join('localites', 'localites.id = events.localite_id')
+                        ->join('category', 'category.id = events.category_id')
                         ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
     }
@@ -38,6 +39,7 @@ class Event_model extends MY_Model {
     /**
      * Récupère tous les clubs.
      * @param mixed $limit Une limite de resultats
+     * @param array $where Un tableau de condition pour la recuperation
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
@@ -45,9 +47,23 @@ class Event_model extends MY_Model {
 
         $this->db->select('events.*, localites.postcode, localites.city, category.name AS categoryName')
                 ->join('localites', 'localites.id = events.localite_id')
-                ->join('category', 'category.id = events.category_id');;
+                ->join('category', 'category.id = events.category_id');
 
         return $this->db->get($this->table, $limit)->result_object();
+    }
+
+    public function getByType($category) {
+        $allowedOptions = ['réunion', 'compétition'];
+
+        if (!in_array($category, $allowedOptions)) {
+            throw new DomainException("L'option ne se trouve pas dans celles autorisées");
+        }
+
+        return $this->db->select('events.id, events.name')
+                        ->join('category', 'category.id = events.category_id')
+                        ->where('category.name', $category)
+                        ->get($this->table)
+                        ->result_object();
     }
 
 }

@@ -29,8 +29,12 @@ class Result_model extends MY_Model {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        return $this->db->select('clubs.*, localites.postcode, localites.city')
-                        ->join('localites', 'localites.id = clubs.localite_id')
+        return $this->db->select('results.*, epreuves.name as epreuve, epreuves.type,'
+                                . 'users.login as athlete, events.name as event')
+                        ->join('epreuves', 'epreuves.id = results.epreuve_id')
+                        ->join('athletes', 'athletes.id = results.athlete_id')
+                        ->join('users', 'users.id = athletes.user_id')
+                        ->join('events', 'events.id = results.event_id')
                         ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
     }
@@ -43,7 +47,12 @@ class Result_model extends MY_Model {
      */
     public function getResults($limit = null) {
 
-        $this->db->select('results.*');
+        $this->db->select('results.*, epreuves.name as epreuve, epreuves.type,'
+                        . 'users.login as athlete, events.name as event')
+                ->join('epreuves', 'epreuves.id = results.epreuve_id')
+                ->join('athletes', 'athletes.id = results.athlete_id')
+                ->join('users', 'users.id = athletes.user_id')
+                ->join('events', 'events.id = results.event_id');
 
         return $this->db->get($this->table, $limit)->result_object();
     }

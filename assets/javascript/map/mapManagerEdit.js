@@ -17,8 +17,9 @@ function initMap() {
     });
     marker.setMap(map);
     geoJsonInput = document.getElementById('geoJsonInput');
-
-    bindDataLayerListeners(map.data);
+bindDataLayerListeners(map.data);
+    map.data.addGeoJson(userGeoJsonData);
+    
 }
 
 // applique les listeners sur les events pour mettre le geoJson à jour
@@ -34,6 +35,5 @@ function savePolygon() {
         geoJsonInput.value = JSON.stringify(geoJson);
     });
 }
+
 initMap();
-
-

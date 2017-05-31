@@ -1,73 +1,48 @@
 <section class="row">
-    <h2>Modifier un événement</h2>
+    <h2>Modifier un résultat</h2>
 
     <?= validation_errors(); ?>
 
-    <?= form_open('backoffice/event_admin/edit/' . $event->id, $attributes) ?>
+    <?= form_open('backoffice/result_admin/edit/' . $result->id, $attributes) ?>
     <fieldset>
 
         <div class="input-field">
-            <input id="eventName" name="eventName" type="text" class="validate" required="required" value="<?= $event->name; ?>">
-            <label for="clubName">Nom de l'événement</label> 
+            <select name="event" required="required">
+                <option value="" disabled selected>Choisir l'événement associé</option>
+                <?php foreach ($events as $event) { ?>
+                    <option value="<?= $event->id; ?>" <?php if($event->id == $result->event_id){ echo "selected=selected";}  ?>><?= $event->name; ?></option>
+                <?php } ?>
+            </select>
+            <label>Evénement associé</label>
+        </div>
+
+        <div class="input-field">
+            <select name="epreuve" required="required">
+                <option value="" disabled selected>Choisir l'epreuve</option>
+                <?php foreach ($epreuves as $epreuve) { ?>
+                    <option value="<?= $epreuve->id; ?>" <?php if($epreuve->id == $result->epreuve_id){ echo "selected=selected";} ?>><?= $epreuve->name; ?></option>
+                <?php } ?>
+            </select>
+            <label>Epreuve</label>
         </div>
 
         <!-- Text input-->
         <div class="input-field">
-            <textarea class="materialize-textarea" id="eventDescription" name="eventDescription" required="required" ><?= $event->description; ?></textarea>
-            <label for="eventDescription">Description de l'événement</label>
+            <input id="result" name="result" type="number" class="validate" required="required" value="<?= $result->result ?>" min="0" step="0.01">
+            <label for="result">Résultat</label> 
         </div>
 
         <div class="input-field">
-            <select name="category" required="required">
-                <option value="" disabled>Choisir la catégorie</option>
-                <?php foreach ($categories as $category) { ?>
-                    <option value="<?= $category->id; ?>" <?php if ($category->id == $event->category_id) {
-                    echo "selected=selected";
-                } ?> ><?= $category->name; ?></option>
-<?php } ?>
+            <select name="athlete" required="required">
+                <option value="" disabled selected>Choisir l'athlète</option>
+                <?php foreach ($athletes as $athlete) { ?>
+                    <option value="<?= $athlete->id; ?>" <?php if($athlete->id == $result->athlete_id){ echo "selected=selected";} ?>><?= $athlete->athleteName; ?></option>
+                <?php } ?>
             </select>
-            <label>Catégorie de l'événement</label>
+            <label>Athlètet associé</label>
         </div>
 
-        <div class="input-field">
-            <input id="eventDate" name="eventDate" type="date" class="datepicker" required="required" placeholder="Date de l'événement" value="<?= $event->date; ?>">          
-        </div>
-
-        <!-- Text input-->
-        <div class="input-field">
-            <input id="address" name="address" type="text" value="<?= $event->address; ?>" class="validate" required="required">
-            <label for="short">Adresse</label> 
-        </div>
-
-        <div class="input-field">
-            <select name="localites" required="required" id="localites" class="browser-default">
-                <option value="">Choisir la localite</option>
-                <?php foreach ($localites as $localite) { ?>
-                    <option value="<?= $localite->id; ?>" <?php
-                    if ($localite->id == $event->localite_id) {
-                        echo "selected=selected";
-                    }
-                    ?> ><?= $localite->postcode . ' ' . $localite->city; ?></option>
-<?php } ?>
-            </select>
-        </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <input id="addPostcode" name="addPostcode" type="number" min="0" class="validate" required="required">
-                <label for="addPostcode" data-error="Le code postale doit être un entier supérieur ou égale à 0 et ne pas avoir déjà été ajouté">Code postale</label> 
-            </div>
-            <div class="input-field col s6">
-                <input id="addLocalite" name="addLocalite" type="text" class="validate" required="required">
-                <label for="addLocalite" data-error="La localité ne doit pas avoir déjà été ajoutée">Localite</label> 
-            </div>
-        </div>
-
-        <div class="input-field">
-            <input id="coord" name="coord" type="text" value="<?= $event->coord; ?>">
-            <label for="coord">Coordonnée Google Maps</label> 
-        </div>
-
-        <button name="btSendEditEvenement" class="btn waves-effect" type="submit">Modifier l'événement</button>
+        <button name="btSendResult" class="btn waves-effect" type="submit" >Ajouter le résultat</button>
 
     </fieldset>
 </form>

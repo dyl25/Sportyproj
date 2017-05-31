@@ -37,14 +37,15 @@ class Athlete_model extends MY_Model {
     }
 
     /**
-     * Récupère tous les clubs.
+     * Récupère tous les athletes.
      * @param mixed $limit Une limite de resultats
-     * @return array Un tableau contenant tous les articles.
+     * @return array Un tableau contenant tous les athletes.
      * @author Dylan Vansteenacker
      */
     public function getAthletes($limit = null) {
 
-        $this->db->select('athletes.*');
+        $this->db->select('athletes.*, users.login as athleteName')
+                ->join('users', 'users.id = athletes.user_id');
 
         return $this->db->get($this->table, $limit)->result_object();
     }

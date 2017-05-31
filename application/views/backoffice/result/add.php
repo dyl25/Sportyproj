@@ -28,30 +28,21 @@
 
         <!-- Text input-->
         <div class="input-field">
-            <input id="result" name="result" type="number" class="validate" required="required" value="<?= set_value('result'); ?>">
+            <input id="result" name="result" type="number" class="validate" required="required" value="<?= set_value('result'); ?>" min="0" step="0.01">
             <label for="result">Résultat</label> 
-        </div>
-
-        <div class="input-field">
-            <select name="localites" required="required" id="localites" class="browser-default">
-                <option value="">Choisir la localite</option>
-                <?php foreach ($localites as $localite) { ?>
-                    <option value="<?= $localite->id; ?>" <?= set_select('localites', $localite->id); ?>><?= $localite->postcode . ' ' . $localite->city; ?></option>
-                <?php } ?>
-            </select>
         </div>
 
         <div class="input-field">
             <select name="athlete" required="required">
                 <option value="" disabled selected>Choisir l'athlète</option>
                 <?php foreach ($athletes as $athlete) { ?>
-                    <option value="<?= $athlete->id; ?>" <?= set_select('athlete', $athlete->id); ?>><?= $athlete->name; ?></option>
+                    <option value="<?= $athlete->id; ?>" <?= set_select('athlete', $athlete->id); ?>><?= $athlete->athleteName; ?></option>
                 <?php } ?>
             </select>
             <label>Athlètet associé</label>
         </div>
 
-        <button name="btSendEvent" class="btn waves-effect" type="submit" >Ajouter le résultat</button>
+        <button name="btSendResult" class="btn waves-effect" type="submit" >Ajouter le résultat</button>
 
     </fieldset>
 </form>

@@ -25,6 +25,33 @@ class Result_admin extends CI_Controller {
     }
 
     /**
+     * Determine le type de résultat
+     * @param string $type Le type d'epreuve
+     * @return string Le type de resultat
+     */
+    private function getResultType($type) {
+        switch ($type) {
+            case 'course':
+                $resultType = 'time';
+                break;
+            case 'marche':
+                $resultType = 'time';
+                break;
+            case 'saut':
+                $resultType = 'dist';
+                break;
+            case 'lancer':
+                $resultType = 'dist';
+                break;
+            case 'épreuves combinées':
+                $resultType = 'points';
+                break;
+        }
+
+        return $resultType;
+    }
+
+    /**
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des resultats
      */
@@ -41,68 +68,53 @@ class Result_admin extends CI_Controller {
      */
     public function add() {
 
-        $this->load->model('localite_model');
+        $this->load->model('event_model');
+        $this->load->model('athlete_model');
+        $this->load->model('epreuve_model');
 
-        $data['title'] = 'Ajout d\'un club';
+        $data['title'] = 'Ajout d\'un résultat';
         $data['attributes'] = [
             'class' => 'col s12'
         ];
-        $data['scripts'] = [
-            base_url() . 'assets/javascript/addClub.js'
-        ];
-        $data['localites'] = $this->localite_model->getLocalites();
 
-        $this->form_validation->set_rules('clubName', 'nom du club', 'trim|required|is_unique[clubs.name]');
-        $this->form_validation->set_rules('short', 'initiales', 'trim|required');
-        $this->form_validation->set_rules('address', 'adresse', 'trim|required');
-        //verification si l'utilisateur choisi une localite existante ou si il la rajoute
-        if ($this->input->post('localites')) {
-            $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
-            $insertLocalite = false;
-        } else {
-            $this->form_validation->set_rules('addPostcode', 'code postale', 'trim|required|is_natural|is_unique[localites.postcode]');
-            $this->form_validation->set_rules('addLocalite', 'localité', 'trim|required|is_unique[localites.city]');
-            $insertLocalite = true;
+        try {
+            $data['events'] = $this->event_model->getByType('compétition');
+        } catch (DomainException $e) {
+            $msg = $e->getMessage();
+            $status = 'error';
+            $data['notification'] = [
+                'msg' => $msg,
+                'status' => $status,
+            ];
         }
-        $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
+        $data['athletes'] = $this->athlete_model->getAthletes();
+        $data['epreuves'] = $this->epreuve_model->getEpreuves();
+
+        $this->form_validation->set_rules('event', 'événement associé', 'required|is_natural_no_zero');
+        $this->form_validation->set_rules('epreuve', 'epreuve', 'required|is_natural_no_zero');
+        $this->form_validation->set_rules('result', 'adresse', 'trim|required|greater_than_equal_to[0]');
+        $this->form_validation->set_rules('athlete', 'athlète', 'required|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['localite_id'] = $this->input->post('localites', true);
-            if ($insertLocalite) {
-                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
-                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
-                //verif si insertion s'est bien passee
-                $inserted = $this->localite_model->create($dataDbLoocalite);
-                //on écrase l'ancienne valeur comme on ajoute une localite
-                $dataDb['localite_id'] = $inserted;
-            }
+            $dataDb['epreuve_id'] = $this->input->post('epreuve', true);
+            $dataDb['event_id'] = $this->input->post('event', true);
+            $dataDb['athlete_id'] = $this->input->post('athlete', true);
+            $dataDb['result'] = $this->input->post('result', true);
 
-            if (!$insertLocalite || ($insertLocalite && $inserted)) {
-
-                $dataDb['shortname'] = $this->input->post('short', true);
-                $dataDb['name'] = $this->input->post('clubName', true);
-                $dataDb['address'] = $this->input->post('address', true);
-                $dataDb['coord'] = $this->input->post('coord', true);
-
-                if ($this->club_model->create($dataDb)) {
-                    $msg = "Le club a bien été ajouté !";
-                    $status = 'success';
-                } else {
-                    $msg = "Un problème s'est passé lors de l'ajout dans la base du données du club.";
-                    $status = 'error';
-                }
-            } else {
-                $msg = "Un problème s'est passé lors de l'ajout du club.";
+            if (!$this->result_model->create($dataDb)) {
+                $msg = "Problème lors de l'ajout dans la base de donnée";
                 $status = 'error';
+            } else {
+                $msg = "Le resultat a bien été ajouté !";
+                $status = 'success';
             }
-
             $data['notification'] = [
                 'msg' => $msg,
                 'status' => $status,
             ];
         }
 
-        $data['content'] = [$this->load->view('backoffice/club/add', $data, true)];
+        $data['content'] = [$this->load->view('backoffice/result/add', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
@@ -124,98 +136,83 @@ class Result_admin extends CI_Controller {
     }
 
     /**
-     * Modification d'un club
+     * Modification d'un resultats
      * @param type $id
      */
     public function edit($id = null) {
+
         try {
-            $data['club'] = $this->club_model->getBy('id', $id);
+            $data['result'] = $this->result_model->getBy('id', $id);
         } catch (DomainException $e) {
             show_404();
         }
 
-        $data['title'] = 'Edition d\'un club';
+        $this->load->model('event_model');
+        $this->load->model('athlete_model');
+        $this->load->model('epreuve_model');
+
+        $data['title'] = 'Modification d\'un résultat';
         $data['attributes'] = [
             'class' => 'col s12'
         ];
 
-        $data['scripts'] = [
-            base_url() . 'assets/javascript/addClub.js'
-        ];
-        $this->load->model('localite_model');
-        $data['localites'] = $this->localite_model->getLocalites();
-
-        $this->form_validation->set_rules('clubName', 'nom du club', 'trim|required|is_unique_update[clubs.name.id.' . $data['club']->id . ']');
-        $this->form_validation->set_rules('short', 'initiales', 'trim|required');
-        $this->form_validation->set_rules('address', 'adresse', 'trim|required');
-        //verification si l'utilisateur choisi une localite existante ou si il la rajoute
-        if ($this->input->post('localites')) {
-            $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
-            $insertLocalite = false;
-        } else {
-            $this->form_validation->set_rules('addPostcode', 'code postale', 'trim|required|is_natural|is_unique[localites.postcode]');
-            $this->form_validation->set_rules('addLocalite', 'localité', 'trim|required|is_unique[localites.city]');
-            $insertLocalite = true;
-        }
-        $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
-
-        if ($this->form_validation->run() == true) {
-            $dataDb['localite_id'] = $this->input->post('localites', true);
-            if ($insertLocalite) {
-                $dataDbLoocalite['postcode'] = $this->input->post('addPostcode', true);
-                $dataDbLoocalite['city'] = $this->input->post('addLocalite', true);
-                //verif si insertion s'est bien passee
-                $inserted = $this->localite_model->create($dataDbLoocalite);
-                //on écrase l'ancienne valeur comme on ajoute une localite
-                $dataDb['localite_id'] = $inserted;
-            }
-
-            if (!$insertLocalite || ($insertLocalite && $inserted)) {
-
-                $dataDb['shortname'] = $this->input->post('short', true);
-                $dataDb['name'] = $this->input->post('clubName', true);
-                $dataDb['address'] = $this->input->post('address', true);
-                $dataDb['coord'] = $this->input->post('coord', true);
-
-                if ($this->club_model->update(['id' => $id], $dataDb)) {
-                    $msg = "Le club a bien été modifié !";
-                    $status = 'success';
-                } else {
-                    $msg = "Un problème s'est passé lors de la mofication dans la base du données du club.";
-                    $status = 'error';
-                }
-            } else {
-                $msg = "Un problème s'est passé lors de la modification du club.";
-                $status = 'error';
-            }
-
+        try {
+            $data['events'] = $this->event_model->getByType('compétition');
+        } catch (DomainException $e) {
+            $msg = $e->getMessage();
+            $status = 'error';
             $data['notification'] = [
                 'msg' => $msg,
                 'status' => $status,
             ];
         }
+        $data['athletes'] = $this->athlete_model->getAthletes();
+        $data['epreuves'] = $this->epreuve_model->getEpreuves();
 
-        $data['content'] = [$this->load->view('backoffice/club/edit', $data, true)];
+        $this->form_validation->set_rules('event', 'événement associé', 'required|is_natural_no_zero');
+        $this->form_validation->set_rules('epreuve', 'epreuve', 'required|is_natural_no_zero');
+        $this->form_validation->set_rules('result', 'adresse', 'trim|required|greater_than_equal_to[0]');
+        $this->form_validation->set_rules('athlete', 'athlète', 'required|is_natural_no_zero');
+
+        if ($this->form_validation->run() == true) {
+            $dataDb['epreuve_id'] = $this->input->post('epreuve', true);
+            $dataDb['event_id'] = $this->input->post('event', true);
+            $dataDb['athlete_id'] = $this->input->post('athlete', true);
+            $dataDb['result'] = $this->input->post('result', true);
+
+            if (!$this->result_model->update(['id' => $id], $dataDb)) {
+                $msg = "Problème lors de la modification dans la base de donnée";
+                $status = 'error';
+            } else {
+                $msg = "Le resultat a bien été modifié !";
+                $status = 'success';
+            }
+            $data['notification'] = [
+                'msg' => $msg,
+                'status' => $status,
+            ];
+        }
+        $data['content'] = [$this->load->view('backoffice/result/edit', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
     /**
-     * Supprime un club
+     * Supprime un resultat
      * @param int $id L'id du club.
      */
     public function delete($id) {
 
         try {
-            if ($this->club_model->delete(['id' => $id])) {
+            if ($this->result_model->delete(['id' => $id])) {
 
-                $msg = "Club supprimé !";
+                $msg = "Résultat supprimé !";
                 $status = "success";
             } else {
                 $msg = "Problème lors de la suppression dans la base de donnée";
                 $status = "error";
             }
         } catch (Exception $ex) {
-            $msg = "Problème lors de la suppression du club: " . $ex->getMessage();
+            $msg = "Problème lors de la suppression du résultat: " . $ex->getMessage();
             $status = "error";
         }
 
@@ -224,7 +221,7 @@ class Result_admin extends CI_Controller {
             'status' => $status,
         ]);
 
-        redirect('backoffice/club_admin', 'location', 301);
+        redirect('backoffice/result_admin', 'location', 301);
     }
 
 }

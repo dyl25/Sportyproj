@@ -30,9 +30,22 @@ class Route_model extends MY_Model {
         }
 
         return $this->db->select('routes.*')
-                        //->join('localites', 'localites.id = clubs.localite_id')
                         ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
+    }
+
+    /**
+     * Récupère tous les itinéraires.
+     * @param mixed $limit Une limite de resultats
+     * @return array Un tableau contenant tous les resultats.
+     * @author Dylan Vansteenacker
+     */
+    public function getRoutes($limit = null) {
+
+        $this->db->select('routes.*, users.login')
+                ->join('users', 'users.id = routes.user_id');
+
+        return $this->db->get($this->table, $limit)->result_object();
     }
 
 }
