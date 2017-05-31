@@ -24,6 +24,10 @@ p {
     line-height: 2rem;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Klavika Regular Plain";
+}
+
 .title {
     font-family: "Klavika Regular Plain";
 }
@@ -336,10 +340,11 @@ body#signinPage form#signinForm .input-field .prefix.active {
 
 /* Maps */
 #floating-panel {
-    position: absolute;
-    top: 110px;
+    /*position: absolute;*/
+    /*top: 110px;
     left: 30%;
-    z-index: 5;
+    z-index: 5;*/
+    width: 40%;
     background-color: #fff;
     padding: 5px;
     border: 1px solid #999;

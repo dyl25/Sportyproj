@@ -1,72 +1,50 @@
-<div class="container">
-    <?= $this->session->flashdata('success'); ?>
-    <?= validation_errors(); ?>
-
-    <?= form_open('user/signup', $attributes); ?>
-
-    <fieldset>
-
-        <!-- Form Name -->
-        <legend>Subscribe</legend>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="username">Username</label>  
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-                    <input id="username" name="username" type="text" placeholder="Your username" class="form-control input-md" required="required">
-                </div>
-                <span class="help-block">Enter here your username</span>  
-
+<section class="container section">
+    <div class="row">
+        <h2 class="center">S'inscrire</h2>
+        <hr>
+        <?php if (isset($notification)) { ?>
+                <?php if ($notification['status'] == 'error') { ?>
+                    <div class="card-panel red">
+                        <p class="white-text"><i class="material-icons">report_problem</i> <?= $notification['msg']; ?></p>
+                    </div>
+                <?php } elseif ($notification['status'] == 'success') { ?>
+                    <div class="card-panel green">
+                        <p class="white-text"><i class="material-icons">done</i> <?= $notification['msg']; ?></p>
+                    </div>
+                <?php } ?>
+        <?php } elseif (validation_errors()) { ?>
+            <div class="card-panel red">
+                <p class="white-text"><i class="material-icons">report_problem</i> <?= validation_errors('', ''); ?></p>
             </div>
-        </div>
+        <?php } ?>
 
-        <!-- Password input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="password">Password</label>
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                    <input id="password" name="password" type="password" placeholder="Your password" class="form-control input-md" required="required">
-                </div>
-                <span class="help-block">Enter here your password</span>
+        <?= form_open('user/signup', $attributes); ?>
+
+        <fieldset>
+
+            <div class="input-field">
+                <input id="username" name="username" type="text" class="validate" required="required">
+                <label for="username">Login</label> 
             </div>
-        </div>
 
-        <!-- Password input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="passwordVerif">Password verification</label>
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                    <input id="passwordVerif" name="passwordVerif" type="password" placeholder="Your password" class="form-control input-md" required="required">
-                </div>
-                <span class="help-block">Enter here your password for the verification</span>
+            <div class="input-field">
+                <input id="password" name="password" type="password" class="validate" required="required">
+                <label for="password">Mot de passe</label> 
             </div>
-        </div>
 
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="email">E-mail</label>  
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                    <input id="email" name="email" type="text" placeholder="Your e-mail" class="form-control input-md" required="required">
-                </div>
-                <span class="help-block">Enter here your e-mail</span>  
+            <div class="input-field">
+                <input id="passwordVerif" name="passwordVerif" type="password" class="validate" required="required">
+                <label for="passwordVerif">Confirmation du mot de passe</label> 
             </div>
-        </div>
 
-
-        <!-- Button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="btSendInscription"></label>
-            <div class="col-md-4">
-                <button id="btSendInscription" name="btSendInscription" class="btn btn-success">Subscribe</button>
+            <div class="input-field">
+                <input id="email" name="email" type="email" class="validate" required="required">
+                <label for="email">E-mail</label> 
             </div>
-        </div>
 
-    </fieldset>
-</form>
-</div>
+            <button name="btSendInscription" class="btn waves-effect" type="submit">S'inscrire</button>
+
+        </fieldset>
+        </form>
+    </div>
+</section>

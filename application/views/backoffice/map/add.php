@@ -1,7 +1,7 @@
 <section class = "row">
     <h2>Ajouter un itinéraire de jogging</h2>
 
-    <div id="floating-panel">
+    <div  class="container" id="floating-panel">
         <?= validation_errors(); ?>
 
         <?= form_open('backoffice/map_admin/add') ?>

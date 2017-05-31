@@ -20,6 +20,7 @@ class User extends CI_Controller {
      */
     public function signup() {
 
+        $this->form_validation->set_error_delimiters('');
         $this->form_validation->set_rules('username', 'Username', 'required|min_length[3]|is_unique[users.login]');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('passwordVerif', 'Password verification', 'required|matches[password]');
@@ -32,21 +33,26 @@ class User extends CI_Controller {
             'class' => 'form-horizontal'
         ];
 
-        if ($this->form_validation->run() == false) {
-            $data['content'] = [$this->load->view('user/signup', $data, true)];
-        } else {
+        if ($this->form_validation->run() == true) {
 
-            $login = $this->input->post('username', true);
-            $password = $this->input->post('password', true);
-            $email = $this->input->post('email', true);
+            $dataDb['login'] = $this->input->post('username', true);
+            $dataDb['password'] = password_hash($this->input->post('password', true), PASSWORD_DEFAULT);
+            $dataDb['email'] = $this->input->post('email', true);
 
-            $this->user_model->createUser($login, $password, $email);
+            if ($this->user_model->create($dataDb)) {
 
-            $this->session->set_flashdata('success', 'vous êtes inscrit');
-
-            $data['content'] = [$this->load->view('user/signup_success', '', true)];
+                $data['notification'] = [
+                    'msg' => 'Vous êtes bien inscrit !',
+                    'status' => 'success',
+                ];
+            } else {
+                $data['notification'] = [
+                    'msg' => 'Une erreur s\'est produite.',
+                    'status' => 'error',
+                ];
+            }
         }
-
+        $data['content'] = [$this->load->view('user/signup', $data, true)];
         $this->load->view('templates/layout', $data);
     }
 
@@ -60,7 +66,7 @@ class User extends CI_Controller {
             'id' => 'signinForm'
         ];
 
-        $this->form_validation->set_error_delimiters('<p class="alert alert-danger">', '</p>');
+        $this->form_validation->set_error_delimiters('');
 
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
@@ -75,7 +81,12 @@ class User extends CI_Controller {
             if ($this->user_model->checkUser($email, $password)) {
                 $userData = $this->user_model->getUserData($email);
                 $this->session->set_userdata($userData);
-                redirect('backoffice', 'location', 301);
+                //redirection vers l'espace associé
+                if ($this->user_model->isRole($userData['id'], 'admin')) {
+                    redirect('backoffice', 'location', 301);
+                } elseif ($this->user_model->isRole($userData['id'], 'athlete')) {
+                    redirect('athlete', 'location', 301);
+                }
             } else {
                 $this->load->view('user/login', $data);
             }

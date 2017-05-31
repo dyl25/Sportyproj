@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nom du l'événement</th>
+                    <th>Nom de l'événement</th>
                     <th>Catégorie</th>
                     <th>Date</th>
                     <th>Adresse</th>

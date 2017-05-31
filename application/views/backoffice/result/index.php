@@ -8,7 +8,7 @@
                     <th>Id</th>
                     <th>Epreuve</th>
                     <th>Athlète</th>
-                    <td>Résultat</td>
+                    <th>Résultat</th>
                     <th>Evénement</th>
                     <th>Action</th>
                 </tr>

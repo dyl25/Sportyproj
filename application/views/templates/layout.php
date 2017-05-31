@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
         <title><?= $title; ?></title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/materialize.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/style.css">
         <script src="<?= base_url(); ?>assets/javascript/jquery.js"></script>
         <script src="<?= base_url(); ?>assets/javascript/materialize.min.js"></script>
@@ -23,10 +23,11 @@
     </head>
     <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
         <header>
-            <div class="navbar-fixed">
+
+            <div class="">
                 <nav class="light-blue darken-4">
                     <div class="nav-wrapper">
-                        <a href="#" class="brand-logo center"><img src="<?= base_url(); ?>assets/images/logo_2_resize.png"></a>
+                        <a href="<?= site_url('accueil'); ?>" class="brand-logo center"><img src="<?= base_url(); ?>assets/images/logo_2_resize.png"></a>
                         <ul class="right hide-on-med-and-down">
                             <li>
                                 <a href="<?= site_url('accueil'); ?>">Accueil</a>
@@ -47,6 +48,9 @@
                                 <a href="<?= site_url('contact'); ?>">Résultats</a>
                             </li>
                             <li>
+                                <a href="<?= site_url('signup'); ?>">S'inscrire</a>
+                            </li>
+                            <li>
                                 <a href="<?= site_url('login'); ?>">Mon espace</a>
                             </li>
                             <?php if (isset($this->session->userdata['id'])) { ?>
@@ -62,12 +66,38 @@
                         </ul>
                         <!-- Nav mobile -->
                         <ul id="nav-mobile" class="side-nav">
-                            <li><a href="#">Navbar Link</a></li>
+                            <li>
+                                <a href="<?= site_url('accueil'); ?>">Accueil</a>
+                            </li>
+                            <li>
+                                <a href="#mainContact">Contact</a>
+                            </li>
+                            <li>
+                                <a href="#googleMap">La piste</a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url('contact'); ?>">Informations</a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url('article'); ?>">Articles</a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url('contact'); ?>">Résultats</a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url('signup'); ?>">S'inscrire</a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url('login'); ?>">Mon espace</a>
+                            </li>
                         </ul>
                         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
                     </div>
+
                 </nav>
+
             </div>
+
         </header>
         <main>
             <?php foreach ($content as $data): ?>

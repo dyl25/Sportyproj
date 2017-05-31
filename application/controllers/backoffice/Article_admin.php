@@ -45,6 +45,7 @@ class Article_admin extends CI_Controller {
             $config['max_size'] = 1024;
             $config['max_width'] = 1024;
             $config['max_height'] = 768;
+            $config['encrypt_name'] = TRUE;
 
             $this->load->library('upload', $config);
 

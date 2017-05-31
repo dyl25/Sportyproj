@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author admin
  */
-class Dashboard extends CI_Controller {
+class Dashboard_athlete extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -26,6 +26,15 @@ class Dashboard extends CI_Controller {
     public function index() {
 
         $data['title'] = ucfirst('Espace athlète');
+        
+        //chargement des modèles
+        $this->load->model('athlete_model');
+        $this->load->model('event_model');
+        $this->load->model('result_model');
+        
+        $data['athlete'] = $this->athlete_model->getBy('user_id', $this->session->userdata['id']);
+        $data['events'] = $this->event_model->getEvents();
+        $data['results'] = $this->result_model->getResults();
 
         //On charge la vue que l'on va injecter dans le layout 
         $data['content'] = [$this->load->view('athlete/dashboard/index', $data, true)];

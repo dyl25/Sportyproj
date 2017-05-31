@@ -29,9 +29,10 @@ class Athlete_model extends MY_Model {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        return $this->db->select('athletes.*, clubs.name, category_athlete.name')
+        return $this->db->select('athletes.*, clubs.name, category_athlete.name, users.profile_image as picture, users.login as login')
                         ->join('clubs', 'clubs.id = athletes.club_id')
                         ->join('category_athlete', 'category_athlete.id = athletes.category_id')
+                        ->join('users', 'users.id = athletes.user_id')
                         ->get_where($this->table, [$this->table . '.' . $option => $value])
                         ->row();
     }

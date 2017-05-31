@@ -43,8 +43,9 @@ class Map_admin extends CI_Controller {
         $data['title'] = 'Ajout d\'un itinéraire';
         $data['scripts'] = [base_url() . 'assets/javascript/map/mapManager.js'];
         $data['customSrc'] = ['<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>'];
-
-        $this->form_validation->set_rules('geoJsonInput', 'champ geoJson', 'trim|required');
+        
+        $this->form_validation->set_error_delimiters('');
+        $this->form_validation->set_rules('geoJsonInput', 'champ geoJson', 'trim|required', ['required' => "Veuillez dessiner un itinéraire."]);
         $this->form_validation->set_rules('routeName', 'nom de l\'itinéraire', 'trim|required');
 
         if ($this->form_validation->run() == true) {
@@ -63,7 +64,6 @@ class Map_admin extends CI_Controller {
                 'msg' => $msg,
                 'status' => $status,
             ]);
-            redirect('backoffice/route', 'location', 301);
         }
 
         $data['content'] = [$this->load->view('backoffice/map/add', $data, true)];
@@ -105,11 +105,12 @@ class Map_admin extends CI_Controller {
         $data['title'] = 'Modification d\'un itinéraire';
         $data['scripts'] = [base_url() . 'assets/javascript/map/mapManagerEdit.js'];
         $geoJson = $data['route']->coord;
-        $data['customSrc'] = ['<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>',"<script>var userGeoJsonData = " . $geoJson . ";</script>",
-            ];
+        $data['customSrc'] = ['<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>', "<script>var userGeoJsonData = " . $geoJson . ";</script>",
+        ];
 
-        $this->form_validation->set_rules('geoJsonInput', 'champ geoJson', 'trim|required');
-        $this->form_validation->set_rules('routeName', 'nom de l\'itinéraire', 'trim|required');
+        $this->form_validation->set_error_delimiters('');
+        $this->form_validation->set_rules('geoJsonInput', 'champ geoJson', 'trim|required', ['required' => "Veuillez dessiner un itinéraire."]);
+        $this->form_validation->set_rules('routeName', 'nom de l\'itinéraire', 'trim|required', ['required' => "Veuillez donner un nom à l'itinéraire"]);
 
         if ($this->form_validation->run() == true) {
             $dataDb['user_id'] = $this->session->userdata['id'];
@@ -127,7 +128,6 @@ class Map_admin extends CI_Controller {
                 'msg' => $msg,
                 'status' => $status,
             ]);
-            redirect('backoffice/map_admin', 'location', 301);
         }
 
         $data['content'] = [$this->load->view('backoffice/map/edit', $data, true)];
@@ -141,16 +141,16 @@ class Map_admin extends CI_Controller {
     public function delete($id) {
 
         try {
-            if ($this->club_model->delete(['id' => $id])) {
+            if ($this->route_model->delete(['id' => $id])) {
 
-                $msg = "Club supprimé !";
+                $msg = "Itinéraire supprimé !";
                 $status = "success";
             } else {
                 $msg = "Problème lors de la suppression dans la base de donnée";
                 $status = "error";
             }
         } catch (Exception $ex) {
-            $msg = "Problème lors de la suppression du club: " . $ex->getMessage();
+            $msg = "Problème lors de la suppression de l'itinéraire: " . $ex->getMessage();
             $status = "error";
         }
 
@@ -159,7 +159,7 @@ class Map_admin extends CI_Controller {
             'status' => $status,
         ]);
 
-        redirect('backoffice/club_admin', 'location', 301);
+        redirect('backoffice/map_admin', 'location', 301);
     }
 
 }

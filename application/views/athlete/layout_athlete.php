@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
         <title><?= $title; ?></title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/materialize.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/athlete.css">
         <script src="<?= base_url(); ?>assets/javascript/jquery.js"></script>
@@ -33,8 +33,14 @@
         <!-- Sidenav -->
         <div class="row">
             <div class="col s12 m2 hide-on-small-only sideBack no-padding">
-                <div>
-                    
+                <div class="profile-data text-center">
+                    <?php if ($athlete->picture) { ?>
+                        <img src="<?= base_url(); ?>assets/images/upload/<?= $athlete->picture; ?>" alt="Image de profile" class="circle responsive-img">
+                    <?php } else { ?>
+                        <img src="<?= base_url(); ?>assets/images/defaultProfilePic.png" alt="Image de profile" class="circle responsive-img">
+                    <?php } ?>
+                    <p class="center white-text"><?= $athlete->login; ?></p>
+                    <p class="center white-text">ROLE</p>
                 </div>
                 <ul>
                     <li><a href="<?= site_url('athlete/dashboard'); ?>"><i class="material-icons left">dashboard</i> Dashboard</a></li>
@@ -99,7 +105,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="<?= site_url('logout'); ?>" class="btn center waves"><i class="material-icons left">power_settings_new</i> Déconnexion</a></li>
+                    <li><a href="<?= site_url('logout'); ?>" class="darken-4waves"><i class="material-icons left">power_settings_new</i> Déconnexion</a></li>
                 </ul>
             </div>
             <div class="col s12 m10 offset-m2">
