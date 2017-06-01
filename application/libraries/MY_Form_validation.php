@@ -38,5 +38,44 @@ class MY_Form_validation extends CI_Form_validation {
             return false;
         }
     }
+    
+    /**
+     * Vérifie qu'une date est bien au format yyyy-m-dd.
+     * @param string $date La date à vérifier
+     * @return boolean Si la date est dans l'interval de temps ou non.
+     */
+    public function check_date($date) {
+        $dateTable = explode("-", $date);
+
+        //on vérifie que la date est bien divisé en 3
+        if (sizeof($dateTable) != 3) {
+            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
+            return false;
+        }
+
+        list($year, $month, $day) = explode("-", $date);
+
+        if (!is_numeric($day) || !is_numeric($month) || !is_numeric($year)) {
+            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
+            return false;
+        }
+        //on vérifie que la date existe bien
+        if (!checkdate($month, $day, $year)) {
+            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
+            return false;
+        }
+
+        $userDate = new DateTime($date);
+        $now = new DateTime();
+        //un event ne peut pas avoir plus qu'1 an
+        $expires = new DateTime('+1 year');
+
+        if ($userDate > $now && $userDate < $expires) {
+            return true;
+        } else {
+            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, un événement ne peut être au-delà de 1 an.');
+            return false;
+        }
+    }
 
 }

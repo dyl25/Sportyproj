@@ -24,6 +24,20 @@ class Article_admin extends CI_Controller {
         }
     }
 
+   /* private function slugify($text) {
+        $text = preg_replace('#[^\\pL\d]+#u', '-', $text);
+
+        $text = trim($text, '-');
+
+        if (function_exists('iconv')) {
+            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        }
+
+        $text = strtolower($text);
+
+        return preg_replace('#[^-\w]+#', '', $text);
+    }*/
+
     /**
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des articles
@@ -60,13 +74,14 @@ class Article_admin extends CI_Controller {
 
             $dataDb['image'] = $this->upload->data('file_name');
         }
-
+        
+        $this->load->helper('text');
+        
         $dataDb['title'] = $this->input->post('title', true);
         $dataDb['content'] = $this->input->post('content', true);
         $dataDb['category_id'] = $this->input->post('category', true);
         $dataDb['author'] = $this->session->userdata('id');
-        $dataDb['slug'] = url_title(iconv('utf-8', 'us-ascii//TRANSLIT'
-                        , $this->input->post('title', true)), '-', true);
+        $dataDb['slug'] = slugify($this->input->post('title', true));
 
         if ($method == 'create') {
             if (!$this->article_model->create($dataDb)) {
