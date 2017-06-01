@@ -86,6 +86,8 @@ class User extends CI_Controller {
                     redirect('backoffice', 'location', 301);
                 } elseif ($this->user_model->isRole($userData['id'], 'athlete')) {
                     redirect('athlete', 'location', 301);
+                } elseif ($this->user_model->isRole($userData['id'], 'user')) {
+                    redirect('accueil', 'location', 301);
                 }
             } else {
                 $this->load->view('user/login', $data);
@@ -138,6 +140,43 @@ class User extends CI_Controller {
             $this->email->send();
             $data['content'] = [$this->load->view('contact/index', $data, true)];
         }
+        $this->load->view('templates/layout', $data);
+    }
+
+    public function addRequest() {
+
+        $this->load->model('categoryAthlete_model');
+        $this->load->model('demande_model');
+
+        $data['title'] = 'Devenir un athlète';
+        $data['attributes'] = [
+            'class' => 'col s12'
+        ];
+        $data['categories'] = $this->categoryAthlete_model->getCategories();
+
+        $this->form_validation->set_rules('registerNum', 'numéro de dossard', 'trim|required|is_natural');
+        $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural_no_zero');
+
+        if ($this->form_validation->run() == true) {
+            $dataDb['user_id'] = $this->session->userdata['id'];
+            $dataDb['dossard'] = $this->input->post('registerNum', true);
+            $dataDb['category_id'] = $this->input->post('category', true);
+
+            if ($this->demande_model->create($dataDb)) {
+                $msg = "Votre demande à bien été envoyée !";
+                $status = 'success';
+            }else{
+                $msg = "Un problème s'est produit durant l'ajout de la demande !";
+                $status = 'error';
+            }
+            $data['notification'] = [
+            'msg' => $msg,
+            'status' => $status
+            ];
+        }
+
+        $data['content'] = [$this->load->view('user/addRequest', $data, true)];
+
         $this->load->view('templates/layout', $data);
     }
 

@@ -99,6 +99,9 @@
                                     </ul>
                                 </div>
                             </li>
+                            <li>
+                                <a href="<?= site_url('backoffice/demande_admin') ?>"><i class="material-icons left">location_on</i>Demandes</a>
+                            </li>
                         </ul>
                     </li>
                     <li><a href="<?= site_url('logout'); ?>" class="darken-4waves"><i class="material-icons left">power_settings_new</i> Déconnexion</a></li>

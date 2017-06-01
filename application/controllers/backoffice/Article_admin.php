@@ -112,7 +112,7 @@ class Article_admin extends CI_Controller {
 
         $this->form_validation->set_rules('title', 'Titre', 'required|trim');
         $this->form_validation->set_rules('content', 'Contenu', 'required|trim');
-        $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural');
+        $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
             //determine si une image est uploadee

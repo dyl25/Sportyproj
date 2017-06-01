@@ -47,13 +47,21 @@
                             <li>
                                 <a href="<?= site_url('contact'); ?>">Résultats</a>
                             </li>
-                            <li>
-                                <a href="<?= site_url('signup'); ?>">S'inscrire</a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url('login'); ?>">Mon espace</a>
-                            </li>
-                            <?php if (isset($this->session->userdata['id'])) { ?>
+                            <?php if (!isset($this->session->userdata['id'])) { ?>
+                                <li>
+                                    <a href="<?= site_url('signup'); ?>">S'inscrire</a>
+                                </li>
+                                <li>
+                                    <a href="<?= site_url('login'); ?>">Mon espace</a>
+                                </li>
+                            <?php } elseif ($this->session->userdata['role'] == 'user') { ?>
+                                <li>
+                                    <a href="<?= site_url('demande'); ?>">Devenir athlète</a>
+                                </li>
+                                <li>
+                                    <a href="<?= site_url('logout'); ?>"><span class="glyphicon glyphicon-off"></span> Se déconnecter</a>
+                                </li>
+                            <?php } else { ?>
                                 <li><a class="dropdown-button" href="#" data-activates="dropdown1">Welcome, <?= $this->session->userdata['login'] ?><i class="material-icons right">arrow_drop_down</i></a>
                                     <ul id="dropdown1" class="dropdown-content">
                                         <li><a href="<?= site_url('backoffice'); ?>"><span class="glyphicon glyphicon-user"></span> Mon espace</a></li>

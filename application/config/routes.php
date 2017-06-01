@@ -50,7 +50,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'accueil';
+$route['ciunit'] = "ciunit_controller/index";
+$route['ciunit/(:any)'] = "ciunit_controller/index/$1";
 $route['contact'] = 'user/contact';
+$route['demande'] = 'user/addRequest';
 $route['login'] = 'user/login';
 $route['logout'] = 'user/logout';
 $route['signup'] = 'user/signup';

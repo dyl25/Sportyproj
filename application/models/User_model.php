@@ -125,7 +125,8 @@ class User_model extends MY_Model {
      * @return int L'id de l'utilisateur
      */
     public function getUserData($email) {
-        $this->db->select('id, login')
+        $this->db->select('users.id, login, roles.name as role')
+                ->join('roles', 'roles.id = users.role_id')
                 ->where('email', $email);
 
         $query = $this->db->get($this->table)->result_array();

@@ -181,17 +181,17 @@ class User_admin extends CI_Controller {
         $this->form_validation->set_rules('email', 'e-mail', 'required|is_unique[users.email]|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'required');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'required|matches[password]');
-        $this->form_validation->set_rules('role', 'role', 'required');
+        $this->form_validation->set_rules('role', 'role', 'required|is_natural_no_zero');
 
         //seulement si l'id du role est athlete
         if ($this->input->post('role') == 'athlete') {
-            $this->form_validation->set_rules('club', 'club', 'required|is_natural');
+            $this->form_validation->set_rules('club', 'club', 'required|is_natural_no_zero');
             /*
              * ne doit pas etre unique car le dossard change chaque annee et 
              * un athlete peut recevoir un dossard existant de l'annee passee 
              */
             $this->form_validation->set_rules('registerNum', 'numéro de dossard', 'trim|required|is_natural');
-            $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural');
+            $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural_no_zero');
         }
 
         if ($this->form_validation->run() == true) {
@@ -241,20 +241,17 @@ class User_admin extends CI_Controller {
         $this->form_validation->set_rules('email', 'e-mail', 'required|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'trim|min_length[3]');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'matches[password]|trim');
-        $this->form_validation->set_rules('role', 'role', 'required');
-        //if (!$this->user_model->isRole($id, 'athlete')) {
+        $this->form_validation->set_rules('role', 'role', 'required|is_natural_no_zero');
+
         if ($this->input->post('role') == 'athlete') {
-            $this->form_validation->set_rules('club', 'club', 'required|is_natural');
+            $this->form_validation->set_rules('club', 'club', 'required|is_natural_no_zero');
             /*
              * ne doit pas etre unique car le dossard change chaque annee et 
              * un athlete peut recevoir un dossard existant de l'annee passee 
              */
             $this->form_validation->set_rules('registerNum', 'numéro de dossard', 'trim|required|is_natural');
-            $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural');
+            $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural_no_zero');
         }
-        /* } else {
-          $this->form_validation->set_rules('deleteAthlete', 'suppression de l\'athlete', '');
-          } */
 
         if ($this->form_validation->run() == true) {
             //determine si une image est uploadee

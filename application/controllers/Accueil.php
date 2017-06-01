@@ -17,10 +17,6 @@ class Accueil extends CI_Controller {
         
         $data['articles'] = $this->article_model->getArticles(6);
         
-        //$prefs['template'] = ['table_open' => '<table class="table-condensed table-bordered table-striped">'];
-
-        /*$this->load->library('calendar', $prefs);
-        $data['calendar'] = $this->calendar->generate();*/
         $data['content'] = [$this->load->view('accueil/index', $data, true)];
 
         $this->load->view('templates/layout', $data);

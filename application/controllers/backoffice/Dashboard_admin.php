@@ -18,7 +18,7 @@ class Dashboard_admin extends CI_Controller {
             redirect('login');
         }
 
-        if (!$this->user_model->isAdmin($this->session->userdata['id'])) {
+        if (!$this->user_model->isRole($this->session->userdata['id'], 'admin')) {
             redirect('accueil');
         }
     }
