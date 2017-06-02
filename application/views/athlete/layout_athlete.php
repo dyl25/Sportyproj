@@ -33,13 +33,13 @@
         <!-- Sidenav -->
         <div class="row">
             <div class="col s12 m2 hide-on-small-only sideBack no-padding">
-                <div class="profile-data text-center">
-                    <?php if ($athlete->picture) { ?>
-                        <img src="<?= base_url(); ?>assets/images/upload/<?= $athlete->picture; ?>" alt="Image de profile" class="circle responsive-img">
+                <div class="profile-data text-center section">
+                    <?php if (isset($athlete->picture)) { ?>
+                        <img src="<?= base_url(); ?>assets/images/upload/<?= $athlete->picture; ?>" alt="Image de profile" class="circle responsive-img center-block">
                     <?php } else { ?>
-                        <img src="<?= base_url(); ?>assets/images/defaultProfilePic.png" alt="Image de profile" class="circle responsive-img">
+                        <img src="<?= base_url(); ?>assets/images/defaultProfilePic.png" alt="Image de profile" class="circle responsive-img center-block">
                     <?php } ?>
-                    <p class="center white-text"><?= $athlete->login; ?></p>
+                    <p class="center white-text"><?php if(isset($athlete->login)){$athlete->login; }?></p>
                     <p class="center white-text">ROLE</p>
                 </div>
                 <ul>

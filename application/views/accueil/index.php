@@ -8,7 +8,7 @@
             <div class="row center">
                 <p class="center-align title">Qui sommes nous?</p>
                 <p class="center-align">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit</p>
-                <a href="#" class="btn">En savoir plus <i class="material-icons right">info</i></a>
+                <a href="<?= site_url('contact') ?>" class="btn">En savoir plus <i class="material-icons right">info</i></a>
             </div>
 
         </div>

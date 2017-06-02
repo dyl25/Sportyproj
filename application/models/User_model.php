@@ -153,5 +153,9 @@ class User_model extends MY_Model {
                         ->order_by('users.id', 'ASC')
                         ->get($this->table, $limit)->result_object();
     }
+    
+    public function increaseToRole($userId, $roleName) {
+        
+    }
 
 }

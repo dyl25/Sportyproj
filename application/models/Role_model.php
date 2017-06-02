@@ -22,6 +22,11 @@ class Role_model extends CI_Model {
         return $this->db->get($this->table, $limit)->result_object();
     }
 
+    /**
+     * Donne l'id du role spécifié par son nom.
+     * @param string $name Le nom du role.
+     * @return int L'id du role
+     */
     public function getId($name) {
         return $this->db->limit(1)
                         ->select('roles.id')

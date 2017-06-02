@@ -100,7 +100,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="<?= site_url('backoffice/demande_admin') ?>"><i class="material-icons left">location_on</i>Demandes</a>
+                                <a href="<?= site_url('backoffice/demande_admin') ?>"><i class="material-icons left">offline_pin</i>Demandes</a>
                             </li>
                         </ul>
                     </li>
