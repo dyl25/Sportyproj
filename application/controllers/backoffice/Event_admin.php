@@ -58,7 +58,7 @@ class Event_admin extends CI_Controller {
         $this->form_validation->set_rules('eventName', 'nom de l\'événement', 'trim|required|is_unique[clubs.name]');
         $this->form_validation->set_rules('eventDescription', 'description de l\'événement', 'trim|required');
         $this->form_validation->set_rules('address', 'adresse', 'trim|required');
-        $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural');
+        $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural_no_zero');
         $this->form_validation->set_rules('eventDate', 'date de l\'événement', 'required|check_date');
         //verification si l'utilisateur choisi une localite existante ou si il la rajoute
         if ($this->input->post('localites')) {

@@ -1,17 +1,6 @@
 <div class="well">
     <h2>Liste des utilisateurs</h2>
     <a href="<?= site_url('backoffice/user_admin/add'); ?>" class="btn btn-primary">Ajouter un utilisateur</a>
-    <?php if ($this->session->flashdata('notification')) { ?>
-        <?php if ($this->session->flashdata('notification')['status'] == 'error') { ?>
-            <div class="card-panel red">
-                <p class="white-text"><i class="material-icons">report_problem</i> <?= $this->session->flashdata('notification')['msg']; ?></p>
-            </div>
-        <?php } elseif ($this->session->flashdata('notification')['status'] == 'success') { ?>
-            <div class="card-panel green">
-                <p class="white-text"><i class="material-icons">done</i> <?= $this->session->flashdata('notification')['msg']; ?></p>
-            </div>
-        <?php } ?>
-    <?php } ?>
     <table class="table table-striped">
         <thead>
             <tr>

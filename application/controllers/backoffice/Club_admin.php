@@ -57,7 +57,7 @@ class Club_admin extends CI_Controller {
         $this->form_validation->set_rules('address', 'adresse', 'trim|required');
         //verification si l'utilisateur choisi une localite existante ou si il la rajoute
         if ($this->input->post('localites')) {
-            $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
+            $this->form_validation->set_rules('localites', 'choix de la localité', 'required|is_natural_no_zero');
             $insertLocalite = false;
         } else {
             $this->form_validation->set_rules('addPostcode', 'code postale', 'trim|required|is_natural|is_unique[localites.postcode]');
@@ -152,7 +152,7 @@ class Club_admin extends CI_Controller {
         $this->form_validation->set_rules('address', 'adresse', 'trim|required');
         //verification si l'utilisateur choisi une localite existante ou si il la rajoute
         if ($this->input->post('localites')) {
-            $this->form_validation->set_rules('localites', 'choix de la localité', 'required');
+            $this->form_validation->set_rules('localites', 'choix de la localité', 'required|is_natural_no_zero');
             $insertLocalite = false;
         } else {
             $this->form_validation->set_rules('addPostcode', 'code postale', 'trim|required|is_natural|is_unique[localites.postcode]');

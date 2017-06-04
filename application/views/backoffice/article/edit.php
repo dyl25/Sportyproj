@@ -13,14 +13,18 @@
         </div>
     </div>
 
-    <div class="input-field">
-        <select name="category" required="required">
-            <option value="" disabled>Choisir la catégorie</option>
-            <?php foreach ($categories as $category) { ?>
-                <option value="<?= html_escape($category->id); ?>" <?php if($category->id == $article->category_id){ echo "selected=selected";}  ?> ><?= html_escape($category->name); ?></option>
-            <?php } ?>
-        </select>
-        <label>Catégorie de l'article</label>
+    <div class="row">
+        <div class="input-field">
+            <select name="category" required="required">
+                <option value="" disabled>Choisir la catégorie</option>
+                <?php foreach ($categories as $category) { ?>
+                    <option value="<?= html_escape($category->id); ?>" <?php if ($category->id == $article->category_id) {
+                    echo "selected=selected";
+                } ?> ><?= html_escape($category->name); ?></option>
+<?php } ?>
+            </select>
+            <label>Catégorie de l'article</label>
+        </div>
     </div>
 
     <!-- Textarea -->

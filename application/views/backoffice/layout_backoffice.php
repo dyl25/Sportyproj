@@ -83,15 +83,6 @@
                                 </div>
                             </li>
                             <li>
-                                <a class="collapsible-header"><i class="material-icons left">contacts</i> Entrainements <i class="material-icons right">arrow_drop_down</i></a>
-                                <div class="collapsible-body no-padding">
-                                    <ul>
-                                        <li><a href="<?= site_url('backoffice/training_admin'); ?>">Gérer</a></li>
-                                        <li><a href="<?= site_url('backoffice/training_admin/add'); ?>">Ajouter</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
                                 <a class="collapsible-header"><i class="material-icons left">location_on</i>Itinéraires <i class="material-icons right">arrow_drop_down</i></a>
                                 <div class="collapsible-body no-padding">
                                     <ul>
@@ -105,6 +96,7 @@
                             </li>
                         </ul>
                     </li>
+                    <li><a href="<?= site_url('accueil'); ?>" class="darken-4waves"><i class="material-icons left">store</i> Accueil du site</a></li>
                     <li><a href="<?= site_url('logout'); ?>" class="darken-4waves"><i class="material-icons left">power_settings_new</i> Déconnexion</a></li>
                 </ul>
             </div>
@@ -134,6 +126,7 @@
                     </ul>
                 </li>
             </ul>
+
             <a href="#" data-activates="nav-mobile" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>
             <div class="col s12 m10 offset-m2">
                 <main>

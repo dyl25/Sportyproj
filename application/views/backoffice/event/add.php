@@ -23,7 +23,7 @@
                     <option value="<?= html_escape($category->id); ?>" <?= html_escape(set_select('category', $category->id)); ?>><?= html_escape($category->name); ?></option>
                 <?php } ?>
             </select>
-            <label>Catégorie de l'événement/label>
+            <label>Catégorie de l'événement</label>
         </div>
 
         <div class="input-field">
