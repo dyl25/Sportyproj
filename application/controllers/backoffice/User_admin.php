@@ -24,6 +24,7 @@ class User_admin extends CI_Controller {
     public function index() {
         $data['title'] = 'Gestion des utilisateurs';
         $data['users'] = $this->user_model->getUsers();
+
         $data['content'] = [$this->load->view('backoffice/user/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }

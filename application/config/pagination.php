@@ -1,9 +1,5 @@
 <?php
 
-/*$config['base_url'] = $base_url;
-$config['total_rows'] = $total_rows;
-$config['per_page'] = $per_page;*/
-
 $config['prev_link'] = '<i class="material-icons">chevron_left</i>';
 $config['prev_tag_open'] = '<li>';
 $config['prev_tag_close'] = '</li>';

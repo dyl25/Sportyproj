@@ -77,6 +77,7 @@
                                 <div class="collapsible-body no-padding">
                                     <ul>
                                         <li><a href="<?= site_url('backoffice/event_admin'); ?>">Gérer</a></li>
+                                        <li><a href="<?= site_url('backoffice/event_admin/competitions'); ?>">Compétitions</a></li>
                                         <li><a href="<?= site_url('backoffice/event_admin/add'); ?>">Ajouter</a></li>
                                     </ul>
                                 </div>

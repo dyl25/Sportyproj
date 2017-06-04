@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of MY_Model
+ * Extension de la classe CI_Model
  *
  * @author admin
  */

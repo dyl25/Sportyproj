@@ -18,9 +18,10 @@ class Article extends CI_Controller {
      * Affchage de tous les articles disponiblent
      */
     public function index($offset = 0) {
-        $data['title'] = 'Articles';
-        $limit = 3;
-        $data['articles'] = $this->article_model->getArticles($limit, $offset);
+        $data['title'] = 'Toute l\'actualité du club';
+        $data['description'] = 'Des articles sur la vie du club.';
+        $limit = 6;
+        $data['articles'] = $this->article_model->getArticles('asc', $limit, $offset);
 
         $this->load->library('pagination');
 
@@ -28,9 +29,9 @@ class Article extends CI_Controller {
         $config['base_url'] = site_url('article/index');
         $config['total_rows'] = $this->article_model->count();
         $config['per_page'] = $limit;
-        
+
         $this->pagination->initialize($config);
-        
+
         $data['paginationLinks'] = $this->pagination->create_links();
 
         $data['content'] = [$this->load->view('article/index', $data, true)];
@@ -83,10 +84,15 @@ class Article extends CI_Controller {
                 $status = 'error';
             }
 
-            $data['notification'] = [
+            /* $data['notification'] = [
+              'msg' => $msg,
+              'status' => $status
+              ]; */
+            $this->session->set_flashdata('notification', [
                 'msg' => $msg,
-                'status' => $status
-            ];
+                'status' => $status,
+            ]);
+            redirect('article/view/' . $slug, 'location', 301);
         }
 
         $data['content'] = [$this->load->view('article/view', $data, true)];

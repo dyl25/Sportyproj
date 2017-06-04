@@ -16,34 +16,6 @@ class User_model extends MY_Model {
     protected $table = 'users';
 
     /**
-     * Vérifie si un login existe déjà.
-     * @param string $login Le login à vérifier.
-     * @return boolean True si le login existe déjà sinon false.
-     */
-    private function loginExist($login) {
-
-        $this->db->where('login', $login);
-
-        $query = $this->db->get($this->table);
-
-        return $query->num_rows() == 1;
-    }
-
-    /**
-     * Vérifie si un email existe déjà.
-     * @param string $email L'email à vérifier.
-     * @return boolean True si l'email existe déjà snino false.
-     */
-    private function emailExist($email) {
-
-        $this->db->where('email', $email);
-
-        $query = $this->db->get($this->table);
-
-        return $query->num_rows() == 1;
-    }
-
-    /**
      * Vérifie que les données correspondent bien à un utilisateur existant.
      * @param string $email L'email de l'utilisateur.
      * @param string $password Le password de l'utilisateur.
@@ -147,10 +119,10 @@ class User_model extends MY_Model {
                         ->result_object()[0];
     }
 
-    public function getUsers($limit = null) {
+    public function getUsers($sort = 'asc',$limit = null) {
         return $this->db->select('users.*, roles.name')
                         ->join('roles', 'roles.id = users.role_id')
-                        ->order_by('users.id', 'ASC')
+                        ->order_by('users.id', $sort)
                         ->get($this->table, $limit)->result_object();
     }
     

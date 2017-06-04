@@ -26,7 +26,7 @@
                         <td><?= $event->address; ?></td>
                         <td><?= $event->postcode; ?></td>
                         <td><?= $event->city; ?></td>
-                        <td><?= $event->coord; ?></td>
+                        <td><?php if($event->coord){ echo $event->coord;}else{ ?><a href="<?= site_url('backoffice/event_admin/addCoord/') . $event->id; ?>" class="waves-effect btn">Ajouter des coordonnées</a> <?php } ?></td>
                         <td>
                             <a href="<?= site_url('backoffice/event_admin/edit/') . $event->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
                             <a href="<?= site_url('backoffice/event_admin/delete/') . $event->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>

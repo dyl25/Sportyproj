@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of Comment_model
+ * Modèle des catégories
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
 class Category_model extends CI_Model {
 

@@ -19,6 +19,17 @@ class User extends CI_Controller {
      * Permet à l'utilisateur de s'inscrir
      */
     public function signup() {
+        
+        if (isset($this->session->userdata['id'])) {
+            $userData['id'] = $this->session->userdata['id'];
+            if ($this->user_model->isRole($userData['id'], 'admin')) {
+                redirect('backoffice', 'location', 301);
+            } elseif ($this->user_model->isRole($userData['id'], 'athlete')) {
+                redirect('athlete', 'location', 301);
+            } elseif ($this->user_model->isRole($userData['id'], 'user')) {
+                redirect('accueil', 'location', 301);
+            }
+        }
 
         $this->form_validation->set_error_delimiters('');
         $this->form_validation->set_rules('username', 'Username', 'required|min_length[3]|is_unique[users.login]');
@@ -26,7 +37,7 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('passwordVerif', 'Password verification', 'required|matches[password]');
         $this->form_validation->set_rules('email', 'E-mail', 'required|is_unique[users.email]');
 
-        $title = ucfirst('Sign up');
+        $title = 'S\'inscrire sur le site';
         $data['title'] = $title;
 
         $data['attributes'] = [
@@ -60,7 +71,19 @@ class User extends CI_Controller {
      * Permet à l'utilisateur de se connecter
      */
     public function login() {
-        $data['title'] = 'Se connecter';
+
+        if (isset($this->session->userdata['id'])) {
+            $userData['id'] = $this->session->userdata['id'];
+            if ($this->user_model->isRole($userData['id'], 'admin')) {
+                redirect('backoffice', 'location', 301);
+            } elseif ($this->user_model->isRole($userData['id'], 'athlete')) {
+                redirect('athlete', 'location', 301);
+            } elseif ($this->user_model->isRole($userData['id'], 'user')) {
+                redirect('accueil', 'location', 301);
+            }
+        }
+
+        $data['title'] = 'Se connecter à son espace personnel';
 
         $data['attributes'] = [
             'id' => 'signinForm'
@@ -90,6 +113,10 @@ class User extends CI_Controller {
                     redirect('accueil', 'location', 301);
                 }
             } else {
+                $data['notification'] = [
+                    'msg' => 'E-mail ou mot de passe incorrecte',
+                    'status' => 'error'
+                ];
                 $this->load->view('user/login', $data);
             }
         }
@@ -101,17 +128,19 @@ class User extends CI_Controller {
     public function logout() {
         $sessions_item = [
             'id',
-            'login'
+            'login',
+            'role'
         ];
 
         $this->session->unset_userdata($sessions_item);
 
-        redirect('accueil');
+        redirect('accueil', 'location', 301);
     }
 
     public function contact() {
 
-        $data['title'] = 'Contact';
+        $data['title'] = 'Toutes les informations nécessaires sur le club';
+        $data['description'] = 'Informez vous sur le club.';
         $data['attributes'] = [
             'class' => 'form-horizontal'
         ];
@@ -165,13 +194,13 @@ class User extends CI_Controller {
             if ($this->demande_model->create($dataDb)) {
                 $msg = "Votre demande à bien été envoyée !";
                 $status = 'success';
-            }else{
+            } else {
                 $msg = "Un problème s'est produit durant l'ajout de la demande !";
                 $status = 'error';
             }
             $data['notification'] = [
-            'msg' => $msg,
-            'status' => $status
+                'msg' => $msg,
+                'status' => $status
             ];
         }
 

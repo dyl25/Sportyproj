@@ -59,8 +59,9 @@ class Event_model extends MY_Model {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
         }
 
-        return $this->db->select('events.id, events.name')
+        return $this->db->select('events.*, localites.postcode, localites.city, category.name AS categoryName')
                         ->join('category', 'category.id = events.category_id')
+                        ->join('localites', 'localites.id = events.localite_id')
                         ->where('category.name', $category)
                         ->get($this->table)
                         ->result_object();

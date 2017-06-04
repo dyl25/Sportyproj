@@ -13,7 +13,7 @@ class UserAdminTest extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('athlete_model');
     }
-
+    
     public function createAthleteSuccess() {
         $data['login'] = 'NouvelAthlete';
         $data['password'] = password_hash('nouveaupassword', PASSWORD_DEFAULT);

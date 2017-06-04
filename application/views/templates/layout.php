@@ -3,7 +3,10 @@
     <head>
         <meta charset="utf-8" >
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-        <title><?= $title; ?></title>
+        <title><?= html_escape($title); ?></title>
+        <?php if(isset($description)) { ?>
+        <meta name="description" content="<?= $description; ?>"/>
+        <?php } ?>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/style.css">
@@ -31,12 +34,6 @@
                         <ul class="right hide-on-med-and-down">
                             <li>
                                 <a href="<?= site_url('accueil'); ?>">Accueil</a>
-                            </li>
-                            <li>
-                                <a href="#mainContact">Contact</a>
-                            </li>
-                            <li>
-                                <a href="#googleMap">La piste</a>
                             </li>
                             <li>
                                 <a href="<?= site_url('contact'); ?>">Informations</a>
@@ -112,7 +109,7 @@
                 <?= $data; ?>
             <?php endforeach; ?>
         </main>
-        <footer class="page-footer teal">
+        <!--<footer class="page-footer teal">
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
@@ -154,6 +151,6 @@
                     Made by <a class="brown-text text-lighten-3" href="#">Dylan Vansteenacker</a>
                 </div>
             </div>
-        </footer>
+        </footer>-->
     </body>
 </html>

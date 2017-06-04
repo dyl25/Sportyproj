@@ -49,10 +49,11 @@ class Article_model extends MY_Model {
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getArticles($limit = null, $offset = null) {
+    public function getArticles($sort = 'asc',$limit = null, $offset = null) {
 
         $this->db->select('articles.*, users.login')
-                ->join('users', 'users.id = articles.author');
+                ->join('users', 'users.id = articles.author')
+                ->order_by('articles.id', $sort);
         return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 

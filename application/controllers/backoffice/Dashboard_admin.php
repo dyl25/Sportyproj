@@ -25,16 +25,21 @@ class Dashboard_admin extends CI_Controller {
 
     public function index() {
 
-        $data['title'] = ucfirst('dashboard');
+        $data['title'] = 'Dashboard de l\'espace administrateur';
 
-        /* $prefs['template'] =  ['table_open' => '<table class="table-condensed table-bordered table-striped">'];      
-          $this->load->library('calendar', $prefs);
-          $data['calendar'] = $this->calendar->generate(); */
+        
 
         $this->load->model('article_model');
+        $this->load->model('athlete_model');
+        $this->load->model('result_model');
 
-        $data['articles'] = $this->article_model->getArticles(10);
-        $data['users'] = $this->user_model->getUsers(10);
+        $data['articles'] = $this->article_model->getArticles('desc', 5);
+        $data['users'] = $this->user_model->getUsers('desc', 5);
+        $data['results'] = $this->result_model->getResults('desc', 5);
+        $data['countUsers'] = $this->user_model->count();
+        $data['countArticles'] = $this->article_model->count();
+        $data['countResults'] = $this->result_model->count();
+        
         //On charge la vue que l'on va injecter dans le layout 
         $data['content'] = [$this->load->view('backoffice/dashboard/index', $data, true)];
 

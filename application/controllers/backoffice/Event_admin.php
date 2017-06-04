@@ -31,6 +31,7 @@ class Event_admin extends CI_Controller {
     public function index() {
         $data['title'] = 'Gestion des événements';
         $data['events'] = $this->event_model->getEvents();
+
         $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
@@ -142,7 +143,7 @@ class Event_admin extends CI_Controller {
             show_404();
         }
         //reformatage de la date pour l'affichage
-        $data['event']->date = date( 'Y-m-d', strtotime($data['event']->date));
+        $data['event']->date = date('Y-m-d', strtotime($data['event']->date));
         $data['title'] = 'Edition d\'un événement';
         $data['attributes'] = [
             'class' => 'col s12'
@@ -195,7 +196,6 @@ class Event_admin extends CI_Controller {
                 $dataDb['date'] = $date->format('Y-m-d');
                 $dataDb['address'] = $this->input->post('address', true);
                 $dataDb['coord'] = $this->input->post('coord', true);
-                var_dump($id);
                 if ($this->event_model->update(['id' => $id], $dataDb)) {
                     $msg = "L'événement a bien été modifié !";
                     $status = 'success';
@@ -223,17 +223,11 @@ class Event_admin extends CI_Controller {
      */
     public function delete($id) {
 
-        try {
-            if ($this->event_model->delete(['id' => $id])) {
-
-                $msg = "Evénement supprimé !";
-                $status = "success";
-            } else {
-                $msg = "Problème lors de la suppression dans la base de donnée";
-                $status = "error";
-            }
-        } catch (Exception $ex) {
-            $msg = "Problème lors de la suppression de l'événement: " . $ex->getMessage();
+        if ($this->event_model->delete(['id' => $id])) {
+            $msg = "Evénement supprimé !";
+            $status = "success";
+        } else {
+            $msg = "Problème lors de la suppression dans la base de donnée";
             $status = "error";
         }
 
@@ -241,8 +235,53 @@ class Event_admin extends CI_Controller {
             'msg' => $msg,
             'status' => $status,
         ]);
-        
+
         redirect('backoffice/event_admin', 'location', 301);
+    }
+
+    public function competitions() {
+        $data['title'] = 'Vue des compétitions';
+        $data['events'] = $this->event_model->getByType('compétition');
+        $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
+        $this->load->view('backoffice/layout_backoffice', $data);
+    }
+
+    public function addCoord($id = null) {
+        
+        try {
+            $data['event'] = $this->event_model->getBy('id', $id);
+        } catch (DomainException $e) {
+            show_404();
+        }
+        
+        $data['title'] = 'Ajouter des coordonnées à une compétitions';
+        $data['attributes'] = [
+            'class' => 'col s12'
+        ];
+
+        $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
+
+        if ($this->form_validation->run() == true) {
+            $dataDb['coord'] = $this->input->post('coord', true);
+
+            if ($this->event_model->update(['id' => $id], $dataDb)) {
+                $msg = "Les coordonées ont bien été ajoutées !";
+                $status = 'success';
+            } else {
+                $msg = "Un problème s'est passé lors de l'ajout des coordonnées.";
+                $status = 'error';
+            }
+
+            $this->session->set_flashdata('notification', [
+                'msg' => $msg,
+                'status' => $status,
+            ]);
+            $this->output->enable_profiler(TRUE);
+            redirect('backoffice/event_admin', 'location', 301);
+        }
+$this->output->enable_profiler(TRUE);
+        $data['content'] = [$this->load->view('backoffice/event/addCoord', $data, true)];
+        $this->load->view('backoffice/layout_backoffice', $data);
     }
 
 }
