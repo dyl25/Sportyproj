@@ -27,12 +27,12 @@
                 <?php foreach ($articles as $article): ?>
                     <tr>
                         <td><?= $article->id; ?></td>
-                        <td><a href="<?= site_url('backoffice/article_admin/view/' . $article->slug) ?>"><?= $article->title; ?></a></td>
-                        <td><?= $article->login; ?></td>
-                        <td><?= $article->creation_date; ?></td>
+                        <td><a href="<?= site_url('backoffice/article_admin/view/' . html_escape($article->slug)) ?>"><?= html_escape($article->title); ?></a></td>
+                        <td><?= html_escape($article->login); ?></td>
+                        <td><?= html_escape($article->creation_date); ?></td>
                         <td>
-                            <a href="<?= site_url('backoffice/article_admin/edit/') . $article->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                            <a href="<?= site_url('backoffice/article_admin/delete/') . $article->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                            <a href="<?= site_url('backoffice/article_admin/edit/') . html_escape($article->id); ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
+                            <a href="<?= site_url('backoffice/article_admin/delete/') . html_escape($article->id); ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

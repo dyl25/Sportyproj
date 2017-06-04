@@ -18,16 +18,16 @@
             <tbody>
                 <?php foreach ($clubs as $club): ?>
                     <tr>
-                        <td><?= $club->id; ?></td>
-                        <td><a href="<?= site_url('backoffice/club_admin/view/') . $club->id; ?>"><?= $club->name; ?></a></td>
-                        <td><?= $club->shortname; ?></td>
-                        <td><?= $club->address; ?></td>
-                        <td><?= $club->postcode; ?></td>
-                        <td><?= $club->city; ?></td>
-                        <td><?= $club->coord; ?></td>
+                        <td><?= html_escape($club->id); ?></td>
+                        <td><a href="<?= site_url('backoffice/club_admin/view/') . html_escape($club->id); ?>"><?= html_escape($club->name); ?></a></td>
+                        <td><?= html_escape($club->shortname); ?></td>
+                        <td><?= html_escape($club->address); ?></td>
+                        <td><?= html_escape($club->postcode); ?></td>
+                        <td><?= html_escape($club->city); ?></td>
+                        <td><?= html_escape($club->coord); ?></td>
                         <td>
-                            <a href="<?= site_url('backoffice/club_admin/edit/') . $club->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                            <a href="<?= site_url('backoffice/club_admin/delete/') . $club->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                            <a href="<?= site_url('backoffice/club_admin/edit/') . html_escape($club->id); ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
+                            <a href="<?= site_url('backoffice/club_admin/delete/') . html_escape($club->id); ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

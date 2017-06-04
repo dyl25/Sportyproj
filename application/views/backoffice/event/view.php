@@ -1,26 +1,25 @@
 <section class="row">
-    <h2><?= $club->name; ?></h2>
+    <h2><?= html_escape($event->name); ?></h2>
 
     <h3>Informations</h3>
     <div class="data-striped data-highlight">
-        <p>Id : <?= $club->id; ?></p>
-        <p>Nom : <?= $club->name; ?></p>
-        <p>Initiales : <?= $club->shortname; ?></p>
-        <p> Adresse : <?= $club->address; ?></p>
-        <p>Code postale : <?= $club->postcode; ?></p>
-        <p>Localité : <?= $club->city; ?></p>
-        <p>Coordonnées Google Maps : <?php if ($club->coord) { ?>
-                <?= $club->coord; ?>
+        <p>Id : <?= html_escape($event->id); ?></p>
+        <p>Nom : <?= html_escape($event->name); ?></p>
+        <p> Adresse : <?= html_escape($event->address); ?></p>
+        <p>Code postale : <?= html_escape($event->postcode); ?></p>
+        <p>Localité : <?= html_escape($event->city); ?></p>
+        <p>Coordonnées Google Maps : <?php if ($event->coord) { ?>
+                <?= html_escape($event->coord); ?>
             <?php } else { ?>
                 Aucune coordonnées spécifiées
             <?php } ?>
         </p>
     </div>
-    <?php if ($club->coord) { ?>
+    <?php if ($event->coord) { ?>
         <div id="googleMap" style="height:300px;width:100%;"></div>
         <script>
             function myMap() {
-                var myCenter = new google.maps.LatLng(<?= $club->coord; ?>);
+                var myCenter = new google.maps.LatLng(<?= html_escape($event->coord); ?>);
                 var mapProp = {center: myCenter, zoom: 15, scrollwheel: false, draggable: false, mapTypeId: google.maps.MapTypeId.ROADMAP};
                 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
                 var marker = new google.maps.Marker({position: myCenter});

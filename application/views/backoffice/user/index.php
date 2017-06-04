@@ -26,14 +26,14 @@
         <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
-                    <td><?= $user->id; ?></td>
-                    <td><?= $user->login ?></td>
-                    <td><?= $user->email; ?></td>
-                    <td><?= $user->name; ?></td>
-                    <td><?= $user->inscription_date; ?></td>
+                    <td><?= html_escape($user->id); ?></td>
+                    <td><?= html_escape($user->login); ?></td>
+                    <td><?= html_escape($user->email); ?></td>
+                    <td><?= html_escape($user->name); ?></td>
+                    <td><?= html_escape($user->inscription_date); ?></td>
                     <td>
-                        <a href="<?= site_url('backoffice/user_admin/edit/') . $user->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                        <a href="<?= site_url('backoffice/user_admin/delete/') . $user->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                        <a href="<?= site_url('backoffice/user_admin/edit/') . html_escape($user->id); ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
+                        <a href="<?= site_url('backoffice/user_admin/delete/') . html_escape($user->id); ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                     </td>
                 </tr>
             <?php endforeach; ?>

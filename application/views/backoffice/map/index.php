@@ -14,12 +14,12 @@
             <tbody>
                 <?php foreach ($routes as $route): ?>
                 <tr>
-                    <td><?= $route->id; ?></td>
-                    <td><a href="<?= site_url('backoffice/map_admin/view/'.$route->id); ?>"><?= $route->name; ?></a></td>
-                    <td><?= $route->login ?></td>
+                    <td><?= html_escape($route->id); ?></td>
+                    <td><a href="<?= site_url('backoffice/map_admin/view/'.html_escape($route->id)); ?>"><?= html_escape($route->name); ?></a></td>
+                    <td><?= html_escape($route->login); ?></td>
                     <td>
-                        <a href="<?= site_url('backoffice/map_admin/edit/') . $route->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                        <a href="<?= site_url('backoffice/map_admin/delete/') . $route->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                        <a href="<?= site_url('backoffice/map_admin/edit/') . html_escape($route->id); ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
+                        <a href="<?= site_url('backoffice/map_admin/delete/') . html_escape($route->id); ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

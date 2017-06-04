@@ -39,7 +39,7 @@
             <select name="role" required="required">
                 <option value="" disabled>Rôle de l'utilisateur</option>
                 <?php foreach ($roles as $role) { ?>
-                    <option value="<?= $role->name; ?>"><?= $role->name; ?></option>
+                    <option value="<?= html_escape($role->name); ?>"><?= html_escape($role->name); ?></option>
                 <?php } ?>
             </select>
             <label>Rôle de l'utilisateur</label>
@@ -51,7 +51,7 @@
             <select name="club" class="browser-default">
                 <option value="" disabled>Club de l'athlète</option>
                 <?php foreach ($clubs as $club) { ?>
-                    <option value="<?= $club->id; ?>"><?= $club->name; ?></option>
+                    <option value="<?= html_escape($club->id); ?>"><?= html_escape($club->name); ?></option>
                 <?php } ?>
             </select>
         </div>
@@ -69,7 +69,7 @@
             <select name="category" class="browser-default">
                 <option value="" disabled>Catégorie de l'athlète</option>
                 <?php foreach ($categories as $category) { ?>
-                    <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                    <option value="<?= html_escape($category->id); ?>"><?= html_escape($category->name); ?></option>
                 <?php } ?>
             </select>
         </div>

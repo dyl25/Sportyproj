@@ -16,14 +16,14 @@
             <tbody>
                 <?php foreach ($results as $result): ?>
                 <tr>
-                    <td><?= $result->id; ?></td>
-                    <td><?= $result->epreuve; ?></td>
-                    <td><?= $result->athlete; ?></td>
-                    <td><?= $result->result; ?></td>
-                    <td><?= $result->event; ?></td>
+                    <td><?= html_escape($result->id); ?></td>
+                    <td><?= html_escape($result->epreuve); ?></td>
+                    <td><?= html_escape($result->athlete); ?></td>
+                    <td><?= html_escape($result->result); ?></td>
+                    <td><?= html_escape($result->event); ?></td>
                     <td>
-                        <a href="<?= site_url('backoffice/result_admin/edit/') . $result->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                        <a href="<?= site_url('backoffice/result_admin/delete/') . $result->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                        <a href="<?= site_url('backoffice/result_admin/edit/') . html_escape($result->id); ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
+                        <a href="<?= site_url('backoffice/result_admin/delete/') . html_escape($result->id); ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

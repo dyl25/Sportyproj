@@ -4,9 +4,9 @@
     <div id="floating-panel">
         <?= validation_errors(); ?>
 
-        <?= form_open('backoffice/map_admin/edit/'.$route->id) ?>
+        <?= form_open('backoffice/map_admin/edit/'.html_escape($route->id)) ?>
         <fieldset>
-            <input type="text" name="routeName" placeholder="Nom de l'itinéraire" value="<?= $route->name; ?>">
+            <input type="text" name="routeName" placeholder="Nom de l'itinéraire" value="<?= html_escape($route->name); ?>">
             <input type="hidden" name="geoJsonInput" id="geoJsonInput">
             <button name="saveRoute" class="btn waves-effect" type="submit" id="saveRoute">Sauvegarder l'itinéraire</button>
         </fieldset>

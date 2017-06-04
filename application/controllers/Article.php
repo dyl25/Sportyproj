@@ -68,8 +68,8 @@ class Article extends CI_Controller {
         $data['comments'] = $this->comment_model->getForArticle($article->id);
 
         $this->form_validation->set_rules('commentContent', 'commentaire', 'trim|required');
-        $this->form_validation->set_rules('userId', 'id utilisateur', 'required|numeric|is_natural_no_zero');
-        $this->form_validation->set_rules('articleId', 'id article', 'required|numeric|is_natural_no_zero');
+        $this->form_validation->set_rules('userId', 'id utilisateur', 'required|is_natural_no_zero');
+        $this->form_validation->set_rules('articleId', 'id article', 'required|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
             $dataDb['content'] = $this->input->post('commentContent');

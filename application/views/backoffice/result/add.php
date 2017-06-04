@@ -10,7 +10,7 @@
             <select name="event" required="required">
                 <option value="" disabled selected>Choisir l'événement associé</option>
                 <?php foreach ($events as $event) { ?>
-                    <option value="<?= $event->id; ?>" <?= set_select('event', $event->id); ?>><?= $event->name; ?></option>
+                    <option value="<?= html_escape($event->id); ?>" <?= html_escape(set_select('event', $event->id)); ?>><?= html_escape($event->name); ?></option>
                 <?php } ?>
             </select>
             <label>Evénement associé</label>
@@ -20,7 +20,7 @@
             <select name="epreuve" required="required">
                 <option value="" disabled selected>Choisir l'epreuve</option>
                 <?php foreach ($epreuves as $epreuve) { ?>
-                    <option value="<?= $epreuve->id; ?>" <?= set_select('epreuve', $epreuve->id); ?>><?= $epreuve->name; ?></option>
+                    <option value="<?= html_escape($epreuve->id); ?>" <?= html_escape(set_select('epreuve', $epreuve->id)); ?>><?= html_escape($epreuve->name); ?></option>
                 <?php } ?>
             </select>
             <label>Epreuve</label>
@@ -28,7 +28,7 @@
 
         <!-- Text input-->
         <div class="input-field">
-            <input id="result" name="result" type="number" class="validate" required="required" value="<?= set_value('result'); ?>" min="0" step="0.01">
+            <input id="result" name="result" type="number" class="validate" required="required" value="<?= html_escape(set_value('result')); ?>" min="0" step="0.01">
             <label for="result">Résultat</label> 
         </div>
 
@@ -36,7 +36,7 @@
             <select name="athlete" required="required">
                 <option value="" disabled selected>Choisir l'athlète</option>
                 <?php foreach ($athletes as $athlete) { ?>
-                    <option value="<?= $athlete->id; ?>" <?= set_select('athlete', $athlete->id); ?>><?= $athlete->athleteName; ?></option>
+                    <option value="<?= html_escape($athlete->id); ?>" <?= html_escape(set_select('athlete', $athlete->id)); ?>><?= html_escape($athlete->athleteName); ?></option>
                 <?php } ?>
             </select>
             <label>Athlètet associé</label>

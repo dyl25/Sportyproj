@@ -1,5 +1,5 @@
 <div id="index-banner" class="parallax-container">
-    <div class="parallax"><img src="<?= base_url(); ?>assets/images/image2-slide.jpg" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="<?= base_url(); ?>assets/images/image2-slide.jpg" alt="athlete en position de départ"></div>
 </div>
 
 <section class="orange accent-3 well-pad" id="who">
@@ -30,7 +30,7 @@
             <tbody>
                 <?php foreach ($events as $event): ?>
                     <tr>
-                        <td><a href="<?= site_url('backoffice/event_admin/view/') . $event->id; ?>"><?= html_escape($event->name); ?></a></td>
+                        <td><a href="<?= site_url('backoffice/event_admin/view/') . html_escape($event->id); ?>"><?= html_escape($event->name); ?></a></td>
                         <td><?= html_escape($event->categoryName); ?></td>
                         <td><?= html_escape($event->date); ?></td>
                         <td><?= html_escape($event->address).', '.html_escape($event->postcode).' '.html_escape($event->city); ?></td>
@@ -48,9 +48,9 @@
                     <article class="card hoverable">
                         <div class="card-image">
                             <?php if ($article->image) { ?>
-                                <img src="<?= base_url(); ?>assets/images/upload/<?= html_escape($article->image); ?>" alt="article" class="responsive-img">
+                                <img src="<?= base_url(); ?>assets/images/upload/<?= html_escape($article->image); ?>" alt="image d'illustration pour article" class="responsive-img">
                             <?php } else { ?>
-                                <img src="<?= base_url(); ?>assets/images/articleDefault.png" alt="article" class="responsive-img">
+                                <img src="<?= base_url(); ?>assets/images/articleDefault.png" alt="image d'illustration pour article" class="responsive-img">
     <?php } ?>
                         </div>
                         <div class="caption">
@@ -138,6 +138,6 @@
             En poursuivant la navigation sur le site vous acceptez l'utilisation de ces cookies/</p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">J'accepte</a>
     </div>
 </div>

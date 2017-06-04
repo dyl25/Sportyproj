@@ -12,10 +12,12 @@
             <?php } ?>
         <?php } ?>
         <article class="col m12">
-            <h2><?= $article->title ?></h2>
+            <h2><?= html_escape($article->title) ?></h2>
             <hr>
-            <p><img src="<?= base_url() ?>assets/images/upload/<?= html_escape($article->image) ?>"></p>
-            <?= $article->content ?>
+            <?php if($article->image) { ?>
+            <p><img src="<?= base_url() ?>assets/images/upload/<?= html_escape($article->image) ?>" alt="image d'illustration de l'article"></p>
+            <?php } ?>
+            <?= $article->content; ?>
         </article>
         <hr>
         <section class="col m12">
@@ -34,14 +36,14 @@
             <?php } ?>
             <?php if (isset($this->session->userdata['id'])) { ?>
                 <?= validation_errors(); ?>
-                <?= form_open('article/view/' . $article->slug, $attributes); ?>
+                <?= form_open('article/view/' . html_escape($article->slug), $attributes); ?>
                 <fieldset>
                     <div class="input-field">                  
                         <textarea class="materialize-textarea" id="commentContent" name="commentContent" required="required"></textarea>
                         <label for="commentContent">Ecrire un commentaire ...</label>
                     </div>
                     <input type="hidden" value="<?= $this->session->userdata['id'] ?>" name="userId" >
-                    <input type="hidden" value="<?= $article->id ?>" name="articleId" >
+                    <input type="hidden" value="<?= html_escape($article->id) ?>" name="articleId" >
 
                     <button name="btSendComment" class="btn">Envoyer le commentaire</button>
                 </fieldset>

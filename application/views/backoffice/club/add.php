@@ -28,7 +28,7 @@
             <select name="localites" required="required" id="localites" class="browser-default">
                 <option value="">Choisir la localite</option>
                 <?php foreach ($localites as $localite) { ?>
-                    <option value="<?= $localite->id; ?>"><?= $localite->postcode . ' ' . $localite->city; ?></option>
+                    <option value="<?= html_escape($localite->id); ?>"><?= html_escape($localite->postcode) . ' ' . html_escape($localite->city); ?></option>
                 <?php } ?>
             </select>
         </div>

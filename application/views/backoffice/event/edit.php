@@ -3,17 +3,17 @@
 
     <?= validation_errors(); ?>
 
-    <?= form_open('backoffice/event_admin/edit/' . $event->id, $attributes) ?>
+    <?= form_open('backoffice/event_admin/edit/' . html_escape($event->id), $attributes) ?>
     <fieldset>
 
         <div class="input-field">
-            <input id="eventName" name="eventName" type="text" class="validate" required="required" value="<?= $event->name; ?>">
+            <input id="eventName" name="eventName" type="text" class="validate" required="required" value="<?= html_escape($event->name); ?>">
             <label for="clubName">Nom de l'événement</label> 
         </div>
 
         <!-- Text input-->
         <div class="input-field">
-            <textarea class="materialize-textarea" id="eventDescription" name="eventDescription" required="required" ><?= $event->description; ?></textarea>
+            <textarea class="materialize-textarea" id="eventDescription" name="eventDescription" required="required" ><?= html_escape($event->description); ?></textarea>
             <label for="eventDescription">Description de l'événement</label>
         </div>
 
@@ -21,21 +21,21 @@
             <select name="category" required="required">
                 <option value="" disabled>Choisir la catégorie</option>
                 <?php foreach ($categories as $category) { ?>
-                    <option value="<?= $category->id; ?>" <?php if ($category->id == $event->category_id) {
+                    <option value="<?= html_escape($category->id); ?>" <?php if ($category->id == $event->category_id) {
                     echo "selected=selected";
-                } ?> ><?= $category->name; ?></option>
+                } ?> ><?= html_escape($category->name); ?></option>
 <?php } ?>
             </select>
             <label>Catégorie de l'événement</label>
         </div>
 
         <div class="input-field">
-            <input id="eventDate" name="eventDate" type="date" class="datepicker" required="required" placeholder="Date de l'événement" value="<?= $event->date; ?>">          
+            <input id="eventDate" name="eventDate" type="date" class="datepicker" required="required" placeholder="Date de l'événement" value="<?= html_escape($event->date); ?>">          
         </div>
 
         <!-- Text input-->
         <div class="input-field">
-            <input id="address" name="address" type="text" value="<?= $event->address; ?>" class="validate" required="required">
+            <input id="address" name="address" type="text" value="<?= html_escape($event->address); ?>" class="validate" required="required">
             <label for="short">Adresse</label> 
         </div>
 
@@ -43,11 +43,11 @@
             <select name="localites" required="required" id="localites" class="browser-default">
                 <option value="">Choisir la localite</option>
                 <?php foreach ($localites as $localite) { ?>
-                    <option value="<?= $localite->id; ?>" <?php
+                    <option value="<?= html_escape($localite->id); ?>" <?php
                     if ($localite->id == $event->localite_id) {
                         echo "selected=selected";
                     }
-                    ?> ><?= $localite->postcode . ' ' . $localite->city; ?></option>
+                    ?> ><?= html_escape($localite->postcode) . ' ' . html_escape($localite->city); ?></option>
 <?php } ?>
             </select>
         </div>
@@ -63,7 +63,7 @@
         </div>
 
         <div class="input-field">
-            <input id="coord" name="coord" type="text" value="<?= $event->coord; ?>">
+            <input id="coord" name="coord" type="text" value="<?= html_escape($event->coord); ?>">
             <label for="coord">Coordonnée Google Maps</label> 
         </div>
 

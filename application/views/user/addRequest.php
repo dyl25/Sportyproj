@@ -35,7 +35,7 @@
                     <select name="category" class="browser-default">
                         <option value="" disabled>Catégorie de l'athlète</option>
                         <?php foreach ($categories as $category) { ?>
-                            <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                            <option value="<?= html_escape($category->id); ?>"><?= html_escape($category->name); ?></option>
                         <?php } ?>
                     </select>
                 </div>

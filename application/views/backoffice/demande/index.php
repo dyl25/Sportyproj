@@ -16,15 +16,15 @@
             <tbody>
                 <?php foreach ($demandes as $demande): ?>
                 <tr>
-                    <td><?= $demande->id; ?></td>
-                    <td><?= $demande->login; ?></td>
-                    <td><?= $demande->email ?></td>
-                    <td><?= $demande->categoryName; ?></td>
-                    <td><?= $demande->dossard; ?></td>
-                    <td><?= $demande->creation_date; ?></td>
+                    <td><?= html_escape($demande->id); ?></td>
+                    <td><?= html_escape($demande->login); ?></td>
+                    <td><?= html_escape($demande->email) ?></td>
+                    <td><?= html_escape($demande->categoryName); ?></td>
+                    <td><?= html_escape($demande->dossard); ?></td>
+                    <td><?= html_escape($demande->creation_date); ?></td>
                     <td>
-                        <a href="<?= site_url('backoffice/demande_admin/add/') . $demande->id; ?>" class="waves-effect btn green">Accepter</a>
-                        <a href="<?= site_url('backoffice/demande_admin/delete/') . $demande->id; ?>" class="waves-effect btn red">Refuser</a>
+                        <a href="<?= site_url('backoffice/demande_admin/add/') . html_escape($demande->id); ?>" class="waves-effect btn green">Accepter</a>
+                        <a href="<?= site_url('backoffice/demande_admin/delete/') . html_escape($demande->id); ?>" class="waves-effect btn red">Refuser</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

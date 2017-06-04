@@ -4,13 +4,13 @@
     <h3>Informations</h3>
     <div class="data-striped data-highlight">
         <p>Id : <?= $club->id; ?></p>
-        <p>Nom : <?= $club->name; ?></p>
-        <p>Initiales : <?= $club->shortname; ?></p>
-        <p> Adresse : <?= $club->address; ?></p>
-        <p>Code postale : <?= $club->postcode; ?></p>
-        <p>Localité : <?= $club->city; ?></p>
+        <p>Nom : <?= html_escape($club->name); ?></p>
+        <p>Initiales : <?= html_escape($club->shortname); ?></p>
+        <p> Adresse : <?= html_escape($club->address); ?></p>
+        <p>Code postale : <?= html_escape($club->postcode); ?></p>
+        <p>Localité : <?= html_escape($club->city); ?></p>
         <p>Coordonnées Google Maps : <?php if ($club->coord) { ?>
-                <?= $club->coord; ?>
+                <?= html_escape($club->coord); ?>
             <?php } else { ?>
                 Aucune coordonnées spécifiées
             <?php } ?>

@@ -16,10 +16,10 @@
             <tbody>
                 <?php foreach ($events as $event): ?>
                     <tr>
-                        <td><?= $event->name; ?></a></td>
-                        <td><?= $event->categoryName; ?></td>
-                        <td><?= $event->date; ?></td>
-                        <td><?= $event->address . ', ' . $event->postcode . ' ' . $event->city ?></td>
+                        <td><?= html_escape($event->name); ?></a></td>
+                        <td><?= html_escape($event->categoryName); ?></td>
+                        <td><?= html_escape($event->date); ?></td>
+                        <td><?= html_escape($event->address) . ', ' . html_escape($event->postcode) . ' ' . html_escape($event->city) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -42,9 +42,9 @@
             <tbody>
                 <?php foreach ($results as $result): ?>
                     <tr>
-                        <td><?= $result->epreuve; ?></td>
-                        <td><?= $result->result; ?></td>
-                        <td><?= $result->event; ?></td>
+                        <td><?= html_escape($result->epreuve); ?></td>
+                        <td><?= html_escape($result->result); ?></td>
+                        <td><?= html_escape($result->event); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

@@ -8,19 +8,19 @@
 
         <!-- Text input-->
         <div class="input-field">
-            <input id="clubName" name="clubName" type="text" value="<?= $club->name; ?>" class="validate" required="required">
+            <input id="clubName" name="clubName" type="text" value="<?= html_escape($club->name); ?>" class="validate" required="required">
             <label for="clubName">Nom du club</label> 
         </div>
 
         <!-- Text input-->
         <div class="input-field">
-            <input id="short" name="short" type="text" value="<?= $club->shortname; ?>" class="validate" required="required">
+            <input id="short" name="short" type="text" value="<?= html_escape($club->shortname); ?>" class="validate" required="required">
             <label for="short">Initiales</label> 
         </div>
 
         <!-- Text input-->
         <div class="input-field">
-            <input id="address" name="address" type="text" value="<?= $club->address; ?>" class="validate" required="required">
+            <input id="address" name="address" type="text" value="<?= html_escape($club->address); ?>" class="validate" required="required">
             <label for="short">Adresse</label> 
         </div>
 
@@ -28,9 +28,9 @@
             <select name="localites" required="required" id="localites" class="browser-default">
                 <option value="">Choisir la localite</option>
                 <?php foreach ($localites as $localite) { ?>
-                    <option value="<?= $localite->id; ?>" <?php if ($localite->id == $club->localite_id) {
+                    <option value="<?= html_escape($localite->id); ?>" <?php if ($localite->id == $club->localite_id) {
                     echo "selected=selected";
-                } ?> ><?= $localite->postcode . ' ' . $localite->city; ?></option>
+                } ?> ><?= html_escape($localite->postcode) . ' ' . html_escape($localite->city); ?></option>
 <?php } ?>
             </select>
         </div>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="input-field">
-            <input id="coord" name="coord" type="text" value="<?= $club->coord; ?>">
+            <input id="coord" name="coord" type="text" value="<?= html_escape($club->coord); ?>">
             <label for="coord">Coordonnée Google Maps</label> 
         </div>
 

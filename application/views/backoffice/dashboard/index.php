@@ -38,14 +38,14 @@
                 <tbody>
                     <?php foreach ($users as $user): ?>
                         <tr>
-                            <td><?= $user->id; ?></td>
-                            <td><?= $user->login ?></td>
-                            <td><?= $user->email; ?></td>
-                            <td><?= $user->name; ?></td>
-                            <td><?= $user->inscription_date; ?></td>
+                            <td><?= html_escape($user->id); ?></td>
+                            <td><?= html_escape($user->login); ?></td>
+                            <td><?= html_escape($user->email); ?></td>
+                            <td><?= html_escape($user->name); ?></td>
+                            <td><?= html_escape($user->inscription_date); ?></td>
                             <td>
-                                <a href="<?= site_url('backoffice/user_admin/edit/') . $user->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
-                                <a href="<?= site_url('backoffice/user_admin/delete/') . $user->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
+                                <a href="<?= site_url('backoffice/user_admin/edit/') . html_escape($user->id); ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
+                                <a href="<?= site_url('backoffice/user_admin/delete/') . html_escape($user->id); ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -72,8 +72,8 @@
                     <?php foreach ($articles as $article): ?>
                         <tr>
                             <td><?= $article->id; ?></td>
-                            <td><a href="<?= site_url('backoffice/article_admin/view/' . $article->slug) ?>"><?= $article->title; ?></a></td>
-                            <td><?= $article->login; ?></td>
+                            <td><a href="<?= site_url('backoffice/article_admin/view/' . html_escape($article->slug)) ?>"><?= html_escape($article->title); ?></a></td>
+                            <td><?= html_escape($article->login); ?></td>
                             <td><?= $article->creation_date; ?></td>
                             <td>
                                 <a href="<?= site_url('backoffice/article_admin/edit/') . $article->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
@@ -105,9 +105,9 @@
                         <tr>
                             <td><?= $result->id; ?></td>
                             <td><?= $result->epreuve; ?></td>
-                            <td><?= $result->athlete; ?></td>
-                            <td><?= $result->result; ?></td>
-                            <td><?= $result->event; ?></td>
+                            <td><?= html_escape($result->athlete); ?></td>
+                            <td><?= html_escape($result->result); ?></td>
+                            <td><?= html_escape($result->event); ?></td>
                             <td>
                                 <a href="<?= site_url('backoffice/result_admin/edit/') . $result->id; ?>"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="éditer">mode_edit</i></a>
                                 <a href="<?= site_url('backoffice/result_admin/delete/') . $result->id; ?>"><i class="material-icons red-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="supprimer">delete</i></a>

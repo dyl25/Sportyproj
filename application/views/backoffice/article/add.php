@@ -15,7 +15,7 @@
             <select name="category" required="required">
                 <option value="" disabled selected>Choisir la catégorie</option>
                 <?php foreach ($categories as $category) { ?>
-                <option value="<?= $category->id; ?>"><?= $category->name; ?></option>
+                <option value="<?= html_escape($category->id); ?>"><?= html_escape($category->name); ?></option>
                 <?php } ?>
             </select>
             <label>Catégorie de l'article</label>

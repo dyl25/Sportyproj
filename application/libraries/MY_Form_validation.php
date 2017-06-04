@@ -49,31 +49,34 @@ class MY_Form_validation extends CI_Form_validation {
 
         //on vérifie que la date est bien divisé en 3
         if (sizeof($dateTable) != 3) {
-            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
+            $this->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
             return false;
         }
 
         list($year, $month, $day) = explode("-", $date);
-
+        
         if (!is_numeric($day) || !is_numeric($month) || !is_numeric($year)) {
-            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
+            $this->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
             return false;
         }
         //on vérifie que la date existe bien
         if (!checkdate($month, $day, $year)) {
-            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
+            $this->set_message('check_date', 'La %s n\'est pas valide, elle doit correspondre au format aaaa/mm/jj');
             return false;
         }
-
         $userDate = new DateTime($date);
+        $userDate = $userDate->format('Y-m-d');
+        
         $now = new DateTime();
+        $now = $now->format('Y-m-d');
         //un event ne peut pas avoir plus qu'1 an
         $expires = new DateTime('+1 year');
+        $expires = $expires->format('Y-m-d');
 
-        if ($userDate > $now && $userDate < $expires) {
+        if ($userDate >= $now && $userDate <= $expires) {
             return true;
         } else {
-            $this->form_validation->set_message('check_date', 'La %s n\'est pas valide, un événement ne peut être au-delà de 1 an.');
+            $this->set_message('check_date', 'La %s n\'est pas valide, un événement ne peut être au-delà de 1 an ou une date ultérieur à aujourd\'hui.');
             return false;
         }
     }
