@@ -46,9 +46,9 @@ class User extends CI_Controller {
 
         if ($this->form_validation->run() == true) {
 
-            $dataDb['login'] = $this->input->post('username', true);
-            $dataDb['password'] = password_hash($this->input->post('password', true), PASSWORD_DEFAULT);
-            $dataDb['email'] = $this->input->post('email', true);
+            $dataDb['login'] = $this->input->post('username');
+            $dataDb['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+            $dataDb['email'] = $this->input->post('email');
 
             if ($this->user_model->create($dataDb)) {
 
@@ -98,8 +98,8 @@ class User extends CI_Controller {
             $this->load->view('user/login', $data);
         } else {
 
-            $email = $this->input->post('email', true);
-            $password = $this->input->post('password', true);
+            $email = $this->input->post('email');
+            $password = $this->input->post('password');
 
             if ($this->user_model->checkUser($email, $password)) {
                 $userData = $this->user_model->getUserData($email);
@@ -141,9 +141,6 @@ class User extends CI_Controller {
 
         $data['title'] = 'Toutes les informations nécessaires sur le club';
         $data['description'] = 'Informez vous sur le club.';
-        $data['attributes'] = [
-            'class' => 'form-horizontal'
-        ];
 
         $this->load->library('email');
 
@@ -151,14 +148,13 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('email', 'E-mail', 'required');
         $this->form_validation->set_rules('email_content', 'Votre message', 'required');
 
-
         if ($this->form_validation->run() == false) {
             $data['content'] = [$this->load->view('contact/index', $data, true)];
         } else {
 
-            $name = $this->input->post('user_name', true);
-            $email = $this->input->post('email', true);
-            $content = $this->input->post('email_content', true);
+            $name = $this->input->post('user_name');
+            $email = $this->input->post('email');
+            $content = $this->input->post('email_content');
 
             $this->load->library('email');
 
@@ -188,8 +184,8 @@ class User extends CI_Controller {
 
         if ($this->form_validation->run() == true) {
             $dataDb['user_id'] = $this->session->userdata['id'];
-            $dataDb['dossard'] = $this->input->post('registerNum', true);
-            $dataDb['category_id'] = $this->input->post('category', true);
+            $dataDb['dossard'] = $this->input->post('registerNum');
+            $dataDb['category_id'] = $this->input->post('category');
 
             if ($this->demande_model->create($dataDb)) {
                 $msg = "Votre demande à bien été envoyée !";

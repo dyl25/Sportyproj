@@ -36,25 +36,20 @@
                             <div class="card-image">
                                 <a href="<?= site_url('article/view/' . $article->slug); ?>">
                                     <?php if ($article->image) { ?>
-                                        <img src="<?= base_url(); ?>assets/images/upload/<?= $article->image; ?>" alt="article" class="responsive-img">
+                                        <img src="<?= base_url(); ?>assets/images/upload/<?= html_escape($article->image); ?>" alt="article" class="responsive-img">
                                     <?php } else { ?>
                                         <img src="<?= base_url(); ?>assets/images/articleDefault.png" alt="article" class="responsive-img">
                                     <?php } ?>
                                 </a>
                             </div>
                             <div class="card-content">
-                                <!--<p class="row">
-                                    <span class="left">Par : <?= $article->login; ?></span>
-                                    <span class="right">Créé le <?= $article->creation_date; ?></span>
-                                </p>-->
-                                <h2 class="card-title title"><a href="<?= site_url('article/view/' . $article->slug); ?>"><?= $article->title; ?></a></h2>
+                                <h2 class="card-title title"><a href="<?= site_url('article/view/' . $article->slug); ?>"><?= html_escape($article->title); ?></a></h2>
                             </div>
                             <div class="card-action">
-                                <span class="left">Par : <?= $article->login; ?></span>
+                                <span class="left">Par : <?= html_escape($article->login); ?></span>
                                 <span class="right">Créé le <?= $article->creation_date; ?></span>
                             </div>
                         </article>
-                        <!--<hr>-->
                     </div>
                 <?php } ?>
             </div>

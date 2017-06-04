@@ -96,10 +96,10 @@ class Result_admin extends CI_Controller {
         $this->form_validation->set_rules('athlete', 'athlète', 'required|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['epreuve_id'] = $this->input->post('epreuve', true);
-            $dataDb['event_id'] = $this->input->post('event', true);
-            $dataDb['athlete_id'] = $this->input->post('athlete', true);
-            $dataDb['result'] = $this->input->post('result', true);
+            $dataDb['epreuve_id'] = $this->input->post('epreuve');
+            $dataDb['event_id'] = $this->input->post('event');
+            $dataDb['athlete_id'] = $this->input->post('athlete');
+            $dataDb['result'] = $this->input->post('result');
 
             if (!$this->result_model->create($dataDb)) {
                 $msg = "Problème lors de l'ajout dans la base de donnée";
@@ -175,10 +175,10 @@ class Result_admin extends CI_Controller {
         $this->form_validation->set_rules('athlete', 'athlète', 'required|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['epreuve_id'] = $this->input->post('epreuve', true);
-            $dataDb['event_id'] = $this->input->post('event', true);
-            $dataDb['athlete_id'] = $this->input->post('athlete', true);
-            $dataDb['result'] = $this->input->post('result', true);
+            $dataDb['epreuve_id'] = $this->input->post('epreuve');
+            $dataDb['event_id'] = $this->input->post('event');
+            $dataDb['athlete_id'] = $this->input->post('athlete');
+            $dataDb['result'] = $this->input->post('result');
 
             if (!$this->result_model->update(['id' => $id], $dataDb)) {
                 $msg = "Problème lors de la modification dans la base de donnée";

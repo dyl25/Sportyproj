@@ -75,7 +75,7 @@
         <div class="col m7">
             <?= validation_errors(); ?>
 
-            <?= form_open('contact', $attributes); ?>
+            <?= form_open('contact'); ?>
 
             <fieldset>
                 <div class="row">

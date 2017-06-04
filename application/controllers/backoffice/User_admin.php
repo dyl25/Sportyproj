@@ -49,9 +49,9 @@ class User_admin extends CI_Controller {
     private function prepareAthlete($id, $method = 'create') {
         $this->load->model('athlete_model');
         $dataDbAthlete['user_id'] = $id;
-        $dataDbAthlete['club_id'] = $this->input->post('club', true);
-        $dataDbAthlete['register_num'] = $this->input->post('registerNum', true);
-        $dataDbAthlete['category_id'] = $this->input->post('category', true);
+        $dataDbAthlete['club_id'] = $this->input->post('club');
+        $dataDbAthlete['register_num'] = $this->input->post('registerNum');
+        $dataDbAthlete['category_id'] = $this->input->post('category');
         if ($method == 'create') {
             if (!$this->athlete_model->create($dataDbAthlete)) {
                 return [
@@ -95,13 +95,13 @@ class User_admin extends CI_Controller {
             }
         }
 
-        $dataDb['login'] = $this->input->post('login', true);
-        $dataDb['email'] = $this->input->post('email', true);
+        $dataDb['login'] = $this->input->post('login');
+        $dataDb['email'] = $this->input->post('email');
         if ($this->input->post('password')) {
-            $dataDb['password'] = password_hash($this->input->post('password', true), PASSWORD_DEFAULT);
+            $dataDb['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
         }
         //recuperation de l'id du role
-        $roleName = $this->input->post('role', true);
+        $roleName = $this->input->post('role');
         $dataDb['role_id'] = $this->role_model->getId($roleName);
 
         if ($method == 'create') {

@@ -72,9 +72,9 @@ class Article extends CI_Controller {
         $this->form_validation->set_rules('articleId', 'id article', 'required|numeric|is_natural_no_zero');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['content'] = $this->input->post('commentContent', true);
-            $dataDb['author_id'] = $this->input->post('userId', true);
-            $dataDb['article_id'] = $this->input->post('articleId', true);
+            $dataDb['content'] = $this->input->post('commentContent');
+            $dataDb['author_id'] = $this->input->post('userId');
+            $dataDb['article_id'] = $this->input->post('articleId');
 
             if ($this->comment_model->create($dataDb)) {
                 $msg = "Votre commentaire à bien été ajouté !";

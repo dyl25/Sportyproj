@@ -50,8 +50,8 @@ class Map_admin extends CI_Controller {
 
         if ($this->form_validation->run() == true) {
             $dataDb['user_id'] = $this->session->userdata['id'];
-            $dataDb['coord'] = $this->input->post('geoJsonInput', true);
-            $dataDb['name'] = $this->input->post('routeName', true);
+            $dataDb['coord'] = $this->input->post('geoJsonInput');
+            $dataDb['name'] = $this->input->post('routeName');
 
             if ($this->route_model->create($dataDb)) {
                 $msg = "L'itinéraire a bien été ajouté !";
@@ -114,8 +114,8 @@ class Map_admin extends CI_Controller {
 
         if ($this->form_validation->run() == true) {
             $dataDb['user_id'] = $this->session->userdata['id'];
-            $dataDb['coord'] = $this->input->post('geoJsonInput', true);
-            $dataDb['name'] = $this->input->post('routeName', true);
+            $dataDb['coord'] = $this->input->post('geoJsonInput');
+            $dataDb['name'] = $this->input->post('routeName');
 
             if ($this->route_model->update(['id' => $id], $dataDb)) {
                 $msg = "L'itinéraire a bien été modifié !";

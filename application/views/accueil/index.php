@@ -94,23 +94,28 @@
             <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>
         </div>
         <div class="col m7">
-            <div class="row">
-                <div class="col m6 input-field">
-                    <input class="validate" id="name" name="name" type="text" required>
-                    <label for="name">Nom</label>
+            <?= validation_errors(); ?>
+            <?= form_open('accueil'); ?>
+            <fieldset>
+                <div class="row">
+                    <div class="col m6 input-field">
+                        <input class="validate" id="user_name" name="user_name" type="text" required>
+                        <label for="user_name">Votre nom</label>
+                    </div>
+                    <div class="col m6 input-field">
+                        <input class="validate" id="email" name="email" type="email" required>
+                        <label for="email">E-mail</label>
+                    </div>
                 </div>
-                <div class="col m6 input-field">
-                    <input class="form-control" id="email" name="email" type="email" required>
-                    <label for="email">Email</label>
+                <div class="col m12 input-field">
+                    <textarea class="materialize-textarea" id="email_content" name="email_content"></textarea>
+                    <label for="email_content">Votre message</label>
                 </div>
-            </div>
-            <div class="col m12 input-field">
-                <textarea class="materialize-textarea" id="comments" name="comments" rows="5"></textarea><br>
-                <label for="email">Votre message...</label>
-            </div>
-            <div class="col m12">
-                <button class="btn right-align" type="submit">Envoyer</button>
-            </div>
+                <div class="col m12">
+                    <button class="btn right-align" type="submit" name="btSendEmail">Envoyer</button>
+                </div>
+            </fieldset>
+            </form>
         </div>
     </div>
 </section>

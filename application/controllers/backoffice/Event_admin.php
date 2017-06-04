@@ -72,10 +72,10 @@ class Event_admin extends CI_Controller {
         $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['localite_id'] = $this->input->post('localites', true);
+            $dataDb['localite_id'] = $this->input->post('localites');
             if ($insertLocalite) {
-                $postcode = $this->input->post('addPostcode', true);
-                $city = $this->input->post('addLocalite', true);
+                $postcode = $this->input->post('addPostcode');
+                $city = $this->input->post('addLocalite');
                 /* verif si insertion s'est bien passee et on utilise une methode
                  * personnalisee pour recevoir l'id de la localite inseree
                  */
@@ -86,12 +86,12 @@ class Event_admin extends CI_Controller {
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
 
-                $dataDb['name'] = $this->input->post('eventName', true);
-                $dataDb['description'] = $this->input->post('eventDescription', true);
-                $dataDb['category_id'] = $this->input->post('category', true);
-                $dataDb['date'] = $this->input->post('eventDate', true);
-                $dataDb['address'] = $this->input->post('address', true);
-                $dataDb['coord'] = $this->input->post('coord', true);
+                $dataDb['name'] = $this->input->post('eventName');
+                $dataDb['description'] = $this->input->post('eventDescription');
+                $dataDb['category_id'] = $this->input->post('category');
+                $dataDb['date'] = $this->input->post('eventDate');
+                $dataDb['address'] = $this->input->post('address');
+                $dataDb['coord'] = $this->input->post('coord');
 
                 if ($this->event_model->create($dataDb)) {
                     $msg = "L'événement a bien été ajouté !";
@@ -175,10 +175,10 @@ class Event_admin extends CI_Controller {
         $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['localite_id'] = $this->input->post('localites', true);
+            $dataDb['localite_id'] = $this->input->post('localites');
             if ($insertLocalite) {
-                $postcode = $this->input->post('addPostcode', true);
-                $city = $this->input->post('addLocalite', true);
+                $postcode = $this->input->post('addPostcode');
+                $city = $this->input->post('addLocalite');
                 /* verif si insertion s'est bien passee et on utilise une methode
                  * personnalisee pour recevoir l'id de la localite inseree
                  */
@@ -189,13 +189,13 @@ class Event_admin extends CI_Controller {
 
             if (!$insertLocalite || ($insertLocalite && $inserted)) {
 
-                $dataDb['name'] = $this->input->post('eventName', true);
-                $dataDb['description'] = $this->input->post('eventDescription', true);
-                $dataDb['category_id'] = $this->input->post('category', true);
-                $date = new DateTime($this->input->post('eventDate', true));
+                $dataDb['name'] = $this->input->post('eventName');
+                $dataDb['description'] = $this->input->post('eventDescription');
+                $dataDb['category_id'] = $this->input->post('category');
+                $date = new DateTime($this->input->post('eventDate'));
                 $dataDb['date'] = $date->format('Y-m-d');
-                $dataDb['address'] = $this->input->post('address', true);
-                $dataDb['coord'] = $this->input->post('coord', true);
+                $dataDb['address'] = $this->input->post('address');
+                $dataDb['coord'] = $this->input->post('coord');
                 if ($this->event_model->update(['id' => $id], $dataDb)) {
                     $msg = "L'événement a bien été modifié !";
                     $status = 'success';
@@ -262,7 +262,7 @@ class Event_admin extends CI_Controller {
         $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['coord'] = $this->input->post('coord', true);
+            $dataDb['coord'] = $this->input->post('coord');
 
             if ($this->event_model->update(['id' => $id], $dataDb)) {
                 $msg = "Les coordonées ont bien été ajoutées !";
@@ -276,10 +276,9 @@ class Event_admin extends CI_Controller {
                 'msg' => $msg,
                 'status' => $status,
             ]);
-            $this->output->enable_profiler(TRUE);
             redirect('backoffice/event_admin', 'location', 301);
         }
-$this->output->enable_profiler(TRUE);
+
         $data['content'] = [$this->load->view('backoffice/event/addCoord', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
