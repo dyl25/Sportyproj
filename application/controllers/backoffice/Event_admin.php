@@ -28,9 +28,21 @@ class Event_admin extends CI_Controller {
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des articles
      */
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Gestion des événements';
-        $data['events'] = $this->event_model->getEvents();
+        $limit = 15;
+        $data['events'] = $this->event_model->getEvents('asc', $limit, $offset);
+
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('backoffice/event_admin/index');
+        $config['total_rows'] = $this->event_model->count();
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+
+        $data['paginationLinks'] = $this->pagination->create_links();
 
         $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
@@ -228,7 +240,7 @@ class Event_admin extends CI_Controller {
         $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
-    
+
     public function reunions() {
         $data['title'] = 'Réunions';
         $data['events'] = $this->event_model->getByType('réunion');
@@ -237,13 +249,13 @@ class Event_admin extends CI_Controller {
     }
 
     public function addCoord($id = null) {
-        
+
         try {
             $data['event'] = $this->event_model->getBy('id', $id);
         } catch (DomainException $e) {
             show_404();
         }
-        
+
         $data['title'] = 'Ajouter des coordonnées à une compétitions';
         $data['attributes'] = [
             'class' => 'col s12'

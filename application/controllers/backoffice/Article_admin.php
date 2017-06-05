@@ -28,9 +28,21 @@ class Article_admin extends CI_Controller {
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des articles
      */
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Gestion des articles';
-        $data['articles'] = $this->article_model->getArticles();
+        $limit = 10;
+        $data['articles'] = $this->article_model->getArticles('asc', $limit, $offset);
+
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('backoffice/article_admin/index');
+        $config['total_rows'] = $this->article_model->count();
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+
+        $data['paginationLinks'] = $this->pagination->create_links();
         $data['content'] = [$this->load->view('backoffice/article/index'
                     , $data, true)];
 
@@ -60,9 +72,9 @@ class Article_admin extends CI_Controller {
 
             $dataDb['image'] = $this->upload->data('file_name');
         }
-        
+
         $this->load->helper('text');
-        
+
         $dataDb['title'] = $this->input->post('title');
         $dataDb['content'] = $this->input->post('content', true);
         $dataDb['category_id'] = $this->input->post('category');

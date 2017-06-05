@@ -45,7 +45,7 @@ class Result_model extends MY_Model {
      * @return array Un tableau contenant tous les resultats.
      * @author Dylan Vansteenacker
      */
-    public function getResults($sort = 'asc', $limit = null) {
+    public function getResults($sort = 'asc', $limit = null, $offset = null) {
 
         $this->db->select('results.*, epreuves.name as epreuve, epreuves.type,'
                         . 'users.login as athlete, events.name as event')
@@ -55,9 +55,9 @@ class Result_model extends MY_Model {
                 ->join('events', 'events.id = results.event_id')
                 ->order_by('results.id', $sort);
 
-        return $this->db->get($this->table, $limit)->result_object();
+        return $this->db->get($this->table, $limit, $offset)->result_object();
     }
-    
+
     public function getByAthlete($id, $sort = 'asc', $limit = null) {
         return $this->db->select('results.*, epreuves.name as epreuve, epreuves.type,'
                                 . 'users.login as athlete, events.name as event')

@@ -41,12 +41,12 @@ class Club_model extends MY_Model {
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getClubs($limit = null) {
+    public function getClubs($sort = 'asc',$limit = null, $offset = null) {
 
         $this->db->select('clubs.*, localites.postcode, localites.city')
                 ->join('localites', 'localites.id = clubs.localite_id');
 
-        return $this->db->get($this->table, $limit)->result_object();
+        return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 
 }

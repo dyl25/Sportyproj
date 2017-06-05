@@ -28,9 +28,21 @@ class Club_admin extends CI_Controller {
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des articles
      */
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Gestion des clubs';
-        $data['clubs'] = $this->club_model->getClubs();
+        $limit = 15;
+        $data['clubs'] = $this->club_model->getClubs('asc', $limit, $offset);
+
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('backoffice/club_admin/index');
+        $config['total_rows'] = $this->club_model->count();
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+
+        $data['paginationLinks'] = $this->pagination->create_links();
         $data['content'] = [$this->load->view('backoffice/club/index', $data, true)];
 
         $this->load->view('backoffice/layout_backoffice', $data);

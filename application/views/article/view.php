@@ -14,8 +14,8 @@
         <article class="col m12">
             <h2><?= html_escape($article->title) ?></h2>
             <hr>
-            <?php if($article->image) { ?>
-            <p><img src="<?= base_url() ?>assets/images/upload/<?= html_escape($article->image) ?>" alt="image d'illustration de l'article"></p>
+            <?php if ($article->image) { ?>
+                <p><img src="<?= base_url() ?>assets/images/upload/<?= html_escape($article->image) ?>" alt="image d'illustration de l'article"></p>
             <?php } ?>
             <?= $article->content; ?>
         </article>
@@ -29,6 +29,9 @@
                         <div class="card">
                             <div class="card-content">
                                 <p><?= html_escape($comment->content); ?></p>
+                            </div>
+                            <div class="card-action">
+                                <p><?= $comment->login.' - '.$comment->creation_date; ?></p>
                             </div>
                         </div>
                     <?php } ?>

@@ -40,12 +40,12 @@ class Route_model extends MY_Model {
      * @return array Un tableau contenant tous les resultats.
      * @author Dylan Vansteenacker
      */
-    public function getRoutes($limit = null) {
+    public function getRoutes($sort = 'asc', $limit = null, $offset = null) {
 
         $this->db->select('routes.*, users.login')
                 ->join('users', 'users.id = routes.user_id');
 
-        return $this->db->get($this->table, $limit)->result_object();
+        return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 
 }

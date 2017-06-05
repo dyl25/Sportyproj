@@ -21,9 +21,21 @@ class User_admin extends CI_Controller {
         }
     }
 
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Gestion des utilisateurs';
-        $data['users'] = $this->user_model->getUsers();
+        $limit = 15;
+        $data['users'] = $this->user_model->getUsers('asc', $limit, $offset);
+
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('backoffice/user_admin/index');
+        $config['total_rows'] = $this->user_model->count();
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+
+        $data['paginationLinks'] = $this->pagination->create_links();
 
         $data['content'] = [$this->load->view('backoffice/user/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
@@ -103,7 +115,6 @@ class User_admin extends CI_Controller {
         //recuperation de l'id du role
         $roleName = $this->input->post('role');
         $dataDb['role_id'] = $this->role_model->getId($roleName);
-        var_dump($roleName);
 
         if ($method == 'create') {
             $userId = $this->user_model->createUser($dataDb);

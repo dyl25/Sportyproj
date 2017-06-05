@@ -28,9 +28,22 @@ class Map_admin extends CI_Controller {
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des articles
      */
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Gestion des itinéraires';
-        $data['routes'] = $this->route_model->getRoutes();
+        $limit = 1;
+        $data['routes'] = $this->route_model->getRoutes('asc', $limit, $offset);
+
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('backoffice/map_admin/index');
+        $config['total_rows'] = $this->route_model->count();
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+
+        $data['paginationLinks'] = $this->pagination->create_links();
+
         $data['content'] = [$this->load->view('backoffice/map/index', $data, true)];
 
         $this->load->view('backoffice/layout_backoffice', $data);
@@ -43,7 +56,7 @@ class Map_admin extends CI_Controller {
         $data['title'] = 'Ajout d\'un itinéraire';
         $data['scripts'] = [base_url() . 'assets/javascript/map/mapManager.js'];
         $data['customSrc'] = ['<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>'];
-        
+
         $this->form_validation->set_error_delimiters('');
         $this->form_validation->set_rules('geoJsonInput', 'champ geoJson', 'trim|required', ['required' => "Veuillez dessiner un itinéraire."]);
         $this->form_validation->set_rules('routeName', 'nom de l\'itinéraire', 'trim|required');

@@ -28,9 +28,22 @@ class Demande_admin extends CI_Controller {
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des articles
      */
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Gestion des demandes';
-        $data['demandes'] = $this->demande_model->getDemandes();
+        $limit = 15;
+        $data['demandes'] = $this->demande_model->getDemandes('asc', $limit, $offset);
+        
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('backoffice/demande_admin/index');
+        $config['total_rows'] = $this->demande_model->count();
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+
+        $data['paginationLinks'] = $this->pagination->create_links();
+        
         $data['content'] = [$this->load->view('backoffice/demande/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }

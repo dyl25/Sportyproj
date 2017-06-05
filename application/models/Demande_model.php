@@ -41,13 +41,13 @@ class Demande_model extends MY_Model {
      * @return array Un tableau contenant toutes les demandes.
      * @author Dylan Vansteenacker
      */
-    public function getDemandes($limit = null) {
+    public function getDemandes($sort = 'asc', $limit = null, $offset = null) {
 
         $this->db->select('demandes.*, users.login, users.email, category_athlete.name as categoryName')
                 ->join('users', 'users.id = demandes.user_id')
                 ->join('category_athlete', 'category_athlete.id = demandes.category_id');
 
-        return $this->db->get($this->table, $limit)->result_object();
+        return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 
 }

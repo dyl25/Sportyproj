@@ -55,9 +55,22 @@ class Result_admin extends CI_Controller {
      * Affichage spécifique pour les administarteurs des différentes commandes 
      * de gestions des resultats
      */
-    public function index() {
+    public function index($offset = 0) {
         $data['title'] = 'Gestion des résultats';
-        $data['results'] = $this->result_model->getResults();
+        $limit = 15;
+        $data['results'] = $this->result_model->getResults('asc', $limit, $offset);
+
+        $this->load->library('pagination');
+
+        //config pour la pagination
+        $config['base_url'] = site_url('backoffice/result_admin/index');
+        $config['total_rows'] = $this->result_model->count();
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+
+        $data['paginationLinks'] = $this->pagination->create_links();
+$this->output->enable_profiler(TRUE);
         $data['content'] = [$this->load->view('backoffice/result/index', $data, true)];
 
         $this->load->view('backoffice/layout_backoffice', $data);
@@ -192,7 +205,7 @@ class Result_admin extends CI_Controller {
                 'status' => $status,
             ];
         }
- 
+
         $data['content'] = [$this->load->view('backoffice/result/edit', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }

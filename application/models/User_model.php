@@ -119,11 +119,11 @@ class User_model extends MY_Model {
                         ->result_object()[0];
     }
 
-    public function getUsers($sort = 'asc',$limit = null) {
+    public function getUsers($sort = 'asc',$limit = null, $offset = null) {
         return $this->db->select('users.*, roles.name')
                         ->join('roles', 'roles.id = users.role_id')
                         ->order_by('users.id', $sort)
-                        ->get($this->table, $limit)->result_object();
+                        ->get($this->table, $limit, $offset)->result_object();
     }
     
     public function increaseToRole($userId, $roleName) {
