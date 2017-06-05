@@ -1,5 +1,4 @@
-<div id="articlesSearch" class="parallax-container">
-    <div class="section no-pad-bot">
+    <!--<div class="section no-pad-bot">
         <div class="container">
             <div class="row">
                 <p class="center">Rechercher un article sur le site</p>
@@ -10,21 +9,19 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="parallax"><img src="<?= base_url(); ?>assets/images/libre/piste-noire.jpg" alt="Unsplashed background img 1"></div>
-</div>
+    </div>-->
 
 <section class="container well-pad">
     <div class="row">
         <!-- Options -->
-        <div class="col m2 s12">
+        <!--<div class="col m2 s12">
             <div class="collection">
                 <a href="#!" class="collection-item">Option 1</a>
                 <a href="#!" class="collection-item active">Option 2</a>
                 <a href="#!" class="collection-item">Option 3</a>
                 <a href="#!" class="collection-item">Option 4</a>
             </div>
-        </div>
+        </div>-->
         <!-- Articles -->
 
 

@@ -19,7 +19,7 @@ class User extends CI_Controller {
      * Permet à l'utilisateur de s'inscrir
      */
     public function signup() {
-        
+
         if (isset($this->session->userdata['id'])) {
             $userData['id'] = $this->session->userdata['id'];
             if ($this->user_model->isRole($userData['id'], 'admin')) {
@@ -32,8 +32,14 @@ class User extends CI_Controller {
         }
 
         $this->form_validation->set_error_delimiters('');
-        $this->form_validation->set_rules('username', 'Username', 'required|min_length[3]|is_unique[users.login]');
-        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[20]|is_unique[users.login]', [
+            'min_length' => 'Le login doit faire minimum 5 caractères',
+            'max_length' => 'Le login ne peut faire que 20 caractères'
+        ]);
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]|regex_match[/[A-Z]{2,}/]', [
+            'min_length' => 'Le mot de passe doit faire minimum 8 caractères',
+            'regex_match' => 'Le mot de passe doit contenir minimum 2 majuscules'
+        ]);
         $this->form_validation->set_rules('passwordVerif', 'Password verification', 'required|matches[password]');
         $this->form_validation->set_rules('email', 'E-mail', 'required|is_unique[users.email]');
 
@@ -64,7 +70,7 @@ class User extends CI_Controller {
             }
         }
         $data['content'] = [$this->load->view('user/signup', $data, true)];
-        $this->load->view('templates/layout', $data);
+        $this->load->view('templates/layout_content', $data);
     }
 
     /**
@@ -203,6 +209,21 @@ class User extends CI_Controller {
         $data['content'] = [$this->load->view('user/addRequest', $data, true)];
 
         $this->load->view('templates/layout', $data);
+    }
+
+    public function dispatcher() {
+        if (!isset($this->session->userdata['id'])) {
+            redirect('accueil', 'location', 301);
+        } else {
+            $userData['id'] = $this->session->userdata['id'];
+            if ($this->user_model->isRole($userData['id'], 'admin')) {
+                redirect('backoffice', 'location', 301);
+            } elseif ($this->user_model->isRole($userData['id'], 'athlete')) {
+                redirect('athlete', 'location', 301);
+            } elseif ($this->user_model->isRole($userData['id'], 'user')) {
+                redirect('accueil', 'location', 301);
+            }
+        }
     }
 
 }

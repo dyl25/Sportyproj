@@ -36,7 +36,7 @@ class Article extends CI_Controller {
 
         $data['content'] = [$this->load->view('article/index', $data, true)];
 
-        $this->load->view('templates/layout', $data);
+        $this->load->view('templates/layout_content', $data);
     }
 
     /**
@@ -84,10 +84,6 @@ class Article extends CI_Controller {
                 $status = 'error';
             }
 
-            /* $data['notification'] = [
-              'msg' => $msg,
-              'status' => $status
-              ]; */
             $this->session->set_flashdata('notification', [
                 'msg' => $msg,
                 'status' => $status,
@@ -97,7 +93,7 @@ class Article extends CI_Controller {
 
         $data['content'] = [$this->load->view('article/view', $data, true)];
 
-        $this->load->view('templates/layout', $data);
+        $this->load->view('templates/layout_content', $data);
     }
 
 }

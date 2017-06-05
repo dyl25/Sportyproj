@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" >
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-        <title><?= $title; ?></title>
+        <title><?= html_escape($title); ?></title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/style.css">
@@ -78,6 +78,7 @@
                                     <ul>
                                         <li><a href="<?= site_url('backoffice/event_admin'); ?>">Gérer</a></li>
                                         <li><a href="<?= site_url('backoffice/event_admin/competitions'); ?>">Compétitions</a></li>
+                                        <li><a href="<?= site_url('backoffice/event_admin/reunions'); ?>">Réunions</a></li>
                                         <li><a href="<?= site_url('backoffice/event_admin/add'); ?>">Ajouter</a></li>
                                     </ul>
                                 </div>
@@ -102,15 +103,15 @@
             </div>
             <!-- Nav mobile -->
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="#"><i class="material-icons left">dashboard</i> Dashboard</a></li>
+                <li><a href="<?= site_url('backoffice/dashboard_admin'); ?>"><i class="material-icons left">dashboard</i> Dashboard</a></li>
                 <li class="no-padding">
                     <ul class="collapsible no-margin" data-collapsible="accordion">
                         <li>
                             <a class="collapsible-header"><i class="material-icons left">supervisor_account</i> Users <i class="material-icons right">arrow_drop_down</i></a>
                             <div class="collapsible-body no-padding">
                                 <ul>
-                                    <li><a href="#!">Gérer</a></li>
-                                    <li><a href="#!">Ajouter</a></li>
+                                    <li><a href="<?= site_url('backoffice/user_admin'); ?>">Gérer</a></li>
+                                    <li><a href="<?= site_url('backoffice/user_admin/add'); ?>">Ajouter</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -118,13 +119,56 @@
                             <a class="collapsible-header"><i class="material-icons left">library_books</i> Articles <i class="material-icons right">arrow_drop_down</i></a>
                             <div class="collapsible-body no-padding">
                                 <ul>
-                                    <li><a href="#!">Gérer</a></li>
-                                    <li><a href="#!">Ajouter</a></li>
+                                    <li><a href="<?= site_url('backoffice/article_admin'); ?>">Gérer</a></li>
+                                    <li><a href="<?= site_url('backoffice/article_admin/add'); ?>">Ajouter</a></li>
                                 </ul>
                             </div>
                         </li>
+                        <li>
+                            <a class="collapsible-header"><i class="material-icons left">store</i> Club <i class="material-icons right">arrow_drop_down</i></a>
+                            <div class="collapsible-body no-padding">
+                                <ul>
+                                    <li><a href="<?= site_url('backoffice/club_admin'); ?>">Gérer</a></li>
+                                    <li><a href="<?= site_url('backoffice/club_admin/add'); ?>">Ajouter</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header"><i class="material-icons left">alarm_on</i> Résultats <i class="material-icons right">arrow_drop_down</i></a>
+                            <div class="collapsible-body no-padding">
+                                <ul>
+                                    <li><a href="<?= site_url('backoffice/result_admin'); ?>">Gérer</a></li>
+                                    <li><a href="<?= site_url('backoffice/result_admin/add'); ?>">Ajouter</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header"><i class="material-icons left">add_alert</i> Evénements <i class="material-icons right">arrow_drop_down</i></a>
+                            <div class="collapsible-body no-padding">
+                                <ul>
+                                    <li><a href="<?= site_url('backoffice/event_admin'); ?>">Gérer</a></li>
+                                    <li><a href="<?= site_url('backoffice/event_admin/competitions'); ?>">Compétitions</a></li>
+                                    <li><a href="<?= site_url('backoffice/event_admin/reunions'); ?>">Réunions</a></li>
+                                    <li><a href="<?= site_url('backoffice/event_admin/add'); ?>">Ajouter</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="collapsible-header"><i class="material-icons left">location_on</i>Itinéraires <i class="material-icons right">arrow_drop_down</i></a>
+                            <div class="collapsible-body no-padding">
+                                <ul>
+                                    <li><a href="<?= site_url('backoffice/map_admin'); ?>">Gérer</a></li>
+                                    <li><a href="<?= site_url('backoffice/map_admin/add'); ?>">Ajouter</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('backoffice/demande_admin') ?>"><i class="material-icons left">offline_pin</i>Demandes</a>
+                        </li>
                     </ul>
                 </li>
+                <li><a href="<?= site_url('accueil'); ?>" class="darken-4waves"><i class="material-icons left">store</i> Accueil du site</a></li>
+                <li><a href="<?= site_url('logout'); ?>" class="darken-4waves"><i class="material-icons left">power_settings_new</i> Déconnexion</a></li>
             </ul>
 
             <a href="#" data-activates="nav-mobile" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>

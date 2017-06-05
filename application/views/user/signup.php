@@ -23,12 +23,12 @@
         <fieldset>
 
             <div class="input-field">
-                <input id="username" name="username" type="text" class="validate" required="required">
+                <input id="username" name="username" type="text" class="validate tooltipped" required="required" data-position="top" data-delay="60" data-tooltip="Minimum 5 caractères">
                 <label for="username">Login</label> 
             </div>
 
             <div class="input-field">
-                <input id="password" name="password" type="password" class="validate" required="required">
+                <input id="password" name="password" type="password" class="validate tooltipped" required="required" data-delay="60" data-tooltip="Minimum 8 caractères dont 2 majuscules">
                 <label for="password">Mot de passe</label> 
             </div>
 

@@ -43,14 +43,14 @@ class Event_model extends MY_Model {
      * @return array Un tableau contenant tous les articles.
      * @author Dylan Vansteenacker
      */
-    public function getEvents($sort = 'asc', $limit = null) {
+    public function getEvents($sort = 'asc', $limit = null, $offset = null) {
 
         $this->db->select('events.*, localites.postcode, localites.city, category.name AS categoryName')
                 ->join('localites', 'localites.id = events.localite_id')
                 ->join('category', 'category.id = events.category_id')
                 ->order_by('events.date', $sort);
 
-        return $this->db->get($this->table, $limit)->result_object();
+        return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 
     public function getByType($category) {

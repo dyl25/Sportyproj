@@ -144,7 +144,7 @@ class Result_admin extends CI_Controller {
         try {
             $data['result'] = $this->result_model->getBy('id', $id);
         } catch (DomainException $e) {
-            show_404();
+            //show_404();
         }
 
         $this->load->model('event_model');
@@ -192,6 +192,7 @@ class Result_admin extends CI_Controller {
                 'status' => $status,
             ];
         }
+ 
         $data['content'] = [$this->load->view('backoffice/result/edit', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }

@@ -51,4 +51,21 @@ class Athlete_model extends MY_Model {
         return $this->db->get($this->table, $limit)->result_object();
     }
 
+    public function getCompleteData($option, $value) {
+        $allowedOptions = ['id', 'user_id'];
+
+        if (!in_array($option, $allowedOptions)) {
+            throw new DomainException("L'option ne se trouve pas dans celles autorisées");
+        }
+
+        return $this->db->select('athletes.*, clubs.name as clubName, '
+                . 'category_athlete.name as categoryName, users.profile_image as picture, '
+                . 'users.login as login, users.email')
+                        ->join('clubs', 'clubs.id = athletes.club_id')
+                        ->join('category_athlete', 'category_athlete.id = athletes.category_id')
+                        ->join('users', 'users.id = athletes.user_id')
+                        ->get_where($this->table, [$this->table . '.' . $option => $value])
+                        ->row();
+    }
+
 }

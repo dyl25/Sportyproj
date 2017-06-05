@@ -23,7 +23,7 @@ class Result_model extends MY_Model {
      */
     public function getBy($option, $value) {
 
-        $allowedOptions = ['id'];
+        $allowedOptions = ['id', 'users.id'];
 
         if (!in_array($option, $allowedOptions)) {
             throw new DomainException("L'option ne se trouve pas dans celles autorisées");
@@ -56,6 +56,17 @@ class Result_model extends MY_Model {
                 ->order_by('results.id', $sort);
 
         return $this->db->get($this->table, $limit)->result_object();
+    }
+    
+    public function getByAthlete($id, $sort = 'asc', $limit = null) {
+        return $this->db->select('results.*, epreuves.name as epreuve, epreuves.type,'
+                                . 'users.login as athlete, events.name as event')
+                        ->join('epreuves', 'epreuves.id = results.epreuve_id')
+                        ->join('athletes', 'athletes.id = results.athlete_id')
+                        ->join('users', 'users.id = athletes.user_id')
+                        ->join('events', 'events.id = results.event_id')
+                        ->get_where($this->table, ['results.athlete_id' => $id])
+                        ->result_object();
     }
 
 }

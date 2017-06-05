@@ -68,7 +68,7 @@
 
     <div class="row">
         <div class="input-field col s6">
-            <input id="registerNum" name="registerNum" type="number">
+            <input id="registerNum" name="registerNum" type="number" <?php if (isset($athlete)) { ?>value="<?= $athlete->register_num; ?>" <?php } ?>>
             <label for="registerNum">Numéro de dossard</label> 
         </div>
     </div>

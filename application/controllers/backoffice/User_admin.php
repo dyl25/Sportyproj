@@ -103,6 +103,7 @@ class User_admin extends CI_Controller {
         //recuperation de l'id du role
         $roleName = $this->input->post('role');
         $dataDb['role_id'] = $this->role_model->getId($roleName);
+        var_dump($roleName);
 
         if ($method == 'create') {
             $userId = $this->user_model->createUser($dataDb);
@@ -142,7 +143,7 @@ class User_admin extends CI_Controller {
                 $status = 'error';
             } else {
                 //si l'athlète n'a pas été supprimé avant
-                if (!$athleteRemoved) {
+                if ($athleteRemoved) {
                     return $this->prepareAthlete($id, 'update');
                 }
                 $msg = "L'utilisateur a bien été modifié !";
@@ -182,7 +183,7 @@ class User_admin extends CI_Controller {
         $this->form_validation->set_rules('email', 'e-mail', 'required|is_unique[users.email]|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'required');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'required|matches[password]');
-        $this->form_validation->set_rules('role', 'role', 'required|is_natural_no_zero');
+        $this->form_validation->set_rules('role', 'role', 'required');
 
         //seulement si l'id du role est athlete
         if ($this->input->post('role') == 'athlete') {
@@ -206,10 +207,6 @@ class User_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
-    public function view($id) {
-        
-    }
-
     /**
      * Edition d'un utilisateur.
      * @param type $id
@@ -218,12 +215,13 @@ class User_admin extends CI_Controller {
         $this->load->model('athlete_model');
         try {
             $data['user'] = $this->user_model->getBy('id', $id);
-            $data['athlete'] = $this->athlete_model->getBy('user_id', $id);
+            if ($data['user']->name == 'athlete') {
+                $data['athlete'] = $this->athlete_model->getBy('user_id', $id);
+            }
         } catch (DomainException $e) {
             show_404();
         }
-        var_dump($data['user']);
-        var_dump($data['athlete']);
+
         $this->load->helper('form');
         $this->load->model('role_model');
         $this->load->model('club_model');
@@ -242,7 +240,7 @@ class User_admin extends CI_Controller {
         $this->form_validation->set_rules('email', 'e-mail', 'required|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'trim|min_length[3]');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'matches[password]|trim');
-        $this->form_validation->set_rules('role', 'role', 'required|is_natural_no_zero');
+        $this->form_validation->set_rules('role', 'role', 'required');
 
         if ($this->input->post('role') == 'athlete') {
             $this->form_validation->set_rules('club', 'club', 'required|is_natural_no_zero');

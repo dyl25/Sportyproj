@@ -64,7 +64,7 @@ class Article_admin extends CI_Controller {
         $this->load->helper('text');
         
         $dataDb['title'] = $this->input->post('title');
-        $dataDb['content'] = $this->input->post('content');
+        $dataDb['content'] = $this->input->post('content', true);
         $dataDb['category_id'] = $this->input->post('category');
         $dataDb['author'] = $this->session->userdata('id');
         $dataDb['slug'] = slugify($this->input->post('title'));

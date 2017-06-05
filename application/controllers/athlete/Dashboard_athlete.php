@@ -33,8 +33,8 @@ class Dashboard_athlete extends CI_Controller {
         $this->load->model('result_model');
         
         $data['athlete'] = $this->athlete_model->getBy('user_id', $this->session->userdata['id']);
-        $data['events'] = $this->event_model->getEvents();
-        $data['results'] = $this->result_model->getResults();
+        $data['events'] = $this->event_model->getEvents('desc', 10);
+        $data['results'] = $this->result_model->getByAthlete($this->session->userdata['id'], 'desc', 10);
 
         //On charge la vue que l'on va injecter dans le layout 
         $data['content'] = [$this->load->view('athlete/dashboard/index', $data, true)];

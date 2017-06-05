@@ -23,8 +23,7 @@
         );
 
   $('#modal1').modal('open');
-          
-
+         
         //supprime l'image sélectionnée d'un formulaire
         $('.file-reset').click(function () {
             var input = $("input[name=image], input.file-path");

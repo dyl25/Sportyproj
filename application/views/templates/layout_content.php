@@ -121,52 +121,12 @@
 
         </header>
         <main>
+            <div id="articlesSearch" class="parallax-container">
+                <div class="parallax"><img src="<?= base_url(); ?>assets/images/libre/piste-noire.jpg" alt="Unsplashed background img 1"></div>
+            </div>
             <?php foreach ($content as $data): ?>
                 <?= $data; ?>
             <?php endforeach; ?>
         </main>
-        <footer class="page-footer teal">
-            <div class="container">
-                <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text title">Company Bio</h5>
-                        <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-                    </div>
-
-                    <div class="col l3 s12">
-                        <h5 class="white-text title">Links</h5>
-                        <ul>
-                            <li>
-                                <a href="<?= site_url('accueil'); ?>">Accueil</a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url('contact'); ?>">Informations</a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url('article'); ?>">Articles</a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url('event'); ?>">Evénements</a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url('contact'); ?>">Résultats</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col l3 s12 reseautage">
-                        <ul>
-                            <li><a href="#" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Facebook"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                            <li><a href="#" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Twitter"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
-                            <li><a href="#" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Google +"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-copyright">
-                <div class="container">
-                    Made by <a class="brown-text text-lighten-3" href="#">Dylan Vansteenacker</a>
-                </div>
-            </div>
-        </footer>
     </body>
 </html>

@@ -20,7 +20,7 @@
                 <?php foreach ($events as $event): ?>
                     <tr>
                         <td><?= html_escape($event->id); ?></td>
-                        <td><a href="<?= site_url('backoffice/event_admin/view/') . html_escape($event->id); ?>"><?= html_escape($event->name); ?></a></td>
+                        <td><a href="<?= site_url('event/view/') . html_escape($event->id); ?>"><?= html_escape($event->name); ?></a></td>
                         <td><?= html_escape($event->categoryName); ?></td>
                         <td><?= html_escape($event->date); ?></td>
                         <td><?= html_escape($event->address); ?></td>

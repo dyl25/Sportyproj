@@ -116,23 +116,6 @@ class Event_admin extends CI_Controller {
     }
 
     /**
-     * Présente les infos du club
-     * @param int $id L'id du club
-     */
-    public function view($id = null) {
-        try {
-            $data['club'] = $this->club_model->getBy('id', $id);
-        } catch (DomainException $e) {
-            show_404();
-        }
-
-        $data['title'] = 'Vue du club ' . $data['club']->name;
-
-        $data['content'] = [$this->load->view('backoffice/club/view', $data, true)];
-        $this->load->view('backoffice/layout_backoffice', $data);
-    }
-
-    /**
      * Modification d'un événement
      * @param type $id
      */
@@ -245,6 +228,13 @@ class Event_admin extends CI_Controller {
         $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
         $this->load->view('backoffice/layout_backoffice', $data);
     }
+    
+    public function reunions() {
+        $data['title'] = 'Réunions';
+        $data['events'] = $this->event_model->getByType('réunion');
+        $data['content'] = [$this->load->view('backoffice/event/index', $data, true)];
+        $this->load->view('backoffice/layout_backoffice', $data);
+    }
 
     public function addCoord($id = null) {
         
@@ -259,7 +249,7 @@ class Event_admin extends CI_Controller {
             'class' => 'col s12'
         ];
 
-        $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim');
+        $this->form_validation->set_rules('coord', 'coordonée Google Maps', 'trim|required');
 
         if ($this->form_validation->run() == true) {
             $dataDb['coord'] = $this->input->post('coord');
