@@ -14,6 +14,10 @@ class Category_model extends CI_Model {
 
     const TABLE = 'category';
 
+    /**
+     * Recupere toutes les categories
+     * @return array Un tableau de resultats
+     */
     public function getCategories() {
 
         return $this->db->get(self::TABLE)

@@ -37,8 +37,10 @@ class Club_model extends MY_Model {
 
     /**
      * Récupère tous les clubs.
-     * @param mixed $limit Une limite de resultats
-     * @return array Un tableau contenant tous les articles.
+     * @param string $sort Le type de tri
+     * @param int $limit La limite de résultats
+     * @param int $offset De où commencer la récupération
+     * @return array Un tableau contenant tous les resultats
      * @author Dylan Vansteenacker
      */
     public function getClubs($sort = 'asc',$limit = null, $offset = null) {

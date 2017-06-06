@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Model club, contient les méthodes d'accès et de manipulations
+ * Model event, contient les méthodes d'accès et de manipulations
  *
  * @author Dylan Vansteenacker
  */
@@ -15,11 +15,11 @@ class Event_model extends MY_Model {
     protected $table = 'events';
 
     /**
-     * Recherche un evenement par son id
+     * Recherche un evenement par son id ou categorie
      * @param string $option Le nom de colonne sur laquelle faire la recherche.
      * @param mixed $value La valeur à recherchée.
      * @throws DomainException si $option ne fait pas partie de $allowedOption
-     * @see $allowedOption
+     * @see $allowedOptions
      */
     public function getBy($option, $value) {
 
@@ -37,11 +37,11 @@ class Event_model extends MY_Model {
     }
 
     /**
-     * Récupère tous les clubs.
-     * @param mixed $limit Une limite de resultats
-     * @param array $where Un tableau de condition pour la recuperation
-     * @return array Un tableau contenant tous les articles.
-     * @author Dylan Vansteenacker
+     * Récupère tous les events.
+     * @param string $sort Le type de tri
+     * @param int $limit La limite de résultats
+     * @param int $offset De où commencer la récupération
+     * @return array Un tableau contenant tous les resultats
      */
     public function getEvents($sort = 'asc', $limit = null, $offset = null) {
 
@@ -53,6 +53,13 @@ class Event_model extends MY_Model {
         return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 
+    /**
+     * Récupère les events par categorie
+     * @param string $category Le type d'event
+     * @return array Un tableau de tous les resultats
+     * @throws DomainException si $category ne fait pas partie de $allowedOption
+     * @see $allowedOptions
+     */
     public function getByType($category) {
         $allowedOptions = ['réunion', 'compétition'];
 

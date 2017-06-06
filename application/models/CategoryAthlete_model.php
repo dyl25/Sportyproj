@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Model club, contient les méthodes d'accès et de manipulations
+ * Model CategoryAthlete, contient les méthodes d'accès et de manipulations
  *
  * @author Dylan Vansteenacker
  */
@@ -15,7 +15,7 @@ class CategoryAthlete_model extends MY_Model {
     protected $table = 'category_athlete';
 
     /**
-     * Recherche un club par son id
+     * Recherche une categorie par son id
      * @param string $option Le nom de colonne sur laquelle faire la recherche.
      * @param mixed $value La valeur à recherchée.
      * @throws DomainException si $option ne fait pas partie de $allowedOption
@@ -36,9 +36,9 @@ class CategoryAthlete_model extends MY_Model {
     }
 
     /**
-     * Récupère tous les clubs.
+     * Récupère toutes les categories.
      * @param mixed $limit Une limite de resultats
-     * @return array Un tableau contenant tous les articles.
+     * @return array Un tableau contenant tous les resultats.
      * @author Dylan Vansteenacker
      */
     public function getCategories($limit = null) {

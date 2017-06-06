@@ -19,7 +19,7 @@ class Route_model extends MY_Model {
      * @param string $option Le nom de colonne sur laquelle faire la recherche.
      * @param mixed $value La valeur à recherchée.
      * @throws DomainException si $option ne fait pas partie de $allowedOption
-     * @see $allowedOption
+     * @see $allowedOptions
      */
     public function getBy($option, $value) {
 
@@ -36,9 +36,10 @@ class Route_model extends MY_Model {
 
     /**
      * Récupère tous les itinéraires.
-     * @param mixed $limit Une limite de resultats
+     * @param string $sort Le type de tri
+     * @param int $limit La limite de résultats
+     * @param int $offset De où commencer la récupération
      * @return array Un tableau contenant tous les resultats.
-     * @author Dylan Vansteenacker
      */
     public function getRoutes($sort = 'asc', $limit = null, $offset = null) {
 

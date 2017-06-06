@@ -36,8 +36,9 @@ class Demande_model extends MY_Model {
 
     /**
      * Récupère toutes les demandes.
-     * @param mixed $limit Une limite de resultats
-     * @param array $where Un tableau de condition pour la recuperation
+     * @param string $sort Le type de tri
+     * @param int $limit La limite de résultats
+     * @param int $offset De où commencer la récupération
      * @return array Un tableau contenant toutes les demandes.
      * @author Dylan Vansteenacker
      */

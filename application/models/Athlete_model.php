@@ -15,7 +15,7 @@ class Athlete_model extends MY_Model {
     protected $table = 'athletes';
 
     /**
-     * Recherche un club par son id
+     * Recherche un athletepar son id
      * @param string $option Le nom de colonne sur laquelle faire la recherche.
      * @param mixed $value La valeur à recherchée.
      * @throws DomainException si $option ne fait pas partie de $allowedOption

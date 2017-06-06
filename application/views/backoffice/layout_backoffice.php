@@ -55,7 +55,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a class="collapsible-header"><i class="material-icons left">store</i> Club <i class="material-icons right">arrow_drop_down</i></a>
+                                <a class="collapsible-header"><i class="material-icons left">store</i> Clubs <i class="material-icons right">arrow_drop_down</i></a>
                                 <div class="collapsible-body no-padding">
                                     <ul>
                                         <li><a href="<?= site_url('backoffice/club_admin'); ?>">Gérer</a></li>
@@ -125,7 +125,7 @@
                             </div>
                         </li>
                         <li>
-                            <a class="collapsible-header"><i class="material-icons left">store</i> Club <i class="material-icons right">arrow_drop_down</i></a>
+                            <a class="collapsible-header"><i class="material-icons left">store</i> Clubs <i class="material-icons right">arrow_drop_down</i></a>
                             <div class="collapsible-body no-padding">
                                 <ul>
                                     <li><a href="<?= site_url('backoffice/club_admin'); ?>">Gérer</a></li>

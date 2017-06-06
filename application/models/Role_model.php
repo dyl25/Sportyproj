@@ -15,8 +15,8 @@ class Role_model extends CI_Model {
 
     /**
      * Récupère tous les roles
-     * @param type $limit
-     * @return type
+     * @param int $limit Une limite de resultats
+     * @return array Un tableau de tous les resultats
      */
     public function getRoles($limit = null) {
         return $this->db->get($this->table, $limit)->result_object();

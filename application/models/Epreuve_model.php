@@ -15,7 +15,7 @@ class Epreuve_model extends MY_Model {
     protected $table = 'epreuves';
 
     /**
-     * Recherche un evenement par son id
+     * Recherche une epreuve par son id ou categorie
      * @param string $option Le nom de colonne sur laquelle faire la recherche.
      * @param mixed $value La valeur à recherchée.
      * @throws DomainException si $option ne fait pas partie de $allowedOption
@@ -36,9 +36,9 @@ class Epreuve_model extends MY_Model {
     }
 
     /**
-     * Récupère tous les clubs.
+     * Récupère toutes les epreuves.
      * @param mixed $limit Une limite de resultats
-     * @return array Un tableau contenant tous les articles.
+     * @return array Un tableau contenant tous les resultats.
      * @author Dylan Vansteenacker
      */
     public function getEpreuves($limit = null) {

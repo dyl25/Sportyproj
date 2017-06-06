@@ -40,7 +40,7 @@ class User_model extends MY_Model {
     /**
      * Cree un utilisateur et retourne son id
      * @param array $params Le tableau de données
-     * @return mixed L'id de l'utilisateur cree
+     * @return mixed L'id de l'utilisateur cree sinon false
      */
     public function createUser($params = array()) {
         if (empty($params)) {
@@ -74,9 +74,9 @@ class User_model extends MY_Model {
     
     /**
      * Determine si un utilisateur a le role demandé.
-     * @param type $userId L'id de l'utilisateur.
-     * @param type $roleName Le nom du role.
-     * @return bool Un booleen selon que l'utilisateur possede le role ou non.
+     * @param int $userId L'id de l'utilisateur.
+     * @param string $roleName Le nom du role.
+     * @return bool Si l'utilisateur possede le role ou non.
      */
     public function isRole($userId, $roleName) {
         $this->db->select('role_id')
@@ -92,7 +92,7 @@ class User_model extends MY_Model {
     }
 
     /**
-     * Récupère l'id et le login d'un utilisateur grâce à son login.
+     * Récupère l'id le login et le role d'un utilisateur grâce à son login.
      * @param string $email L'email de l'utilisateur.
      * @return int L'id de l'utilisateur
      */
@@ -119,6 +119,13 @@ class User_model extends MY_Model {
                         ->result_object()[0];
     }
 
+    /**
+     * Recupere tous les utilsateurs
+     * @param string $sort Le type de tri
+     * @param int $limit La limite de résultats
+     * @param int $offset De où commencer la récupération
+     * @return array Un tableau contenant tous les resultats
+     */
     public function getUsers($sort = 'asc',$limit = null, $offset = null) {
         return $this->db->select('users.*, roles.name')
                         ->join('roles', 'roles.id = users.role_id')
