@@ -33,9 +33,6 @@
                         <a href="<?= site_url('accueil'); ?>" class="brand-logo center"><img src="<?= base_url(); ?>assets/images/logo_2_resize.png"></a>
                         <ul class="right hide-on-med-and-down">
                             <li>
-                                <a href="<?= site_url('backoffice/user_admin/add'); ?>">Accueil</a>
-                            </li>
-                            <li>
                                 <a href="<?= site_url('accueil'); ?>">Accueil</a>
                             </li>
                             <li>

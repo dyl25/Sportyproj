@@ -3,9 +3,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Accueil
+ * Resume les informations sur le backoffice
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
 class Dashboard_admin extends CI_Controller {
 
@@ -23,11 +23,14 @@ class Dashboard_admin extends CI_Controller {
         }
     }
 
+    /**
+     * Présentation de résultats
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
+     */
     public function index() {
 
         $data['title'] = 'Dashboard de l\'espace administrateur';
-
-        
 
         $this->load->model('article_model');
         $this->load->model('athlete_model');

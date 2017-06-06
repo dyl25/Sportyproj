@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Controller pour les articles du backoffice
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
 class Article_admin extends CI_Controller {
 
@@ -25,8 +25,9 @@ class Article_admin extends CI_Controller {
     }
 
     /**
-     * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des articles
+     * Presentation articles
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
      */
     public function index($offset = 0) {
         $data['title'] = 'Gestion des articles';
@@ -49,6 +50,13 @@ class Article_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
+    /**
+     * Prepare un article pour son ajout ou modification
+     * @param string $method Ajout ou modif
+     * @param bool $upload Image à upload ou pas
+     * @param int $id L'id de l'article pour modification
+     * @return string Le status de l'ajout ou de la modification
+     */
     private function prepareArticle($method, $upload = false, $id = null) {
         $dataDb['image'] = null;
         if ($upload) {
@@ -138,6 +146,10 @@ class Article_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
+    /**
+     * Vue sur l'article
+     * @param string $slug titre de l'article slugifier
+     */
     public function view($slug = null) {
         //code 301 pour dire que la redirection est permannente et non temporaire
         redirect('article/view/' . $slug, 'location', 301);

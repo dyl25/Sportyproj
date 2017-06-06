@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Controller pour les resultats du backoffice
+ * Controller pour les resultats
  *
  * @author Dylan Vansteenacker
  */
@@ -52,8 +52,7 @@ class Result_athlete extends CI_Controller {
     }
 
     /**
-     * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des resultats
+     * Presentation des resultats de l'athlete
      */
     public function index() {
         $data['title'] = 'Résultats réalisés';

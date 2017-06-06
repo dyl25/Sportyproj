@@ -25,12 +25,13 @@ class Map_admin extends CI_Controller {
     }
 
     /**
-     * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des articles
+     * Presentation des itineraires
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
      */
     public function index($offset = 0) {
         $data['title'] = 'Gestion des itinéraires';
-        $limit = 1;
+        $limit = 15;
         $data['routes'] = $this->route_model->getRoutes('asc', $limit, $offset);
 
         $this->load->library('pagination');
@@ -84,8 +85,8 @@ class Map_admin extends CI_Controller {
     }
 
     /**
-     * Présente les infos du club
-     * @param int $id L'id du club
+     * Présente les infos de l'itineraire
+     * @param int $id L'id de l'itineraire
      */
     public function view($id = null) {
 
@@ -148,8 +149,8 @@ class Map_admin extends CI_Controller {
     }
 
     /**
-     * Supprime un club
-     * @param int $id L'id du club.
+     * Supprime un itineraire
+     * @param int $id L'id de l'itineraire.
      */
     public function delete($id) {
 

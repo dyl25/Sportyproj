@@ -48,7 +48,7 @@ class Result_model extends MY_Model {
     public function getResults($sort = 'asc', $limit = null, $offset = null) {
 
         $this->db->select('results.*, epreuves.name as epreuve, epreuves.type,'
-                        . 'users.login as athlete, events.name as event')
+                        . 'users.login as athlete, events.name as event, events.date as eventDate')
                 ->join('epreuves', 'epreuves.id = results.epreuve_id')
                 ->join('athletes', 'athletes.id = results.athlete_id')
                 ->join('users', 'users.id = athletes.user_id')
@@ -65,7 +65,7 @@ class Result_model extends MY_Model {
                         ->join('athletes', 'athletes.id = results.athlete_id')
                         ->join('users', 'users.id = athletes.user_id')
                         ->join('events', 'events.id = results.event_id')
-                        ->get_where($this->table, ['results.athlete_id' => $id])
+                        ->get_where($this->table, ['users.id' => $id])
                         ->result_object();
     }
 

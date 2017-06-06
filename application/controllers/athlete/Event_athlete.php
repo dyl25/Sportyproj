@@ -14,7 +14,7 @@ class Event_athlete extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('event_model');
 
-        //before filter afin de voir si l'utilisateur peut accéder au backoffice
+        //before filter afin de voir si l'utilisateur peut accéder a l'espace
         if (!$this->session->userdata['login']) {
             redirect('login', 'location', 301);
         }
@@ -24,6 +24,9 @@ class Event_athlete extends CI_Controller {
         }
     }
 
+    /**
+     * Presentation des evenements
+     */
     public function index() {
         $data['title'] = 'Evénements';
 
@@ -33,6 +36,9 @@ class Event_athlete extends CI_Controller {
         $this->load->view('athlete/layout_athlete', $data);
     }
 
+    /**
+     * Presentation des competitions
+     */
     public function competitions() {
         $data['title'] = 'Compétitions';
         $data['events'] = $this->event_model->getByType('compétition');
@@ -40,6 +46,9 @@ class Event_athlete extends CI_Controller {
         $this->load->view('athlete/layout_athlete', $data);
     }
     
+    /**
+     * Presentation des reunions
+     */
     public function reunions() {
         $data['title'] = 'Réunions';
         $data['events'] = $this->event_model->getByType('réunion');

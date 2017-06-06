@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Controller pour les clubs du backoffice
+ * Controller pour les evenements du backoffice
  *
  * @author Dylan Vansteenacker
  */
@@ -25,8 +25,9 @@ class Event_admin extends CI_Controller {
     }
 
     /**
-     * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des articles
+     * Presentation des evenements
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
      */
     public function index($offset = 0) {
         $data['title'] = 'Gestion des événements';
@@ -49,7 +50,7 @@ class Event_admin extends CI_Controller {
     }
 
     /**
-     * Ajout d'un club pour backoffice.
+     * Ajout d'un evenement
      */
     public function add() {
 
@@ -129,7 +130,7 @@ class Event_admin extends CI_Controller {
 
     /**
      * Modification d'un événement
-     * @param type $id
+     * @param int $id L'id de l'evenement
      */
     public function edit($id = null) {
         try {

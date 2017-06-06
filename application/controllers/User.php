@@ -16,7 +16,7 @@ class User extends CI_Controller {
     }
 
     /**
-     * Permet à l'utilisateur de s'inscrir
+     * Permet à l'utilisateur de s'inscrire
      */
     public function signup() {
 
@@ -143,6 +143,9 @@ class User extends CI_Controller {
         redirect('accueil', 'location', 301);
     }
 
+    /**
+     * Controller de la page contact et gère le formulaire de contact
+     */
     public function contact() {
 
         $data['title'] = 'Toutes les informations nécessaires sur le club';
@@ -174,7 +177,23 @@ class User extends CI_Controller {
         $this->load->view('templates/layout', $data);
     }
 
+    /**
+     * Permet d'envoyer une demande pour un utilisateur devenir athlete
+     */
     public function addRequest() {
+
+        //si visiteur
+        if (!isset($this->session->userdata['id'])) {
+            redirect('accueil', 'location', 301);
+        }
+
+        $userData['id'] = $this->session->userdata['id'];
+        //si deja athlete
+        if ($this->user_model->isRole($userData['id'], 'admin')) {
+            redirect('backoffice', 'location', 301);
+        } elseif ($this->user_model->isRole($userData['id'], 'athlete')) {
+            redirect('athlete', 'location', 301);
+        }
 
         $this->load->model('categoryAthlete_model');
         $this->load->model('demande_model');
@@ -208,9 +227,12 @@ class User extends CI_Controller {
 
         $data['content'] = [$this->load->view('user/addRequest', $data, true)];
 
-        $this->load->view('templates/layout', $data);
+        $this->load->view('templates/layout_content', $data);
     }
 
+    /**
+     * dispatche dans les differents espaces selon le role
+     */
     public function dispatcher() {
         if (!isset($this->session->userdata['id'])) {
             redirect('accueil', 'location', 301);

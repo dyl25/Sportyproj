@@ -3,9 +3,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Accueil
+ * Controller pour l'accueil du site
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
 class Accueil extends CI_Controller {
 

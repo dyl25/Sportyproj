@@ -26,7 +26,9 @@ class Club_admin extends CI_Controller {
 
     /**
      * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des articles
+     * de gestions des clubs
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
      */
     public function index($offset = 0) {
         $data['title'] = 'Gestion des clubs';
@@ -139,7 +141,7 @@ class Club_admin extends CI_Controller {
 
     /**
      * Modification d'un club
-     * @param type $id
+     * @param int $id l'id du club à modifier
      */
     public function edit($id = null) {
         try {

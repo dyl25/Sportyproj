@@ -16,7 +16,7 @@
 </section>
 <section class="grey lighten-3">
     <div class="container section">
-        <h2>Prochains événements</h2>
+        <h2><a href="<?= site_url('event/index') ?>">Prochains événements</a></h2>
         <hr>
         <table class="striped highlight">
             <thead>
@@ -30,7 +30,7 @@
             <tbody>
                 <?php foreach ($events as $event): ?>
                     <tr>
-                        <td><a href="<?= site_url('backoffice/event_admin/view/') . html_escape($event->id); ?>"><?= html_escape($event->name); ?></a></td>
+                        <td><a href="<?= site_url('event/view/') . html_escape($event->id); ?>"><?= html_escape($event->name); ?></a></td>
                         <td><?= html_escape($event->categoryName); ?></td>
                         <td><?= html_escape($event->date); ?></td>
                         <td><?= html_escape($event->address).', '.html_escape($event->postcode).' '.html_escape($event->city); ?></td>
@@ -62,13 +62,14 @@
         </div>
     </div> 
     <div class="col l6 m12">
-        <h2>Derniers résultats</h2>
+        <h2><a href="<?= site_url('result/index') ?>">Derniers résultats</a></h2>
         <table class="bordered highlight centered result-table ">
             <thead>
                 <tr>
                     <th>Epreuve</th>
                     <th>Athlète</th>
                     <th>Résultat</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,6 +78,7 @@
                         <td><?= html_escape($result->epreuve); ?></td>
                         <td><?= html_escape($result->athlete); ?></td>
                         <td><?= html_escape($result->result); ?></td>
+                        <td><?= html_escape($result->eventDate); ?></td>
                     </tr>
 <?php endforeach; ?>
             </tbody>

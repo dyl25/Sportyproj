@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Controler des utilisateurs pour le backoffice
+ * Controler des utilisateurs
  *
  * @author Dylan Vansteenacker
  */
@@ -22,6 +22,10 @@ class User_athlete extends CI_Controller {
         }
     }
 
+    /**
+     * Upload l'image soumise par l'athlete
+     * @return boolean Si l'image à bien été uploade ou pas
+     */
     private function uploadPicture() {
         $config['upload_path'] = './assets/images/upload/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -40,12 +44,10 @@ class User_athlete extends CI_Controller {
     }
 
     /**
-     * Prépare un utilisateur pour son ajout ou edition
-     * @param array $postData Les champs de formulaire envoyé.
-     * @param string $method La metode d'ajout ou de modification
+     * Prépare un utilisateur pour son edition
      * @param bool $upload Il y a-t-il une image à upload
      * @param int $id L'id de l'utilisateur pour update
-     * @return string Le message et le status de l'ajout ou la modification
+     * @return string Le message et le status de la modification
      */
     private function prepareUser($id, $upload = false) {
         $dataDb['profile_image'] = null;
@@ -83,7 +85,6 @@ class User_athlete extends CI_Controller {
 
     /**
      * Edition d'un utilisateur.
-     * @param type $id
      */
     public function edit() {
         $this->load->model('athlete_model');
@@ -92,11 +93,6 @@ class User_athlete extends CI_Controller {
         } catch (DomainException $e) {
             show_404();
         }
-
-        //on verifie que c'est bien l'athlete récupéré
-        /* if ($data['route']->user_id != $this->session->userdata['id']) {
-          redirect('athlete/map_athlete', 'location', 301);
-          } */
 
         $this->load->helper('form');
 
@@ -131,7 +127,7 @@ class User_athlete extends CI_Controller {
         try {
             $data['athlete'] = $this->athlete_model->getCompleteData('user_id', $this->session->userdata['id']);
         } catch (DomainException $e) {
-            //show_404();
+            show_404();
         }
 
         $data['title'] = 'Profil: '.html_escape($data['athlete']->login);

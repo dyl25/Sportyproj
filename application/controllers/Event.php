@@ -3,12 +3,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Accueil
+ * Controller des evenements front-office
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
 class Event extends CI_Controller {
 
+    /**
+     * presentation des evenemnts
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
+     */
     public function index($offset = 0) {
 
         $data['title'] = 'Evénement à venir';
@@ -16,7 +21,7 @@ class Event extends CI_Controller {
         $limit = 10;
         $this->load->model('event_model');
 
-        $data['events'] = $this->event_model->getEvents('asc', $limit, $offset);
+        $data['events'] = $this->event_model->getEvents('desc', $limit, $offset);
 
         $this->load->library('pagination');
 
@@ -34,6 +39,10 @@ class Event extends CI_Controller {
         $this->load->view('templates/layout_content', $data);
     }
 
+    /**
+     * Presentation des informations
+     * @param int $id L'id du resultats
+     */
     public function view($id = null) {
         $this->load->model('event_model');
         try {

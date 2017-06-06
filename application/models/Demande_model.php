@@ -45,7 +45,8 @@ class Demande_model extends MY_Model {
 
         $this->db->select('demandes.*, users.login, users.email, category_athlete.name as categoryName')
                 ->join('users', 'users.id = demandes.user_id')
-                ->join('category_athlete', 'category_athlete.id = demandes.category_id');
+                ->join('category_athlete', 'category_athlete.id = demandes.category_id')
+                ->order_by('demandes.id', $sort);
 
         return $this->db->get($this->table, $limit, $offset)->result_object();
     }

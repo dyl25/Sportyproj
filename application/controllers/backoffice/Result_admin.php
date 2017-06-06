@@ -52,8 +52,9 @@ class Result_admin extends CI_Controller {
     }
 
     /**
-     * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des resultats
+     * Presentation des resultats
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
      */
     public function index($offset = 0) {
         $data['title'] = 'Gestion des résultats';
@@ -132,32 +133,15 @@ $this->output->enable_profiler(TRUE);
     }
 
     /**
-     * Présente les infos du club
-     * @param int $id L'id du club
-     */
-    public function view($id = null) {
-        try {
-            $data['club'] = $this->club_model->getBy('id', $id);
-        } catch (DomainException $e) {
-            show_404();
-        }
-
-        $data['title'] = 'Vue du club ' . $data['club']->name;
-
-        $data['content'] = [$this->load->view('backoffice/club/view', $data, true)];
-        $this->load->view('backoffice/layout_backoffice', $data);
-    }
-
-    /**
      * Modification d'un resultats
-     * @param type $id
+     * @param int $id L'id du resultat
      */
     public function edit($id = null) {
 
         try {
             $data['result'] = $this->result_model->getBy('id', $id);
         } catch (DomainException $e) {
-            //show_404();
+            show_404();
         }
 
         $this->load->model('event_model');
@@ -212,7 +196,7 @@ $this->output->enable_profiler(TRUE);
 
     /**
      * Supprime un resultat
-     * @param int $id L'id du club.
+     * @param int $id L'id du resultat.
      */
     public function delete($id) {
 

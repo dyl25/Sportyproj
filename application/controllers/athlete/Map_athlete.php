@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Controller pour itineraires
+ * Controller pour itineraires d'entrainement
  *
  * @author Dylan Vansteenacker
  */
@@ -14,7 +14,7 @@ class Map_athlete extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('route_model');
 
-        //before filter afin de voir si l'utilisateur peut accéder au backoffice
+        //before filter afin de voir si l'utilisateur peut accéder a l'espace
         if (!$this->session->userdata['login']) {
             redirect('login', 'location', 301);
         }
@@ -25,8 +25,7 @@ class Map_athlete extends CI_Controller {
     }
 
     /**
-     * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des articles
+     * Presentation des itineraires d'entrainement
      */
     public function index() {
         $data['title'] = 'Gestion des itinéraires';
@@ -37,7 +36,7 @@ class Map_athlete extends CI_Controller {
     }
 
     /**
-     * Ajout d'un itineraire pour backoffice.
+     * Ajout d'un itineraire par l'athlete.
      */
     public function add() {
         $data['title'] = 'Ajout d\'un itinéraire';
@@ -72,28 +71,29 @@ class Map_athlete extends CI_Controller {
     }
 
     /**
-     * Présente les infos du club
-     * @param int $id L'id du club
+     * Vue sur l'itineraire en question
+     * @param int $id L'id de l'itineraire
      */
     public function view($id = null) {
 
         try {
-            $route = $this->route_model->getBy('id', $id);
+            $data['route'] = $this->route_model->getBy('id', $id);
         } catch (DomainException $e) {
             show_404();
         }
 
         $data['title'] = 'Vue d\'un itinéraire';
         $data['scripts'] = [base_url() . 'assets/javascript/map/mapManagerView.js'];
-        $geoJson = $route->coord;
+        $geoJson = $data['route']->coord;
         $data['customSrc'] = ["<script>var userGeoJsonData = " . $geoJson . ";</script>",
             '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0TU9NGsHH2srdTO8JBU3lLAhTC4OOGqY&callback=initMap"></script>'];
-        $data['content'] = [$this->load->view('backoffice/map/view', $data, true)];
+        $data['content'] = [$this->load->view('athlete/map/view', $data, true)];
         $this->load->view('athlete/layout_athlete', $data);
     }
 
     /**
-     * Modification d'un itineraire pour backoffice.
+     * Modification d'un itineraire
+     * @param int $id l'itineraire à modifier
      */
     public function edit($id = null) {
 
@@ -141,8 +141,8 @@ class Map_athlete extends CI_Controller {
     }
 
     /**
-     * Supprime un club
-     * @param int $id L'id du club.
+     * Supprime un itineraire si l'athlete en est l'auteur
+     * @param int $id L'id de l'itineraire.
      */
     public function delete($id) {
 
@@ -158,7 +158,6 @@ class Map_athlete extends CI_Controller {
         }
 
         if ($this->route_model->delete(['id' => $id])) {
-
             $msg = "Itinéraire supprimé !";
             $status = "success";
         } else {

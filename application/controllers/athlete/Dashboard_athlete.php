@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Dashboard pour les athlètes
  *
- * @author admin
+ * @author Dylan Vansteenacker
  */
 class Dashboard_athlete extends CI_Controller {
 
@@ -13,7 +13,7 @@ class Dashboard_athlete extends CI_Controller {
         parent::__construct();
         $this->load->model('user_model');
 
-        //before filter afin de voir si l'utilisateur peut accéder au backoffice
+        //before filter afin de voir si l'utilisateur peut accéder a l'espace
         if (!$this->session->userdata['login']) {
             redirect('login');
         }
@@ -23,6 +23,9 @@ class Dashboard_athlete extends CI_Controller {
         }
     }
 
+    /**
+     * Presentation d'informations en resume
+     */
     public function index() {
 
         $data['title'] = ucfirst('Espace athlète');

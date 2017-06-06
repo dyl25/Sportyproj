@@ -31,7 +31,7 @@
     <body>
         <!-- Sidenav -->
         <div class="row">
-           <!-- <div class="col s12 m2 hide-on-small-only sideBack no-padding">
+            <div class="col s12 m2 hide-on-small-only sideBack no-padding">
                 <ul>
                     <li><a href="<?= site_url('backoffice/dashboard_admin'); ?>"><i class="material-icons left">dashboard</i> Dashboard</a></li>
                     <li class="no-padding">
@@ -100,7 +100,7 @@
                     <li><a href="<?= site_url('accueil'); ?>" class="darken-4waves"><i class="material-icons left">store</i> Accueil du site</a></li>
                     <li><a href="<?= site_url('logout'); ?>" class="darken-4waves"><i class="material-icons left">power_settings_new</i> Déconnexion</a></li>
                 </ul>
-            </div>-->
+            </div>
             <!-- Nav mobile -->
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="<?= site_url('backoffice/dashboard_admin'); ?>"><i class="material-icons left">dashboard</i> Dashboard</a></li>

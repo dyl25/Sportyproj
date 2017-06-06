@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Controller pour les clubs du backoffice
+ * Controller pour les demandes du backoffice
  *
  * @author Dylan Vansteenacker
  */
@@ -25,8 +25,9 @@ class Demande_admin extends CI_Controller {
     }
 
     /**
-     * Affichage spécifique pour les administarteurs des différentes commandes 
-     * de gestions des articles
+     * presentation des demandes
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
      */
     public function index($offset = 0) {
         $data['title'] = 'Gestion des demandes';
@@ -49,7 +50,7 @@ class Demande_admin extends CI_Controller {
     }
 
     /**
-     * Ajout d'un club pour backoffice.
+     * Confirmation de la demande et ajout de l'utilisateur aux athletes.
      */
     public function add($id = null) {
 

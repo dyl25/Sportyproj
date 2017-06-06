@@ -20,3 +20,24 @@ Cette application vise principalement à :
 
 * CSS 3
   * Materialize 0.98.2
+
+* Données de compte
+  * Admin
+    * Email: epfc@example.io
+    * password : epfc
+
+  * Athlete
+    * Email : laron0@amazon.de
+    * password : athlete
+
+  * User
+    * Email : alownds12@unicef.org
+    * password : user
+
+## Mise en place
+    * Vérifier dans application/config/config.php
+        * $config['base_url'] = 'http://localhost/sportyproj/'
+        * $config['index_page'] = '';
+        * $config['sess_driver'] = 'database'; + avoir créer table ci_session
+    * Vérifier dans application/config/database.php
+    * Importer dump de base de données sportyproj.sql (pas sportyprojSafe.sql)

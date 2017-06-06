@@ -21,6 +21,11 @@ class User_admin extends CI_Controller {
         }
     }
 
+    /**
+     * Presentation des utilisateurs
+     * @param int $offset Point de départ pour la recherche de résultat pour la 
+     * pagination
+     */
     public function index($offset = 0) {
         $data['title'] = 'Gestion des utilisateurs';
         $limit = 15;
@@ -41,6 +46,10 @@ class User_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
+    /**
+     * Upload une image
+     * @return boolean Si l'image a ete upload ou pas
+     */
     private function uploadPicture() {
         $config['upload_path'] = './assets/images/upload/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
@@ -58,6 +67,12 @@ class User_admin extends CI_Controller {
         return $this->upload->data('file_name');
     }
 
+    /**
+     * Prepare un athlete pour son ajout ou modification
+     * @param int $id L'id de l'utilisateur
+     * @param string $method Le type de modification
+     * @return string Le status de l'ajout ou de la modification
+     */
     private function prepareAthlete($id, $method = 'create') {
         $this->load->model('athlete_model');
         $dataDbAthlete['user_id'] = $id;
@@ -87,7 +102,6 @@ class User_admin extends CI_Controller {
 
     /**
      * Prépare un utilisateur pour son ajout ou edition
-     * @param array $postData Les champs de formulaire envoyé.
      * @param string $method La metode d'ajout ou de modification
      * @param bool $upload Il y a-t-il une image à upload
      * @param int $id L'id de l'utilisateur pour update
@@ -220,7 +234,7 @@ class User_admin extends CI_Controller {
 
     /**
      * Edition d'un utilisateur.
-     * @param type $id
+     * @param int $id L'id de l'utilisateur
      */
     public function edit($id) {
         $this->load->model('athlete_model');
@@ -274,6 +288,10 @@ class User_admin extends CI_Controller {
         $this->load->view('backoffice/layout_backoffice', $data);
     }
 
+    /**
+     * Supprime un utilisateur
+     * @param int $id L'id de l'utilisateur
+     */
     public function delete($id) {
         try {
             //récupération de l'image de l'utilisateur
