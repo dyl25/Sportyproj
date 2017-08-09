@@ -16,7 +16,7 @@ class MY_Form_validation extends CI_Form_validation {
     }
 
     /**
-     * Extension de is_unique pour permettre aus methodes edit de faire un 
+     * Extension de is_unique pour permettre aux methodes edit de faire un 
      * même si une ancienne valeur est présente
      * @param type $str
      * @param type $field

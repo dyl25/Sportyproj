@@ -68,6 +68,27 @@ class User_admin extends CI_Controller {
     }
 
     /**
+     * Modifie l'utilisateur selon son rôle.
+     * @param int $id L'id de l'utilisateur.
+     * @param string $roleName Le nom du rôle choisit dans le formulaire.
+     * @return bool True si le rôle a été modifié correctement sinon false.
+     */
+    private function updateByRole($id, $roleName) {
+        if ($this->user_model->isRole($id, 'athlete') && $roleName == 'user') {
+            //si on baisse ses privilèges il faut l'enlever des athlètes
+            return $this->athlete_model->delete(['user_id' => $id]);
+            //user vers athlète
+        } elseif ($this->user_model->isRole($id, 'user') && $roleName == 'athlete') {
+            //si on augmente ses privilèges il faut l'ajouter aux athlètes
+            return $this->prepareAthlete($id);
+        } elseif ($this->user_model->isRole($id, 'athlete') && $roleName == 'athlete') {
+            return $this->prepareAthlete($id, 'update');
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Prepare un athlete pour son ajout ou modification
      * @param int $id L'id de l'utilisateur
      * @param string $method Le type de modification
@@ -80,24 +101,10 @@ class User_admin extends CI_Controller {
         $dataDbAthlete['register_num'] = $this->input->post('registerNum');
         $dataDbAthlete['category_id'] = $this->input->post('category');
         if ($method == 'create') {
-            if (!$this->athlete_model->create($dataDbAthlete)) {
-                return [
-                    'msg' => "Il y a eu un problème lors de l'insertion de l'utilisateur dans les athlètes",
-                    'status' => 'error'
-                ];
-            }
+            return $this->athlete_model->create($dataDbAthlete);
         } elseif ($method == 'update') {
-            if (!$this->athlete_model->update($dataDbAthlete)) {
-                return [
-                    'msg' => "Il y a eu un problème lors de la modification de l'athlète",
-                    'status' => 'error'
-                ];
-            }
+            return $this->athlete_model->update(['user_id' => $id], $dataDbAthlete);
         }
-        return [
-            'msg' => "L'athlète a bien été ajouté !",
-            'status' => 'success'
-        ];
     }
 
     /**
@@ -109,6 +116,7 @@ class User_admin extends CI_Controller {
      */
     private function prepareUser($method, $upload = false, $id = null) {
         $dataDb['profile_image'] = null;
+        //gestion de l'image de profile
         if ($upload) {
 
             $dataDb['profile_image'] = $this->uploadPicture();
@@ -139,40 +147,30 @@ class User_admin extends CI_Controller {
                 //si le user cree est un athlete
                 if ($roleName == 'athlete') {
 
-                    return $this->prepareAthlete($userId);
+                    //return $this->prepareAthlete($userId);
+                    if (!$this->prepareAthlete($userId)) {
+                        $msg = "Il y a eu un problème lors de l'insertion de l'utilisateur dans les athlètes";
+                        $status = 'error';
+                    }
                 }
 
                 $msg = "L'utilisateur a bien été ajouté !";
                 $status = 'success';
             }
         } elseif ($method == 'update') {
-            //es ce que le user est bien un athlete
-            $athleteRemoved = false;
-            if ($this->user_model->isRole($id, 'athlete')) {
-                //si on baisse ses privilèges il faut l'enlever des athlètes
-                if ($roleName == 'user') {
-                    if ($this->athlete_model->delete(['user_id' => $id])) {
-                        //pas besoin d'update l'athlete comme il a été supprimé
-                        $athleteRemoved = true;
-                    } else {
-                        return [
-                            'msg' => 'Problème lors de la suppression de l\'athlète',
-                            'status' => 'error',
-                        ];
-                    }
+
+            if ($this->updateByRole($id, $roleName)) {
+                $where = ['id' => $id];
+                if (!$this->user_model->update($where, $dataDb)) {
+                    $msg = "Problème lors de la modification dans la base de donnée.";
+                    $status = 'error';
+                } else {
+                    $msg = "L'utilisateur a bien été modifié.";
+                    $status = 'success';
                 }
-            }
-            $where = ['id' => $id];
-            if (!$this->user_model->update($where, $dataDb)) {
-                $msg = "Problème lors de la modification dans la base de donnée";
-                $status = 'error';
             } else {
-                //si l'athlète n'a pas été supprimé avant
-                if ($athleteRemoved) {
-                    return $this->prepareAthlete($id, 'update');
-                }
-                $msg = "L'utilisateur a bien été modifié !";
-                $status = 'success';
+                $msg = "Problème lors de la modification du rôle dans la base de donnée.";
+                $status = 'error';
             }
         }
         return [
@@ -262,7 +260,7 @@ class User_admin extends CI_Controller {
         $data['categories'] = $this->categoryAthlete_model->getCategories();
 
         $this->form_validation->set_rules('login', 'login', 'required|min_length[3]|trim');
-        $this->form_validation->set_rules('email', 'e-mail', 'required|trim');
+        $this->form_validation->set_rules('email', 'e-mail', 'required|is_unique_update[users.email.id.' . $data['user']->id . ']|trim');
         $this->form_validation->set_rules('password', 'mot de passe', 'trim|min_length[3]');
         $this->form_validation->set_rules('passwordVerif', 'vérification du mot de passe', 'matches[password]|trim');
         $this->form_validation->set_rules('role', 'role', 'required');

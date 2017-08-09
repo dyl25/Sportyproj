@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 06 Juin 2017 à 12:36
+-- Généré le :  Mar 06 Juin 2017 à 20:15
 -- Version du serveur :  10.1.16-MariaDB
 -- Version de PHP :  5.6.24
 
@@ -194,7 +194,8 @@ INSERT INTO `athletes` (`id`, `user_id`, `club_id`, `register_num`, `category_id
 (49, 150, 1, 1731, 5),
 (50, 151, 1, 2831, 1),
 (51, 1, 1, 3737, 1),
-(52, 44, 1, 4521, 1);
+(52, 44, 1, 4521, 1),
+(53, 153, 1, 3625, 7);
 
 -- --------------------------------------------------------
 
@@ -274,7 +275,15 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('iehfik4udgmus5qp7h4v9100tl36o5v2', '::1', 1496743289, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363734323938393b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b),
 ('1cudapafo7msnmg1v1bkqiv423612db0', '::1', 1496743487, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363734333239303b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b),
 ('4229orcempr84tsdvjue6pnqg7rsm3i2', '::1', 1496744787, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363734343633393b),
-('8a88c3eqtpp1ao6gp148i0mp1e92dnsk', '::1', 1496745244, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363734343934363b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b);
+('8a88c3eqtpp1ao6gp148i0mp1e92dnsk', '::1', 1496745244, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363734343934363b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b),
+('90b0hqc1eqfh7mfv0obmi0pqag60mft3', '::1', 1496749604, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363734393533343b),
+('1jleq7mfs5j9pfk4nc110tcvr43diaf0', '::1', 1496750145, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363734393836353b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b),
+('9c379656iqr26h4gv176t9lc31m52dog', '::1', 1496750172, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363735303137323b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b),
+('q7h00o41ioj6rgm5b5favsh41or0ug6a', '::1', 1496751848, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363735313834383b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b),
+('ihd89cs46qkgv7409e08rj9puh26357m', '::1', 1496752354, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363735323335303b69647c733a333a22313031223b6c6f67696e7c733a343a2265706663223b726f6c657c733a353a2261646d696e223b),
+('u23cl5mtgru96vu50eet6d9f01vcbtlb', '::1', 1496756281, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363735363238313b),
+('sbv7vtevcm3eklepmuqm9j02d3itfuj6', '::1', 1496772855, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363737323535363b),
+('j2cfl1pht51m5lcsd8dea1l3ouuhlpid', '::1', 1496772862, 0x5f5f63695f6c6173745f726567656e65726174657c693a313439363737323836323b);
 
 -- --------------------------------------------------------
 
@@ -296,9 +305,9 @@ CREATE TABLE `clubs` (
 --
 
 INSERT INTO `clubs` (`id`, `localite_id`, `shortname`, `name`, `address`, `coord`) VALUES
-(1, 1, 'rsca', 'royal sporting club anderelcht', 'Drève Olympique 1', NULL),
-(2, 3, 'cw', 'club woluwe', 'adresse woluwe', NULL),
-(3, 10, 'cd', 'club dilbeek', 'adresse dilbeek', NULL),
+(1, 1, 'rsca', 'royal sporting club anderelcht', 'Drève Olympique 1', '50.822350, 4.272951'),
+(2, 3, 'cw', 'club woluwe', 'adresse woluwe', '50.833604, 4.440929'),
+(3, 10, 'cd', 'club dilbeek', 'adresse dilbeek', '50.859369, 4.215487'),
 (4, 6, 'cl', 'club liège', 'adresse liège', NULL),
 (5, 9, 'co', 'club ostende', 'adresse ostende', NULL),
 (6, 3, 'cn', 'club namur', 'adresse namur', NULL),
@@ -494,15 +503,15 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `localite_id`, `name`, `description`, `address`, `coord`, `category_id`, `creation_date`, `date`) VALUES
-(1, 10, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nul', 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', '5 Morrow Street', NULL, 1, '2016-07-27 18:07:03', '2017-10-17 23:12:50'),
+(1, 10, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nul', 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', '5 Morrow Street', '50.887170, 4.424299', 1, '2016-07-27 18:07:03', '2017-10-17 23:12:50'),
 (2, 4, 'Aliquam non mauris.', 'Phasellus in felis. Donec semper sapien a libero. Nam dui.\n\nProin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', '11411 Huxley Park', NULL, 1, '2016-09-24 05:23:44', '2017-07-01 18:48:02'),
 (3, 7, 'Proin eu mi.', 'Sed ante. Vivamus tortor. Duis mattis egestas metus.', '13230 Del Sol Point', NULL, 1, '2017-04-28 12:15:37', '2017-10-10 03:47:12'),
 (4, 4, 'Quisque ut erat.', 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', '67077 Forest Run Drive', NULL, 1, '2017-03-28 19:29:17', '2017-10-13 13:19:43'),
-(5, 1, 'Integer ac neque.', 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', '30 Kingsford Way', NULL, 1, '2016-10-07 21:41:23', '2017-06-26 10:23:01'),
+(5, 1, 'Integer ac neque.', 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', '30 Kingsford Way', '50.629692, 3.895826', 1, '2016-10-07 21:41:23', '2017-06-26 10:23:01'),
 (6, 6, 'Maecenas tincidunt lacus at velit.', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', '6 Green Crossing', NULL, 1, '2016-07-11 11:08:55', '2017-10-17 06:44:40'),
 (7, 7, 'Morbi vel lectus in quam fringilla rhoncus.', 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.\n\nCurabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', '61259 Charing Cross Place', NULL, 1, '2017-01-23 07:41:21', '2017-09-20 08:08:18'),
 (8, 5, 'Phasellus id sapien in sapien iaculis congue.', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.\n\nNullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', '28716 Hollow Ridge Lane', NULL, 1, '2016-10-13 18:06:08', '2017-06-25 14:41:02'),
-(9, 11, 'Quisque porta volutpat erat.', 'In congue. Etiam justo. Etiam pretium iaculis justo.\n\nIn hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', '45 Anniversary Crossing', NULL, 1, '2016-06-29 14:26:41', '2017-08-18 16:46:58'),
+(9, 11, 'Quisque porta volutpat erat.', 'In congue. Etiam justo. Etiam pretium iaculis justo.\n\nIn hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', '45 Anniversary Crossing', '51.206487, 2.856493', 1, '2016-06-29 14:26:41', '2017-08-18 16:46:58'),
 (10, 4, 'Nulla facilisi.', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', '814 Hagan Trail', NULL, 1, '2016-08-22 01:47:47', '2017-09-24 21:18:46'),
 (11, 10, 'Praesent id massa id nisl venenatis lacinia.', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', '852 Tennessee Center', NULL, 1, '2017-02-21 22:51:14', '2017-12-16 11:43:20'),
 (12, 4, 'Nullam porttitor lacus at turpis.', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', '3402 Northridge Pass', NULL, 1, '2016-12-21 20:38:20', '2017-09-17 01:47:49'),
@@ -764,7 +773,8 @@ INSERT INTO `routes` (`id`, `user_id`, `name`, `coord`) VALUES
 (1, 101, 'Tour du lac', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"LineString","coordinates":[[4.273671582341194,50.82274756416709],[4.274959042668343,50.821663129603614],[4.276976063847542,50.82019910299124],[4.279851391911507,50.82060578165461],[4.282040074467659,50.82052444620529],[4.28375668823719,50.82090401042339],[4.284700825810432,50.82309999997734],[4.286932423710823,50.824835029795445],[4.289807751774788,50.82629891105354],[4.289550259709358,50.82708505056283],[4.288176968693733,50.827112158585635],[4.286331608891487,50.82602782539468],[4.281396344304085,50.82486213912477],[4.279250577092171,50.82513323155225],[4.277619794011116,50.82570252052624],[4.275602772831917,50.826895293962295],[4.274916127324104,50.826244694047695],[4.274057820439339,50.825268777175694],[4.272899106144905,50.824455497532114],[4.273671582341194,50.82274756416709]]},"properties":{}}]}'),
 (2, 101, 'Grand tour par Erasme', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"LineString","coordinates":[[4.273714497685432,50.82265267714826],[4.275731518864632,50.82129712725385],[4.276847317814827,50.820293994996184],[4.2789072543382645,50.818016533655715],[4.2796797305345535,50.81736581001429],[4.27852101624012,50.817013330922606],[4.272384122014046,50.81571184661481],[4.267835095524788,50.815386469870745],[4.2638010531663895,50.81519666572318],[4.26178403198719,50.815386469870745],[4.258908703923225,50.81638970755095],[4.259166195988655,50.81723024144772],[4.260067418217659,50.819290841188355],[4.261655285954475,50.8210531240935],[4.264144375920296,50.8230593344427],[4.267448857426643,50.82525522263105],[4.269465878605843,50.8242792850754],[4.271096661686897,50.82398107786434],[4.272427037358284,50.82400818768948],[4.273714497685432,50.82265267714826]]},"properties":{}}]}'),
 (3, 101, 'Tour pour entrainement à la salle Erasme', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"LineString","coordinates":[[4.263758137822151,50.814735709581996],[4.259809926152229,50.81413917135177],[4.260110333561897,50.8126749088472],[4.260711148381233,50.81126483490121],[4.265260174870491,50.811996993993944],[4.268822148442268,50.81224104447456],[4.271053746342659,50.81262067602102],[4.275817349553108,50.81205122754428],[4.276804402470589,50.810424193642156],[4.277834370732307,50.8090411702658],[4.280580952763557,50.809719128017655],[4.283413365483284,50.811617357378424],[4.285687878727913,50.814057824639136],[4.287318661808968,50.81546781426926],[4.28225465118885,50.816416821783754],[4.2795080691576,50.817284468921585],[4.277147725224495,50.816525278557535],[4.269980862736702,50.815413584686],[4.263758137822151,50.814735709581996]]},"properties":{}}]}'),
-(4, 101, 'Échauffement hiver', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"LineString","coordinates":[[4.2740048468112946,50.82261328203469],[4.274176508188248,50.82581222645786],[4.277438074350357,50.82776401708177],[4.281386286020279,50.828739881793794],[4.281987100839615,50.83486567758705],[4.277695566415787,50.835407744688844],[4.273833185434341,50.835895599697395],[4.272459894418716,50.83622083353662],[4.272030740976334,50.83329364738818],[4.267567545175552,50.83210103743389],[4.26138773560524,50.8316131427605],[4.26138773560524,50.82960729996757],[4.262932687997818,50.82819773725007],[4.263447672128677,50.82754715548655],[4.2649926245212555,50.82657126584127],[4.266966730356216,50.82716764527079],[4.269026666879654,50.827709801777424],[4.270399957895279,50.82689656465638],[4.268769174814224,50.82640861558373],[4.267567545175552,50.82527004791405],[4.26936998963356,50.82440254914747],[4.2712582647800446,50.8239145740078],[4.2740048468112946,50.82261328203469]]},"properties":{}}]}');
+(4, 101, 'Échauffement hiver', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"LineString","coordinates":[[4.2740048468112946,50.82261328203469],[4.274176508188248,50.82581222645786],[4.277438074350357,50.82776401708177],[4.281386286020279,50.828739881793794],[4.281987100839615,50.83486567758705],[4.277695566415787,50.835407744688844],[4.273833185434341,50.835895599697395],[4.272459894418716,50.83622083353662],[4.272030740976334,50.83329364738818],[4.267567545175552,50.83210103743389],[4.26138773560524,50.8316131427605],[4.26138773560524,50.82960729996757],[4.262932687997818,50.82819773725007],[4.263447672128677,50.82754715548655],[4.2649926245212555,50.82657126584127],[4.266966730356216,50.82716764527079],[4.269026666879654,50.827709801777424],[4.270399957895279,50.82689656465638],[4.268769174814224,50.82640861558373],[4.267567545175552,50.82527004791405],[4.26936998963356,50.82440254914747],[4.2712582647800446,50.8239145740078],[4.2740048468112946,50.82261328203469]]},"properties":{}}]}'),
+(5, 153, 'perso', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"LineString","coordinates":[[4.271826222538948,50.82491635773619],[4.287533238530159,50.82488924843835],[4.287619069218636,50.81949418491783],[4.276976063847542,50.81653883563654],[4.26453061401844,50.82177157419332],[4.270495846867561,50.82375064371487],[4.271826222538948,50.82491635773619]]},"properties":{}}]}');
 
 -- --------------------------------------------------------
 
@@ -937,7 +947,9 @@ INSERT INTO `users` (`id`, `role_id`, `login`, `password`, `email`, `profile_ima
 (148, 2, 'bsudran1a', '4dbe68933e61f1e078f3f067e8d8e69a', 'mmoodey1a@businessinsider.com', NULL, '2016-07-12 05:30:23'),
 (149, 2, 'ngozzett1b', '2b1f4be5947b260ad4b4c24360de8d31', 'lcardoo1b@globo.com', NULL, '2016-06-10 07:51:13'),
 (150, 2, 'bmasser1c', 'a400732c66f453625eee589e41cae17b', 'bhordell1c@yelp.com', NULL, '2016-11-23 00:47:37'),
-(151, 2, 'jharefoot1d', '5db736f99e9ceea0af77ee8e3ff3e73b', 'emcgarrie1d@harvard.edu', NULL, '2017-05-12 12:52:47');
+(151, 2, 'jharefoot1d', '5db736f99e9ceea0af77ee8e3ff3e73b', 'emcgarrie1d@harvard.edu', NULL, '2017-05-12 12:52:47'),
+(152, 1, 'user', '$2y$10$dbcESVb5zZAT4WwTA/09JedaK3/HoHiTPO4vxmpfEET6svte0BRaK', 'user@user.com', NULL, '2017-06-06 13:51:40'),
+(153, 2, 'athlete', '$2y$10$5uQe5LRsPTkzaoE.sZgwPOug0Ax/oXqCrEW21ybIZ0XVkyyydD7fW', 'athlete@athlete.com', NULL, '2017-06-06 13:52:23');
 
 --
 -- Index pour les tables exportées
@@ -1063,7 +1075,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT pour la table `athletes`
 --
 ALTER TABLE `athletes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'clé primaire', AUTO_INCREMENT=53;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'clé primaire', AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT pour la table `category`
 --
@@ -1088,7 +1100,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT pour la table `demandes`
 --
 ALTER TABLE `demandes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT pour la table `epreuves`
 --
@@ -1118,12 +1130,12 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'clé primaire', AUTO_INCREMENT=152;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'clé primaire', AUTO_INCREMENT=154;
 --
 -- Contraintes pour les tables exportées
 --

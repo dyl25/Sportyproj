@@ -52,4 +52,63 @@ class Demande_model extends MY_Model {
         return $this->db->get($this->table, $limit, $offset)->result_object();
     }
 
+    /**
+     * Vérifie si un utilisateur peur refaire une demande après un refus
+     */
+    public function requestAuthorized($userId) {
+        $lastRequest = $this->db
+                ->limit(1)
+                ->select('demandes.creation_date')
+                ->where('demandes.user_id', $userId)
+                ->get($this->table);
+        
+        if ($lastRequest->num_rows() == 0) {
+            return true;
+        }
+
+        $lastRequest = $lastRequest->row('creation_date');
+
+        //convertion à partir d'un string
+        $lastRequest = new DateTime($lastRequest);
+        $lastRequest->modify('+30 minutes');
+
+        $now = new DateTime();
+        //on vérifie que 15 minutes soient bien passée
+        return $lastRequest <= $now;
+    }
+
+    /**
+     * Confirme que la demande a été traitée
+     */
+    public function denyRequest($id) {
+        $dataDb['processed'] = 1;
+        return $this->update(['id' => $id], $dataDb);
+    }
+
+    /**
+     * Vérifie si une demande a déjà été traitée
+     * @param type $userId
+     * @return type
+     */
+    public function requestProcessed($userId) {
+        $processed = $this->db
+                ->limit(1)
+                ->select('demandes.processed')
+                ->where('demandes.user_id', $userId)
+                ->get($this->table)
+                ->row('processed');
+
+        return (bool) $processed;
+    }
+
+    public function getDate($userId) {
+        $date = $this->db
+                ->limit(1)
+                ->select('demandes.creation_date')
+                ->where('demandes.user_id', $userId)
+                ->get($this->table)
+                ->row('creation_date');
+        
+        return $date;
+    }
 }

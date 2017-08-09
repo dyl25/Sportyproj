@@ -96,7 +96,7 @@ class Demande_admin extends CI_Controller {
      */
     public function delete($id) {
 
-        if ($this->demande_model->delete(['id' => $id])) {
+        if ($this->demande_model->denyRequest($id)) {
             $msg = "Demande supprimé !";
             $status = "success";
         } else {

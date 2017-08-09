@@ -110,15 +110,12 @@ class User extends CI_Controller {
             if ($this->user_model->checkUser($email, $password)) {
                 $userData = $this->user_model->getUserData($email);
                 $this->session->set_userdata($userData);
-                //redirection vers l'espace associé
-                if ($this->user_model->isRole($userData['id'], 'admin')) {
-                    redirect('backoffice', 'location', 301);
-                } elseif ($this->user_model->isRole($userData['id'], 'athlete')) {
-                    redirect('athlete', 'location', 301);
-                } elseif ($this->user_model->isRole($userData['id'], 'user')) {
-                    redirect('accueil', 'location', 301);
-                }
+                //redirection vers dispatcher pour déterminé l'espace de redirection
+                redirect('user/dispatcher', 'location');
             } else {
+                //ralentit le processus pour éviter de se reloguer directement
+                sleep(rand(2, 4));
+
                 $data['notification'] = [
                     'msg' => 'E-mail ou mot de passe incorrecte',
                     'status' => 'error'
@@ -198,34 +195,41 @@ class User extends CI_Controller {
         $this->load->model('categoryAthlete_model');
         $this->load->model('demande_model');
 
-        $data['title'] = 'Devenir un athlète';
-        $data['attributes'] = [
-            'class' => 'col s12'
-        ];
-        $data['categories'] = $this->categoryAthlete_model->getCategories();
-
-        $this->form_validation->set_rules('registerNum', 'numéro de dossard', 'trim|required|is_natural');
-        $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural_no_zero');
-
-        if ($this->form_validation->run() == true) {
-            $dataDb['user_id'] = $this->session->userdata['id'];
-            $dataDb['dossard'] = $this->input->post('registerNum');
-            $dataDb['category_id'] = $this->input->post('category');
-
-            if ($this->demande_model->create($dataDb)) {
-                $msg = "Votre demande à bien été envoyée !";
-                $status = 'success';
-            } else {
-                $msg = "Un problème s'est produit durant l'ajout de la demande !";
-                $status = 'error';
-            }
-            $data['notification'] = [
-                'msg' => $msg,
-                'status' => $status
+         $data['title'] = 'Devenir un athlète';
+        
+        if (/*$this->demande_model->requestProcessed($this->session->userdata['id']) 
+                &&*/ $this->demande_model->requestAuthorized($this->session->userdata['id'])) {
+            $data['attributes'] = [
+                'class' => 'col s12'
             ];
-        }
+            $data['categories'] = $this->categoryAthlete_model->getCategories();
 
-        $data['content'] = [$this->load->view('user/addRequest', $data, true)];
+            $this->form_validation->set_rules('registerNum', 'numéro de dossard', 'trim|required|is_natural');
+            $this->form_validation->set_rules('category', 'catégorie', 'required|is_natural_no_zero');
+
+            if ($this->form_validation->run() == true) {
+                $dataDb['user_id'] = $this->session->userdata['id'];
+                $dataDb['dossard'] = $this->input->post('registerNum');
+                $dataDb['category_id'] = $this->input->post('category');
+
+                if ($this->demande_model->create($dataDb)) {
+                    $msg = "Votre demande à bien été envoyée !";
+                    $status = 'success';
+                } else {
+                    $msg = "Un problème s'est produit durant l'ajout de la demande !";
+                    $status = 'error';
+                }
+                $data['notification'] = [
+                    'msg' => $msg,
+                    'status' => $status
+                ];
+            }
+
+            $data['content'] = [$this->load->view('user/addRequest', $data, true)];
+        } else {
+            $data['attemptDate'] = $this->demande_model->getDate($this->session->userdata['id']);
+            $data['content'] = [$this->load->view('user/requestDenied', $data, true)];
+        }
 
         $this->load->view('templates/layout_content', $data);
     }

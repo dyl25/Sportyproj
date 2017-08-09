@@ -27,7 +27,7 @@
     <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
         <header>
 
-            <div class="">
+            <div>
                 <nav class="light-blue darken-4">
                     <div class="nav-wrapper">
                         <a href="<?= site_url('accueil'); ?>" class="brand-logo center"><img src="<?= base_url(); ?>assets/images/logo_2_resize.png"></a>
@@ -125,7 +125,7 @@
                 <?= $data; ?>
             <?php endforeach; ?>
         </main>
-        <footer class="page-footer teal">
+        <footer class="page-footer light-blue darken-4">
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
