@@ -12,6 +12,8 @@ class Route_model extends MY_Model {
         $this->load->database();
     }
 
+    const MAX_CREATED = 3;
+
     protected $table = 'routes';
 
     /**
@@ -47,6 +49,19 @@ class Route_model extends MY_Model {
                 ->join('users', 'users.id = routes.user_id');
 
         return $this->db->get($this->table, $limit, $offset)->result_object();
+    }
+
+    /**
+     * Vérifie si un utilisateur peut encore créer un itinéraire
+     * @param int $userId L'id de l'utilisateur.
+     */
+    public function canCreate($userId) {
+        $drawedRoute = $this->db
+                ->select('routes.user_id')
+                ->where('routes.user_id', $userId)
+                ->get($this->table);
+
+        return $drawedRoute->num_rows() < 3;
     }
 
 }

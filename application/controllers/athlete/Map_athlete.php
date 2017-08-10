@@ -48,15 +48,20 @@ class Map_athlete extends CI_Controller {
         $this->form_validation->set_rules('routeName', 'nom de l\'itinéraire', 'trim|required');
 
         if ($this->form_validation->run() == true) {
-            $dataDb['user_id'] = $this->session->userdata['id'];
-            $dataDb['coord'] = $this->input->post('geoJsonInput');
-            $dataDb['name'] = $this->input->post('routeName');
+            if ($this->route_model->canCreate($this->session->userdata['id'])) {
+                $dataDb['user_id'] = $this->session->userdata['id'];
+                $dataDb['coord'] = $this->input->post('geoJsonInput');
+                $dataDb['name'] = $this->input->post('routeName');
 
-            if ($this->route_model->create($dataDb)) {
-                $msg = "L'itinéraire a bien été ajouté !";
-                $status = 'success';
+                if ($this->route_model->create($dataDb)) {
+                    $msg = "L'itinéraire a bien été ajouté !";
+                    $status = 'success';
+                } else {
+                    $msg = "Un problème s'est passé lors de l'ajout dans la base du données du club.";
+                    $status = 'error';
+                }
             } else {
-                $msg = "Un problème s'est passé lors de l'ajout dans la base du données du club.";
+                $msg = "Vous avez atteint le nombre maximum d'itinéraire créable.";
                 $status = 'error';
             }
             $this->session->set_flashdata('notification', [
