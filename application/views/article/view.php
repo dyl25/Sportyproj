@@ -39,7 +39,7 @@
             <?php } ?>
             <?php if (isset($this->session->userdata['id'])) { ?>
                 <?= validation_errors(); ?>
-                <?= form_open('article/view/' . html_escape($article->slug), $attributes); ?>
+                <?= form_open('article/storeComment/' . html_escape($article->slug), $attributes); ?>
                 <fieldset>
                     <div class="input-field">                  
                         <textarea class="materialize-textarea" id="commentContent" name="commentContent" required="required"></textarea>

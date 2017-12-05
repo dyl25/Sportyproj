@@ -12,6 +12,7 @@ class Article extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('article_model');
+        $this->load->model('comment_model');
     }
 
     /**
@@ -60,12 +61,20 @@ class Article extends CI_Controller {
             'class' => 'col s12'
         ];
 
-        $this->load->model('comment_model');
-        $this->load->library('form_validation');
-
         $data['title'] = $article->title;
         $data['article'] = $article;
         $data['comments'] = $this->comment_model->getForArticle($article->id);
+
+        $data['content'] = [$this->load->view('article/view', $data, true)];
+
+        $this->load->view('templates/layout_content', $data);
+    }
+
+    /**
+     * Sauvegarde un commentaire
+     * @param string $slug Le slug de l'article
+     */
+    public function storeComment($slug) {
 
         $this->form_validation->set_rules('commentContent', 'commentaire', 'trim|required');
         $this->form_validation->set_rules('userId', 'id utilisateur', 'required|is_natural_no_zero');
@@ -88,12 +97,8 @@ class Article extends CI_Controller {
                 'msg' => $msg,
                 'status' => $status,
             ]);
-            redirect('article/view/' . $slug, 'location', 301);
         }
-
-        $data['content'] = [$this->load->view('article/view', $data, true)];
-
-        $this->load->view('templates/layout_content', $data);
+        redirect('article/view/' . $slug, 'location', 301);
     }
 
 }
