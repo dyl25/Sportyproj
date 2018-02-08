@@ -45,7 +45,7 @@ class Article extends CI_Controller {
      * gestion de l'ajout et affichage des commentaires.
      * @param string $slug Le nom de l'article
      */
-    public function view($slug = null) {
+    public function show($slug = null) {
         try {
             $article = $this->article_model->getBy('slug', $slug);
         } catch (Exception $e) {
@@ -68,37 +68,6 @@ class Article extends CI_Controller {
         $data['content'] = [$this->load->view('article/view', $data, true)];
 
         $this->load->view('templates/layout_content', $data);
-    }
-
-    /**
-     * Sauvegarde un commentaire
-     * @param string $slug Le slug de l'article
-     */
-    public function storeComment($slug) {
-
-        $this->form_validation->set_rules('commentContent', 'commentaire', 'trim|required');
-        $this->form_validation->set_rules('userId', 'id utilisateur', 'required|is_natural_no_zero');
-        $this->form_validation->set_rules('articleId', 'id article', 'required|is_natural_no_zero');
-
-        if ($this->form_validation->run() == true) {
-            $dataDb['content'] = $this->input->post('commentContent');
-            $dataDb['author_id'] = $this->input->post('userId');
-            $dataDb['article_id'] = $this->input->post('articleId');
-
-            if ($this->comment_model->create($dataDb)) {
-                $msg = "Votre commentaire à bien été ajouté !";
-                $status = 'success';
-            } else {
-                $msg = "Un problème est survenu. Votre commentaire n'a pas été ajouté. Veuillez réessayer.";
-                $status = 'error';
-            }
-
-            $this->session->set_flashdata('notification', [
-                'msg' => $msg,
-                'status' => $status,
-            ]);
-        }
-        redirect('article/view/' . $slug, 'location', 301);
     }
 
 }

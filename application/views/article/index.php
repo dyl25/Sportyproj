@@ -31,7 +31,7 @@
                     <div class="col m4">
                         <article class="card medium">
                             <div class="card-image">
-                                <a href="<?= site_url('article/view/' . html_escape($article->slug)); ?>">
+                                <a href="<?= site_url('article/show/' . html_escape($article->slug)); ?>">
                                     <?php if ($article->image) { ?>
                                         <img src="<?= base_url(); ?>assets/images/upload/<?= html_escape($article->image); ?>" alt="image d'illustration pour article" class="responsive-img">
                                     <?php } else { ?>

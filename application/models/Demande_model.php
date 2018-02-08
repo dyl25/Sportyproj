@@ -79,6 +79,7 @@ class Demande_model extends MY_Model {
 
     /**
      * Confirme que la demande a été traitée
+     * @param int $id L'id de la demande
      */
     public function denyRequest($id) {
         $dataDb['processed'] = 1;
